@@ -106,6 +106,7 @@ INSTALLED_APPS = (
     'apps.exports',
     'apps.offlineevents',
     'apps.projects',
+    'apps.userdashboard',
 
     # Apps defining phases
     'apps.activities',
