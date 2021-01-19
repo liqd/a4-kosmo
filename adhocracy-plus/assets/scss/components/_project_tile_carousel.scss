@@ -1,25 +1,23 @@
 .project-tile-carousel {
     position: relative;
-    margin: $spacer 0.75*$spacer;
-
-    // overwrites for tiles in carousel
-    .tile.organisation__tile {
-        height: 430px;
-        margin: 0;
-        display: flex !important;
-    }
-
-    .tile__image {
-        min-height: 12rem;
-    }
+    margin: $spacer 0;
 
     //slick overwrites - nested for specificity
-    .slick-list {
-        margin: 0 -0.5*$spacer;
-    }
-
     .slick-slide {
-        margin: 0 0.5*$spacer;
+        margin: 0 $spacer;
+
+        :focus,
+        :hover {
+            outline: none;
+
+            .project-tile-carousel__dot {
+                transform: scale(1.85);
+            }
+
+            .project-tile-carousel__label {
+                transform: scale(1.05);
+            }
+        }
     }
 
     .slick-track {
@@ -35,7 +33,10 @@
         border-radius: 100%;
         border: 1px solid $border-color;
         background-color: $body-bg;
-        z-index: 1; //for when tile links overlap - on mobile people swipe
+
+        @media screen and (min-width: $breakpoint) {
+            z-index: 1; //for when tile links overlap - on mobile people swipe
+        }
 
         &:hover,
         :focus {
@@ -59,21 +60,20 @@
     .slick-next:before {
         content: '\f105'; // angle-right
     }
+}
 
-    .slick-arrow.slick-disabled {
-        display: none !important;
+//mobile slick overwrites
+@media screen and (max-width: $breakpoint-xl-down) {
+    .slick-next {
+        right: 0 !important;
+    }
+
+    .slick-prev {
+        left: 0 !important;
     }
 }
 
 @media screen and (min-width: $breakpoint-md) {
-    .project-tile-carousel {
-        margin: $spacer 0;
-
-        .tile.organisation__tile {
-            height: 570px;
-        }
-    }
-
     .project-tile-carousel__wrapper {
         margin-top: 4*$r-spacer;
         margin-bottom: 3*$r-spacer;
