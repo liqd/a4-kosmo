@@ -36,6 +36,7 @@ from apps.moderatorremark.api import ModeratorRemarkViewSet
 from apps.organisations.sitemaps import organisations_sitemap_index
 from apps.projects.api import AppModuleViewSet
 from apps.projects.api import AppProjectsViewSet
+from apps.projects.api import ProjectViewSet
 from apps.users.decorators import user_is_project_admin
 
 router = routers.DefaultRouter()
@@ -46,6 +47,7 @@ router.register(r'app-projects', AppProjectsViewSet,
                 basename='app-projects')
 router.register(r'app-modules', AppModuleViewSet,
                 basename='app-modules')
+router.register(r'projects', ProjectViewSet, basename='projects')
 
 module_router = a4routers.ModuleDefaultRouter()
 # FIXME: rename to 'chapters'
