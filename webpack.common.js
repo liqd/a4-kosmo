@@ -72,6 +72,9 @@ module.exports = {
     ],
     select_dropdown_init: [
       'adhocracy4/adhocracy4/categories/assets/select_dropdown_init.js'
+    ],
+    moderation_projects: [
+      './apps/userdashboard/assets/js/a4_candy_userdashboard/react_moderation_projects.jsx'
     ]
   },
   output: {
