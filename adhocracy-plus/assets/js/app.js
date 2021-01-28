@@ -24,6 +24,7 @@ import * as ReactDocuments from '../../../apps/documents/assets/react_documents.
 import * as ReactPolls from '../../../apps/polls/assets/react_polls.jsx'
 import * as ReactInteractiveEvents from 'a4_candy_interactive_events'
 import * as ReactLanguageChoice from '../../../apps/organisations/assets/react_language_choice.jsx'
+import * as ReactModerationProjects from 'a4_candy_userdashboard/react_moderation_projects.jsx'
 
 function init () {
   ReactWidget.initialise('a4', 'comment', ReactComments.renderComment)
@@ -38,6 +39,8 @@ function init () {
 
   ReactWidget.initialise('aplus', 'questions', ReactInteractiveEvents.renderLiveQuestions)
   ReactWidget.initialise('aplus', 'present', ReactInteractiveEvents.renderLiveQuestionsPresent)
+
+  ReactWidget.initialise('aplus', 'moderation_projects', ReactModerationProjects.renderModerationProjects)
 
   ReactWidget.initialise('euth', 'language-choice', ReactLanguageChoice.renderLanguageChoice)
 
