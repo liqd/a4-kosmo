@@ -121,6 +121,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
+    'django_samesite_none.middleware.SameSiteNoneMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
