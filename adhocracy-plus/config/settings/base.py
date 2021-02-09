@@ -134,7 +134,6 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
 
     'apps.embed.middleware.AjaxPathMiddleware',
-    'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 )
 
