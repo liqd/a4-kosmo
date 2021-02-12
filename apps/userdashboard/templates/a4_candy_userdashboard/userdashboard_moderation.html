@@ -1,8 +1,8 @@
 {% extends "a4_candy_userdashboard/base_userdashboard.html" %}
 
 {% block dashboard_content %}
-<div class=""
-     id=""
-     data-aplus-widget="moderation_projects" >
+<div data-aplus-widget="moderation_projects"
+     data-moderation-projects="{{ moderation_projects }}"
+     data-project-api-url="{{ project_api_url }}">
 </div>
 {% endblock %}
