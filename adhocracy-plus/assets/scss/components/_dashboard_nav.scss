@@ -30,7 +30,14 @@
     }
 
     i.fa-chevron-up {
-        margin-top: $spacer;
+        position: absolute;
+        top: $spacer;
+        right: $spacer;
+        transition: transform 0.3s;
+    }
+
+    &.collapsed i.fa-chevron-up {
+        transform: rotate(-180deg);
     }
 }
 
