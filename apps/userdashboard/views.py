@@ -93,3 +93,12 @@ class UserDashboardModerationView(UserDashboardBaseMixin,
         context['moderation_projects'] = self. get_projects()
         context['project_api_url'] = reverse('projects-list')
         return context
+
+
+class UserDashboardModerationDetailView(UserDashboardBaseMixin,
+                                        rules_mixins.PermissionRequiredMixin):
+
+    template_name = (
+        'a4_candy_userdashboard/userdashboard_moderation_detail.html'
+    )
+    permission_required = 'a4_candy_userdashboard.view_moderation_dashboard'
