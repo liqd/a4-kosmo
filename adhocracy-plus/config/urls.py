@@ -24,7 +24,6 @@ from adhocracy4.polls.api import PollViewSet
 from adhocracy4.polls.api import VoteViewSet
 from adhocracy4.polls.routers import QuestionDefaultRouter
 from adhocracy4.ratings.api import RatingViewSet
-from adhocracy4.reports.api import ReportViewSet
 from apps.contrib import views as contrib_views
 from apps.contrib.sitemaps import static_sitemap_index
 from apps.documents.api import DocumentViewSet
@@ -37,6 +36,7 @@ from apps.organisations.sitemaps import organisations_sitemap_index
 from apps.projects.api import AppModuleViewSet
 from apps.projects.api import AppProjectsViewSet
 from apps.projects.api import ProjectViewSet
+from apps.reports.api import ReportViewSet
 from apps.users.decorators import user_is_project_admin
 
 router = routers.DefaultRouter()
