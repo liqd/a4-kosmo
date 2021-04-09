@@ -554,3 +554,6 @@ CSP_DEFAULT_SRC = ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'data:', 'blob:
 SITE_ID = 1 # overwrite this in local.py if needed
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+AI_API_AUTH_TOKEN = ''
+AI_API_URL = 'https://kosmo-api-dev.liqd.net/api/classify/'
