@@ -6,6 +6,7 @@ from adhocracy4.actions.models import Action
 from adhocracy4.projects.models import Project
 from adhocracy4.rules import mixins as rules_mixins
 from apps.organisations.models import Organisation
+from apps.projects import helpers
 from apps.users.models import User
 
 
@@ -98,7 +99,25 @@ class UserDashboardModerationView(UserDashboardBaseMixin,
 class UserDashboardModerationDetailView(UserDashboardBaseMixin,
                                         rules_mixins.PermissionRequiredMixin):
 
-    template_name = (
+    template_name = \
         'a4_candy_userdashboard/userdashboard_moderation_detail.html'
-    )
     permission_required = 'a4_candy_userdashboard.view_moderation_dashboard'
+
+    def get_reported_comments(self, project):
+        return helpers.get_reported_comments(project)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project = self.get_project(self.slug)
+        context['moderation_comment_list'] = \
+            self.get_reported_comments(project)
+        context['project_api_url'] = reverse('projects-list')
+        return context
+
+    def get_project(self, slug):
+        queryset = Project.objects.filter(**{'slug': slug})
+        return queryset.get()
+
+    def dispatch(self, request, *args, **kwargs):
+        self.slug = kwargs.pop('slug')
+        return super().dispatch(request, *args, **kwargs)
