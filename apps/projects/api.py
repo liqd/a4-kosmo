@@ -33,6 +33,8 @@ class AppModuleViewSet(viewsets.ReadOnlyModelViewSet):
         )
 
 
-class ProjectViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Project.objects.all()
+class ModerationProjectsViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ProjectSerializer
+
+    def get_queryset(self):
+        return list(self.request.user.project_moderator.all())
