@@ -7,6 +7,7 @@ from apps.projects.serializers import ProjectSerializer
 
 from .serializers import AppModuleSerializer
 from .serializers import AppProjectSerializer
+from . import helpers
 
 
 class AppProjectsViewSet(viewsets.ReadOnlyModelViewSet):
@@ -37,4 +38,9 @@ class ModerationProjectsViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
-        return list(self.request.user.project_moderator.all())
+        project_offensive_count = \
+            {project: helpers.get_num_classifications(project)
+             for project in list(self.request.user.project_moderator.all())}
+        return sorted(project_offensive_count,
+                      key=project_offensive_count.get,
+                      reverse=True)
