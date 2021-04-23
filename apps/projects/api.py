@@ -36,6 +36,7 @@ class AppModuleViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ModerationProjectsViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ProjectSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         project_offensive_count = \
