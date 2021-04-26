@@ -557,3 +557,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 AI_API_AUTH_TOKEN = ''
 AI_API_URL = 'https://kosmo-api-dev.liqd.net/api/classify/'
+AI_USAGE = True
