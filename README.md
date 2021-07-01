@@ -2,7 +2,7 @@
 
 Kosmo is forked from adhocracy.plus. [adhocracy.plus](https://adhocracy.plus/) is a free Open-Source participation platform maintained and primarily developed by Liquid Democracy e.V.. It is based on [adhocracy 4](https://github.com/liqd/adhocracy4) and [Django](https://github.com/django/django).
 
-[![Build Status](https://travis-ci.com/liqd/a4-kosmo.svg?branch=master)](https://travis-ci.com/github/liqd/a4-kosmo)
+![Build Status](https://github.com/liqd/a4-kosmo/actions/workflows/django.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/liqd/a4-kosmo/badge.svg?branch=master)](https://coveralls.io/github/liqd/a4-kosmo?branch=master)
 
 ## Getting started
