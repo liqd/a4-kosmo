@@ -5,18 +5,19 @@ set -e -v
 if [ -n ${TRAVIS_SSH_SECRET} ]; then
     SSH_ID_ARG="-i ${HOME}/id_rsa"
     cat <<EOF | openssl enc -d -aes-256-cbc -pbkdf2 -pass env:TRAVIS_SSH_SECRET -a -out ~/id_rsa
-U2FsdGVkX1+mQa03lh5LKvgKncOIy0gP3yYw+RY/J91NoVNQJPjGsKmm1AkK5v6b
-j7Gn/upyr63LBjytCWbRZ/GW7B9TBu+w+mDYV1T01xo5HCD4kUPcN71oTgIz2lR5
-I76Tsx5IZK3Q+DZkJZXPKkyoLUZPx6/+GZ58fi2Uo/Q3EopN1BjjCpGlkU34wJck
-fWgbCC5oeBoFmiffuWzmRFHv8nUzh0pjNAVH1RFt+2Zm36btBnJG1UYRRb0RVHLx
-h79LnnxU3tf5bHWGlZ4w7YOnmFiCW1l3EBFQLCP4AElG/Vo+SunG4O34G+cPGOp4
-CG0FibyrtoJV5/4/jKpzkY+f6UJhRKdBZXGJprWlp2ZJ8tW0dvEgQ6MZO24ZWfUR
-wlYjp9jrEf6/3b2i3y/wMqwde9r8uBdvXZiZTshm46h7KkSGD1CUKbLCTbgEZ719
-mPDrjS4y4Gh/ooURmcjzyzkjS72lBgtzDtS2R7Em1bkI0f+QwE+NvknBT+uPFEL6
-RtHPUEBo2wJJYHibn1X05Gqr6STkeqXx+FkTN2E80Ii30ixqp6F02y57eDESN7zQ
-P9m9LBmv67Zf20IwizZHkw==
+U2FsdGVkX18u2lLhir31yxnC61lZhVioi12A6W9gjJhjiyETLVQ84/haZhspgDzt
+HFk9V+9JiJGWakrpbH5GexMQDvgzUm4tntw2xU/2LoDBb0iP3HOOYu44Y0VGsTU6
+Wf+vBBE5fOuTpAE0XRla9gEeK9pImhxDDybpgLoPI2x8EqsCaizM/7BtuwfsF5It
+juZB/z3wokkhe0AsQpOk3FPOmzMcW3ILhYHquvzeU4G79muGYNobhan+pv6uvtER
+n7NrFa/oKopa4nJC9Q3fP+itJmTVBaEFuH5vJQWZtSsNvMOPCNq6eXevBInc8aca
+a+6wmHVAp3YI5eWPqmO34c3eo5JSfwJDiJ9tRP6q9w/uR3lkvPq4FVef2ccDfWHe
+jEzDMGdjZJIX0X3WZVQYSnjY3dB4vd8ptHJkdDP2Oj8JTF39CRkYWmNWB68Xa6sf
+7vZ1Q3o3njRGe6R5LrMOQHLR4eMv9f8SjXl8Hifmbk/vqXd9aZD3n75f6ggQR+if
+ywfoxlB+aACB3xQM40xY6LHXeE8YbO1hbpAqF23T72yoLTrPjQ0xi9SvP8oNmsNh
+u9yspubt1Jha/GR03caafw==
+
 EOF
     chmod 600 ~/id_rsa
 fi
 
-ssh ${SSH_ID_ARG} -oStrictHostKeyChecking=no build@build.liqd.net deploy a4_kosmo master
+ssh ${SSH_ID_ARG} -oStrictHostKeyChecking=no build@build.liqd.net deploy a4_kosmo main
