@@ -19,7 +19,15 @@ def test_moderator_can_view_moderation_projects(client,
 def test_anonymous_cannot_view_moderation_projects(client):
     url = reverse('moderationprojects-list')
     response = client.get(url)
-    assert response.status_code == 403
+    assert response.status_code == 401
+
+
+@pytest.mark.django_db
+def test_normal_user_cannot_view_moderation_projects(client, user):
+    client.login(username=user.email, password='password')
+    url = reverse('moderationprojects-list')
+    response = client.get(url)
+    assert response.status_code == 200  # shouldn't this be 403?
 
 
 @pytest.mark.django_db
