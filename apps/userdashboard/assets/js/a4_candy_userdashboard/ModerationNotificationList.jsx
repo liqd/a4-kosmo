@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import django from 'django'
 
 import ModerationNotification from './ModerationNotification'
+import { FilterBar } from './FilterBar'
 
 export default class ModerationNotificationList extends Component {
   constructor (props) {
@@ -61,7 +62,10 @@ export default class ModerationNotificationList extends Component {
         <div className="col-12">
           <h1 className="m-0"><a href={projectUrl}>{projectTitle}</a></h1>
           <span className="text-muted">{byText}{organisation}</span>
-          <ul className="pl-0 mt-5">
+          <div className="mt-3">
+            <FilterBar />
+          </div>
+          <ul className="ps-0 mt-5">
             {userClassifications.map((item, i) => (
               <li className="list-item" key={i}>
                 <ModerationNotification

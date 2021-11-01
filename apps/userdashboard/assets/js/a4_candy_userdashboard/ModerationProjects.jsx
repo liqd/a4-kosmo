@@ -82,7 +82,7 @@ export default class ModerationProjects extends Component {
       <div className="row">
         <div className="col-12">
           <h3 className="mt-sm-0">Projects</h3>
-          <ul className="pl-0">
+          <ul className="ps-0">
             {items.map(item => (
               <li key={item.title} className="tile--sm tile--horizontal">
                 <div className="tile__head">
