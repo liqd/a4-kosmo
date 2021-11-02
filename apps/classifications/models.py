@@ -22,6 +22,8 @@ class Classification(models.Model):
         on_delete=models.CASCADE
     )
 
+    is_pending = models.BooleanField(default=True)
+
     classification = models.CharField(max_length=50,
                                       choices=CLASSIFICATION_CHOICES)
     comment_text = models.TextField(max_length=4000)
