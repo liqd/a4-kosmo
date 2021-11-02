@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins
 from rest_framework import viewsets
 
@@ -15,6 +16,8 @@ class ClassificationViewSet(mixins.ListModelMixin,
                             viewsets.GenericViewSet):
 
     permission_classes = (ViewSetRulesPermission,)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ['is_pending']
 
     def dispatch(self, request, *args, **kwargs):
         self.project_pk = kwargs.get('project_pk', '')
