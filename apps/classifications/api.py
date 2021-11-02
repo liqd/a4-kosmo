@@ -13,11 +13,13 @@ from . import serializers
 
 
 class ClassificationViewSet(mixins.ListModelMixin,
+                            mixins.UpdateModelMixin,
                             viewsets.GenericViewSet):
 
     permission_classes = (ViewSetRulesPermission,)
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ['is_pending']
+    lookup_field = 'pk'
 
     def dispatch(self, request, *args, **kwargs):
         self.project_pk = kwargs.get('project_pk', '')

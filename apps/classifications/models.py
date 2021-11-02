@@ -26,12 +26,17 @@ class Classification(models.Model):
 
     classification = models.CharField(max_length=50,
                                       choices=CLASSIFICATION_CHOICES)
+
     comment_text = models.TextField(max_length=4000)
 
     def save(self, *args, **kwargs):
         if self._state.adding:
             self.comment_text = self.comment.comment
         super().save(*args, **kwargs)
+
+    @property
+    def project(self):
+        return self.comment.module.project
 
 
 class UserClassification(Classification, base.UserGeneratedContentModel):
