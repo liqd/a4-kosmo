@@ -66,7 +66,7 @@ class UserClassificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserClassification
         fields = ['comment', 'classification', 'comment_text',
-                  'user_message', 'created']
+                  'user_message', 'created', 'is_pending']
 
     def get_classification(self, instance):
         return instance.get_classification_display()
@@ -82,7 +82,8 @@ class AIClassificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AIClassification
-        fields = ['comment', 'classification', 'comment_text', 'created']
+        fields = ['comment', 'classification', 'comment_text', 'created',
+                  'is_pending']
 
     def get_classification(self, instance):
         return instance.get_classification_display()
