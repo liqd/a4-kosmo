@@ -16,7 +16,7 @@
 
                     <div class="userdashboard-profile__user">
                         {% if request.user.id == user.id %}
-                        <div class="dropdown text-right">
+                        <div class="dropdown text-end">
                             <button
                                 title="{% trans 'Settings' %}"
                                 type="button"
@@ -29,7 +29,7 @@
                             >
                                 <i class="fa fa-ellipsis-v" aria-label="{% trans 'Settings' %}"></i>
                             </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="account-settings">
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-settings">
                                 {# Translators: kosmo #}
                                 <a class="dropdown-item" href="{% url 'account' %}">{% trans 'Account Settings' %}</a>
                             </div>
