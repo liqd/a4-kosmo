@@ -115,9 +115,9 @@ module.exports = {
         './apps/userdashboard/assets/js/a4_candy_userdashboard/react_moderation_projects.jsx'
       ]
     },
-    moderation_comment_list: {
+    moderation_notification_list: {
       import: [
-        './apps/userdashboard/assets/js/a4_candy_userdashboard/react_moderation_comment_list.jsx'
+        './apps/userdashboard/assets/js/a4_candy_userdashboard/react_moderation_notification_list.jsx'
       ]
     }
   },
