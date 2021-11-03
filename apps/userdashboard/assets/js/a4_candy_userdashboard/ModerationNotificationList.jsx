@@ -65,10 +65,12 @@ export default class ModerationNotificationList extends Component {
             {userClassifications.map((item, i) => (
               <li className="list-item" key={i}>
                 <ModerationNotification
+                  apiUrl={item.api_url}
                   classification={item.classification}
                   commentText={item.comment_text}
                   commentUrl={item.comment.comment_url}
                   created={item.created}
+                  isPending={item.is_pending}
                   userImage={item.comment.user_image}
                   userName={item.comment.user_name}
                   userProfileUrl={item.comment.user_profile_url}
@@ -78,10 +80,12 @@ export default class ModerationNotificationList extends Component {
             {aiClassifications.map((item, i) => (
               <li className="list-item" key={i}>
                 <ModerationNotification
+                  apiUrl={item.api_url}
                   classification={item.classification}
                   commentText={item.comment_text}
                   commentUrl={item.comment.comment_url}
                   created={item.created}
+                  isPending={item.is_pending}
                   userImage={item.comment.user_image}
                   userName={item.comment.user_name}
                   userProfileUrl={item.comment.user_profile_url}

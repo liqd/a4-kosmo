@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from easy_thumbnails.files import get_thumbnailer
 from rest_framework import serializers
@@ -62,31 +63,43 @@ class UserClassificationSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(read_only=True)
     classification = serializers.SerializerMethodField()
     created = serializers.SerializerMethodField()
+    api_url = serializers.SerializerMethodField()
 
     class Meta:
         model = UserClassification
-        fields = ['comment', 'classification', 'comment_text',
-                  'user_message', 'created', 'is_pending']
+        fields = ['api_url', 'classification', 'comment', 'comment_text',
+                  'created', 'is_pending', 'user_message']
 
     def get_classification(self, instance):
         return instance.get_classification_display()
 
     def get_created(self, instance):
         return instance.created.strftime('%d.%m.%y')
+
+    def get_api_url(self, instance):
+        return reverse('userclassifications-detail',
+                       kwargs={'project_pk': instance.project.pk,
+                               'pk': instance.pk})
 
 
 class AIClassificationSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(read_only=True)
     classification = serializers.SerializerMethodField()
     created = serializers.SerializerMethodField()
+    api_url = serializers.SerializerMethodField()
 
     class Meta:
         model = AIClassification
-        fields = ['comment', 'classification', 'comment_text', 'created',
-                  'is_pending']
+        fields = ['api_url', 'classification', 'comment', 'comment_text',
+                  'created', 'is_pending']
 
     def get_classification(self, instance):
         return instance.get_classification_display()
 
     def get_created(self, instance):
         return instance.created.strftime('%d.%m.%y')
+
+    def get_api_url(self, instance):
+        return reverse('aiclassifications-detail',
+                       kwargs={'project_pk': instance.project.pk,
+                               'pk': instance.pk})
