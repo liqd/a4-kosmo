@@ -116,6 +116,7 @@
     &:disabled,
     &.is-disabled {
         box-shadow: none;
+        background-color: transparent;
     }
 }
 
