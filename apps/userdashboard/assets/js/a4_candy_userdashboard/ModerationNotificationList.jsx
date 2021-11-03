@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import django from 'django'
 
-import ModerationComment from './ModerationComment'
+import ModerationNotification from './ModerationNotification'
 
-export default class ModerationCommentList extends Component {
+export default class ModerationNotificationList extends Component {
   constructor (props) {
     super(props)
 
@@ -64,7 +64,7 @@ export default class ModerationCommentList extends Component {
           <ul className="pl-0 mt-5">
             {userClassifications.map((item, i) => (
               <li className="list-item" key={i}>
-                <ModerationComment
+                <ModerationNotification
                   classification={item.classification}
                   commentText={item.comment_text}
                   commentUrl={item.comment.comment_url}
@@ -77,7 +77,7 @@ export default class ModerationCommentList extends Component {
             ))}
             {aiClassifications.map((item, i) => (
               <li className="list-item" key={i}>
-                <ModerationComment
+                <ModerationNotification
                   classification={item.classification}
                   commentText={item.comment_text}
                   commentUrl={item.comment.comment_url}

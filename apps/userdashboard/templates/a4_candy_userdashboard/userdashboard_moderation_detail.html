@@ -3,7 +3,7 @@
 
 {% block extra_js %}
   {{ block.super }}
-    <script type="text/javascript" src="{% static 'moderation_comment_list.js' %}"></script>
+    <script type="text/javascript" src="{% static 'moderation_notification_list.js' %}"></script>
 {% endblock %}
 
 {% block dashboard_content %}
@@ -12,7 +12,7 @@
     {# Translators: kosmo #}
     <span>{% trans 'Back' %}</span>
 </a>
-<div data-aplus-widget="moderation_comment_list"
+<div data-aplus-widget="moderation_notification_list"
      data-aiclassification-api-url="{{ aiclassification_api_url }}"
      data-userclassification-api-url="{{ userclassification_api_url }}"
      data-project-title ="{{ view.project.name }}"
