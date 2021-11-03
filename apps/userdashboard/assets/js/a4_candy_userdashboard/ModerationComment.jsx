@@ -24,8 +24,10 @@ export default class ModerationComment extends Component {
     const classificationText = django.pgettext('kosmo', 'Classification: ')
     const aiText = django.pgettext('kosmo', 'AI')
     const blockText = django.pgettext('kosmo', ' Block')
-    const dismissText = django.pgettext('kosmo', ' Dismiss')
-    const replyText = django.pgettext('kosmo', ' Reply')
+    const unblockText = django.pgettext('kosmo', ' Unblock')
+    const replyText = django.pgettext('kosmo', ' Add Remark')
+    const archiveText = django.pgettext('kosmo', ' Archive')
+    const unarchiveText = django.pgettext('kosmo', ' Unarchive')
 
     let userImageDiv
     if (userImage) {
@@ -42,12 +44,31 @@ export default class ModerationComment extends Component {
             {userImageDiv}
           </div>
           <div className="col-7 col-md-8">
-            <div><span className="fa-stack fa-2x" aria-hidden="true"><i className="fas fa-exclamation fa-stack-1x" /><i className="far fa-circle fa-stack-2x" /></span>
+            <div><i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
               {userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName}
               {aiClassified ? this.getLink(offensiveTextAIInterpolated, commentUrl) : this.getLink(offensiveTextReportInterpolated, commentUrl)}
             </div>
             <div>{created}</div>
           </div>
+          <div className="col">
+            <div className="text-end">
+              <button
+                type="button" className="dropdown-toggle btn btn--link" aria-haspopup="true"
+                aria-expanded="false" data-bs-toggle="dropdown"
+              >
+                <i className="fas fa-ellipsis-v" aria-hidden="true" />
+              </button>
+              <ul className="dropdown-menu dropdown-menu-end">
+                <li key="1">
+                  <button className="dropdown-item" type="button">{archiveText}</button>
+                </li>
+                <li key="2">
+                  <button className="dropdown-item" type="button">{unarchiveText}</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
         </div>
         <div className="row">
           <div className="a4-comments__box--comment">
@@ -64,9 +85,9 @@ export default class ModerationComment extends Component {
           </div>
         </div>
         <div className="text-muted mt-3 d-flex justify-content-between">
-          <div><i className="fas fa-reply" aria-hidden="true" />{replyText}</div>
-          <div><i className="far fa-times-circle" aria-hidden="true" />{dismissText}</div>
-          <div><i className="fas fa-ban" aria-hidden="true" />{blockText}</div>
+          <button className="btn btn--none" type="button" disabled><i className="fas fa-reply" aria-hidden="true" />{replyText}</button>
+          <button className="btn btn--none" type="button" disabled><i className="fas fa-ban" aria-hidden="true" />{blockText}</button>
+          <button className="btn btn--none" type="button" disabled><i className="fas fa-ban" aria-hidden="true" />{unblockText}</button>
         </div>
       </div>
     )
