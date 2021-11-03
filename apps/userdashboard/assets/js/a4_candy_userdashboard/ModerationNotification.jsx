@@ -1,7 +1,16 @@
 import React, { Component } from 'react'
+import Cookies from 'js-cookie'
 import django from 'django'
 
 export default class ModerationNotification extends Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      isPending: this.props.isPending
+    }
+  }
+
   getLink (string, url) {
     const splitted = string.split('{}')
     return (
@@ -11,6 +20,29 @@ export default class ModerationNotification extends Component {
         {splitted[2]}
       </span>
     )
+  }
+
+  switchIsPending () {
+    const data = { is_pending: !this.state.isPending }
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRFToken': Cookies.get('csrftoken')
+    }
+
+    fetch(this.props.apiUrl, {
+      method: 'PATCH',
+      headers: headers,
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          isPending: json.is_pending
+        })
+      }).catch((err) => {
+        console.log(err)
+      })
   }
 
   render () {
@@ -60,10 +92,7 @@ export default class ModerationNotification extends Component {
               </button>
               <ul className="dropdown-menu dropdown-menu-end">
                 <li key="1">
-                  <button className="dropdown-item" type="button">{archiveText}</button>
-                </li>
-                <li key="2">
-                  <button className="dropdown-item" type="button">{unarchiveText}</button>
+                  <button className="dropdown-item" type="button" onClick={() => this.switchIsPending()}>{this.state.isPending ? archiveText : unarchiveText}</button>
                 </li>
               </ul>
             </div>
