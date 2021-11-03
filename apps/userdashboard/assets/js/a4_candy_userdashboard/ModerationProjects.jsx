@@ -99,7 +99,7 @@ export default class ModerationProjects extends Component {
                     {item.access === 3 && <span className="label label--dark">{privateText}</span>}
                   </div>
                   <div className="row text-muted mt-3">
-                    {item.offensive > 0 && <div className="col-4"><span className="fa-stack fa-2x" aria-hidden="true"><i className="fas fa-exclamation fa-stack-1x" /><i className="far fa-circle fa-stack-2x" /></span> {item.offensive} <span className="d-none d-lg-inline-block">{reportCountText}</span></div>}
+                    {item.offensive > 0 && <div className="col-4"><i className="fas fa-exclamation-circle me-1" aria-hidden="true" /> {item.offensive} <span className="d-none d-lg-inline-block">{reportCountText}</span></div>}
                     {item.comment_count > 0 && <div className="col-4"><i className="far fa-comment" aria-hidden="true" /> {item.comment_count} <span className="d-none d-lg-inline-block">{commentCountText}</span></div>}
                     {item.future_phase && !item.active_phase && <div className="col-4"><i className="far fa-clock" aria-hidden="true" /> {item.participation_string}</div>}
                     {item.active_phase && <div className="col-4"><i className="far fa-clock" aria-hidden="true" /> <span className="d-inline-block d-lg-none">{this.getMobileTimespan(item)}</span> <span className="d-none d-lg-inline-block">{this.getTimespan(item)}</span></div>}
