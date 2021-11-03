@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import django from 'django'
 
-export default class ModerationComment extends Component {
+export default class ModerationNotification extends Component {
   getLink (string, url) {
     const splitted = string.split('{}')
     return (
