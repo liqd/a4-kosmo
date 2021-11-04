@@ -21,8 +21,10 @@ export default class ModerationNotificationList extends Component {
   }
 
   filterChangeHandle (filter) {
-    this.setState({ filter: filter })
-    this.setState({ isLoaded: false })
+    this.setState({
+      filter: filter,
+      isLoaded: false
+    })
     this.loadData(filter)
   }
 
@@ -52,7 +54,6 @@ export default class ModerationNotificationList extends Component {
     const { isLoaded, notifications } = this.state
     const { projectTitle, organisation, projectUrl } = this.props
     const byText = django.pgettext('kosmo', 'By ')
-    const loadingText = django.pgettext('kosmo', 'Loading...')
 
     return (
       <div className="row mb-2">
@@ -73,9 +74,7 @@ export default class ModerationNotificationList extends Component {
           {!isLoaded
             ? (
               <div className="d-flex justify-content-center">
-                <div className="spinner-border" role="status">
-                  <span className="sr-only">{loadingText}</span>
-                </div>
+                <i className="fa fa-spinner fa-pulse" aria-hidden="true" />
               </div>
               )
             : (
