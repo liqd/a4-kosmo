@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import Cookies from 'js-cookie'
 import django from 'django'
 
+import ModerationNote from './ModerationNote'
+
 export default class ModerationNotification extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
       isPending: this.props.isPending,
-      isBlocked: this.props.isBlocked
+      isBlocked: false,
+      moderationNote: false
     }
   }
 
@@ -54,6 +57,14 @@ export default class ModerationNotification extends Component {
     })
   }
 
+  toggleModerationNote (e) {
+    e.preventDefault()
+    const newModerationNote = !this.state.moderationNote
+    this.setState({
+      moderationNote: newModerationNote
+    })
+  }
+
   render () {
     const { classification, commentText, commentUrl, created, userImage, userName, userProfileUrl, aiClassified } = this.props
     const offensiveTextReport = django.pgettext('kosmo', ' posted a {}comment{} that has been reported as %(classification)s')
@@ -66,7 +77,7 @@ export default class ModerationNotification extends Component {
     const aiText = django.pgettext('kosmo', 'AI')
     const blockText = django.pgettext('kosmo', ' Block')
     const unblockText = django.pgettext('kosmo', ' Unblock')
-    const replyText = django.pgettext('kosmo', ' Add Remark')
+    const replyText = django.pgettext('kosmo', ' Add Note')
     const archiveText = django.pgettext('kosmo', ' Archive')
     const unarchiveText = django.pgettext('kosmo', ' Unarchive')
     const blockedText = django.pgettext('kosmo', 'This negative comment was blocked because it is spam')
@@ -126,7 +137,7 @@ export default class ModerationNotification extends Component {
         </div>
         <div className={'mt-3 d-flex justify-content-' + (!this.state.isPending && !this.state.isBlocked ? 'end' : 'between')}>
           {this.state.isPending
-            ? <><button className="btn btn--none" type="button"><i className="fas fa-reply" aria-hidden="true" />{replyText}</button>
+            ? <><button className="btn btn--none" type="button" onClick={this.toggleModerationNote.bind(this)}><i className="fas fa-reply" aria-hidden="true" />{replyText}</button>
               <button className="btn btn--none" type="button" onClick={() => this.toggleIsBlocked()}>
                 <i className="fas fa-ban" aria-hidden="true" />
                 {this.state.isBlocked ? unblockText : blockText}
@@ -136,6 +147,7 @@ export default class ModerationNotification extends Component {
               <button className="btn btn--none" type="button" onClick={() => this.toggleIsPending()}><i className="fas fa-archive me-1" aria-hidden="true" />{unarchiveText}</button>
             </> /* eslint-disable-line react/jsx-closing-tag-location */}
         </div>
+        {this.state.moderationNote && <ModerationNote />}
       </div>
     )
   }
