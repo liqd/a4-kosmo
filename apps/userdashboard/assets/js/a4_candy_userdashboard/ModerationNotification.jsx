@@ -7,7 +7,8 @@ export default class ModerationNotification extends Component {
     super(props)
 
     this.state = {
-      isPending: this.props.isPending
+      isPending: this.props.isPending,
+      isBlocked: false
     }
   }
 
@@ -22,7 +23,7 @@ export default class ModerationNotification extends Component {
     )
   }
 
-  switchIsPending () {
+  toggleIsPending () {
     const data = { is_pending: !this.state.isPending }
     const headers = {
       Accept: 'application/json',
@@ -43,6 +44,13 @@ export default class ModerationNotification extends Component {
       }).catch((err) => {
         console.log(err)
       })
+  }
+
+  toggleIsBlocked () {
+    const newIsBlocked = !this.state.isBlocked
+    this.setState({
+      isBlocked: newIsBlocked
+    })
   }
 
   render () {
@@ -82,21 +90,22 @@ export default class ModerationNotification extends Component {
             </div>
             <div>{created}</div>
           </div>
-          <div className="col">
-            <div className="text-end">
-              <button
-                type="button" className="dropdown-toggle btn btn--link" aria-haspopup="true"
-                aria-expanded="false" data-bs-toggle="dropdown"
-              >
-                <i className="fas fa-ellipsis-v" aria-hidden="true" />
-              </button>
-              <ul className="dropdown-menu dropdown-menu-end">
-                <li key="1">
-                  <button className="dropdown-item" type="button" onClick={() => this.switchIsPending()}>{this.state.isPending ? archiveText : unarchiveText}</button>
-                </li>
-              </ul>
-            </div>
-          </div>
+          {this.state.isPending &&
+            <div className="col">
+              <div className="text-end">
+                <button
+                  type="button" className="dropdown-toggle btn btn--none" aria-haspopup="true"
+                  aria-expanded="false" data-bs-toggle="dropdown"
+                >
+                  <i className="fas fa-ellipsis-v" aria-hidden="true" />
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li key="1">
+                    <button className="dropdown-item" type="button" onClick={() => this.toggleIsPending()}>{archiveText}</button>
+                  </li>
+                </ul>
+              </div>
+            </div>}
 
         </div>
         <div className="row">
@@ -113,10 +122,17 @@ export default class ModerationNotification extends Component {
             <p>{commentText}</p>
           </div>
         </div>
-        <div className="text-muted mt-3 d-flex justify-content-between">
-          <button className="btn btn--none" type="button" disabled><i className="fas fa-reply" aria-hidden="true" />{replyText}</button>
-          <button className="btn btn--none" type="button" disabled><i className="fas fa-ban" aria-hidden="true" />{blockText}</button>
-          <button className="btn btn--none" type="button" disabled><i className="fas fa-ban" aria-hidden="true" />{unblockText}</button>
+        <div className="mt-3 d-flex justify-content-between">
+          {this.state.isPending
+            ? <><button className="btn btn--none" type="button"><i className="fas fa-reply" aria-hidden="true" />{replyText}</button>
+              <button className="btn btn--none" type="button" onClick={() => this.toggleIsBlocked()}>
+                <i className="fas fa-ban" aria-hidden="true" />
+                {this.state.isBlocked ? unblockText : blockText}
+              </button>
+            </> /* eslint-disable-line react/jsx-closing-tag-location */
+            : <><div className="fw-bold"><i className="fas fa-exclamation-circle me-1" aria-hidden="true" />This negative comment was blocked because it is spam</div>
+              <button className="btn btn--none" type="button" onClick={() => this.toggleIsPending()}><i class="fas fa-archive me-1" aria-hidden="true" />{unarchiveText}</button>
+            </> /* eslint-disable-line react/jsx-closing-tag-location */}
         </div>
       </div>
     )
