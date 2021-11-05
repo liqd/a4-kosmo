@@ -68,6 +68,7 @@ export default class ModerationNotification extends Component {
     const replyText = django.pgettext('kosmo', ' Add Remark')
     const archiveText = django.pgettext('kosmo', ' Archive')
     const unarchiveText = django.pgettext('kosmo', ' Unarchive')
+    const blockedText = django.pgettext('kosmo', 'This negative comment was blocked because it is spam')
 
     let userImageDiv
     if (userImage) {
@@ -122,7 +123,7 @@ export default class ModerationNotification extends Component {
             <p>{commentText}</p>
           </div>
         </div>
-        <div className="mt-3 d-flex justify-content-between">
+        <div className={'mt-3 d-flex justify-content-' + (!this.state.isPending && !this.state.isBlocked ? 'end' : 'between')}>
           {this.state.isPending
             ? <><button className="btn btn--none" type="button"><i className="fas fa-reply" aria-hidden="true" />{replyText}</button>
               <button className="btn btn--none" type="button" onClick={() => this.toggleIsBlocked()}>
@@ -130,8 +131,8 @@ export default class ModerationNotification extends Component {
                 {this.state.isBlocked ? unblockText : blockText}
               </button>
             </> /* eslint-disable-line react/jsx-closing-tag-location */
-            : <><div className="fw-bold"><i className="fas fa-exclamation-circle me-1" aria-hidden="true" />This negative comment was blocked because it is spam</div>
-              <button className="btn btn--none" type="button" onClick={() => this.toggleIsPending()}><i class="fas fa-archive me-1" aria-hidden="true" />{unarchiveText}</button>
+            : <>{this.state.isBlocked && <div className="fw-bold"><i className="fas fa-exclamation-circle me-1" aria-hidden="true" />{blockedText}</div>}
+              <button className="btn btn--none" type="button" onClick={() => this.toggleIsPending()}><i className="fas fa-archive me-1" aria-hidden="true" />{unarchiveText}</button>
             </> /* eslint-disable-line react/jsx-closing-tag-location */}
         </div>
       </div>
