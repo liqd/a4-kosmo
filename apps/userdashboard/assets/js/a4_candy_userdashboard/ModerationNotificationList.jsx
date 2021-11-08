@@ -126,6 +126,7 @@ export default class ModerationNotificationList extends Component {
                       userProfileUrl={item.comment.user_profile_url}
                       aiClassified={item?.meta?.aiClassified}
                       onChangePending={(isPending) => this.handleAlert(isPending)}
+                      isBlocked={item.comment.is_blocked}
                     />
                   </li>
                 ))}
