@@ -3,7 +3,7 @@ from django.urls import reverse
 
 
 @pytest.mark.django_db
-def test_moderator_can_view_moderation_projects(client,
+def test_moderator_can_list_moderation_projects(client,
                                                 project_factory):
     project = project_factory()
     moderator = project.moderators.first()
@@ -16,18 +16,22 @@ def test_moderator_can_view_moderation_projects(client,
 
 
 @pytest.mark.django_db
-def test_anonymous_cannot_view_moderation_projects(client):
-    url = reverse('moderationprojects-list')
-    response = client.get(url)
-    assert response.status_code == 401
-
-
-@pytest.mark.django_db
-def test_normal_user_cannot_view_moderation_projects(client, user):
+def test_normal_user_can_list_moderation_projects(client, user,
+                                                  project_factory):
+    project = project_factory()
+    assert user not in project.moderators.all()
     client.login(username=user.email, password='password')
     url = reverse('moderationprojects-list')
     response = client.get(url)
-    assert response.status_code == 200  # shouldn't this be 403?
+    assert response.status_code == 200
+    assert len(response.data) == 0
+
+
+@pytest.mark.django_db
+def test_anonymous_cannot_list_moderation_projects(client):
+    url = reverse('moderationprojects-list')
+    response = client.get(url)
+    assert response.status_code == 401
 
 
 @pytest.mark.django_db
