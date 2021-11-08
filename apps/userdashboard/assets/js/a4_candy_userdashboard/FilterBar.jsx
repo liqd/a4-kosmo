@@ -22,7 +22,6 @@ export const FilterBar = (props) => {
   return (
     <div
       className="filter-bar justify-content-end"
-      role="group"
       aria-label={django.gettext('Filter')}
     >
       <div className="mt-2 mt-sm-0">
