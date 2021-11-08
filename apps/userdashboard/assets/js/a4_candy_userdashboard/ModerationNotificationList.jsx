@@ -3,6 +3,7 @@ import django from 'django'
 
 import ModerationNotification from './ModerationNotification'
 import { FilterBar } from './FilterBar'
+import Alert from '../../../../contrib/assets/Alert'
 
 export default class ModerationNotificationList extends Component {
   constructor (props) {
@@ -11,7 +12,8 @@ export default class ModerationNotificationList extends Component {
     this.state = {
       notifications: [],
       filter: '',
-      isLoaded: false
+      isLoaded: false,
+      alert: undefined
     }
   }
 
@@ -45,6 +47,36 @@ export default class ModerationNotificationList extends Component {
     this.setState({ notifications: [...aiNotifications, ...userNotifications], isLoaded: true })
   }
 
+  handleAlert = (isPending) => {
+    const alertMessage = isPending
+      ? this.getUnarchivedAlert()
+      : this.getArchivedAlert()
+    this.setState({
+      alert: {
+        ...alertMessage,
+        onClick: () => this.hideAlert()
+      }
+    })
+  }
+
+  getArchivedAlert = () => {
+    return {
+      type: 'success',
+      message: django.gettext('Notification archived successfully.')
+    }
+  }
+
+  getUnarchivedAlert = () => {
+    return {
+      type: 'success',
+      message: django.gettext('Notification unarchived successfully.')
+    }
+  }
+
+  hideAlert = () => {
+    this.setState({ alert: undefined })
+  }
+
   componentWillUnmount () {
     clearInterval(this.timer)
     this.timer = null
@@ -58,6 +90,7 @@ export default class ModerationNotificationList extends Component {
     return (
       <div className="row mb-2">
         <div className="col-12">
+          <Alert {...this.state.alert} />
           <h1 className="m-0">
             <a href={projectUrl}>{projectTitle}</a>
           </h1>
@@ -92,6 +125,7 @@ export default class ModerationNotificationList extends Component {
                       userName={item.comment.user_name}
                       userProfileUrl={item.comment.user_profile_url}
                       aiClassified={item?.meta?.aiClassified}
+                      onChangePending={(isPending) => this.handleAlert(isPending)}
                     />
                   </li>
                 ))}
