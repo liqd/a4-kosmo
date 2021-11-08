@@ -1,5 +1,5 @@
 # A4
-git+https://github.com/liqd/adhocracy4.git@6f934460b7e959fc576f96183745507c8860e4a6#egg=adhocracy4
+git+https://github.com/liqd/adhocracy4.git@51f14db67fc660ad739fb7aef33b0dc5b74424e4#egg=adhocracy4
 
 # Additional kosmo requirements - need to be updated manually
 backoff==1.10.0
