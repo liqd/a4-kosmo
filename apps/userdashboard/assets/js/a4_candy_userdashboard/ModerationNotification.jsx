@@ -38,6 +38,7 @@ export default class ModerationNotification extends Component {
     })
       .then(res => res.json())
       .then(json => {
+        this.props.onChangePending(json.is_pending)
         this.setState({
           isPending: json.is_pending
         })
