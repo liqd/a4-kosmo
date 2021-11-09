@@ -120,6 +120,7 @@ export default class ModerationNotificationList extends Component {
                       commentText={item.comment_text}
                       commentUrl={item.comment.comment_url}
                       created={item.created}
+                      isBlocked={item.comment.is_blocked}
                       isPending={item.is_pending}
                       userImage={item.comment.user_image}
                       userName={item.comment.user_name}
