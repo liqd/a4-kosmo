@@ -35,6 +35,13 @@ class ClassificationViewSet(mixins.ListModelMixin,
     def get_permission_object(self):
         return self.project
 
+    def update(self, request, *args, **kwargs):
+        if 'is_blocked' in self.request.data:
+            comment = self.get_object().comment
+            comment.is_blocked = request.data['is_blocked']
+            comment.save()
+        return super().update(request, *args, **kwargs)
+
 
 class UserClassificationViewSet(ClassificationViewSet):
 
