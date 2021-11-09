@@ -50,10 +50,11 @@ export default class ModerationNotificationList extends Component {
     )
   }
 
-  handleAlert = (isPending) => {
-    const alertMessage = isPending
-      ? this.getUnarchivedAlert()
-      : this.getArchivedAlert()
+  handleAlert = (message) => {
+    const alertMessage = typeof message === 'string'
+      ? this.getSuccessAlert(message)
+      : this.getErrorAlert(message)
+
     this.setState({
       alert: {
         ...alertMessage,
@@ -62,17 +63,17 @@ export default class ModerationNotificationList extends Component {
     })
   }
 
-  getArchivedAlert = () => {
+  getSuccessAlert = (message) => {
     return {
       type: 'success',
-      message: django.gettext('Notification archived successfully.')
+      message: django.gettext(`Notification ${message} successfully.`)
     }
   }
 
-  getUnarchivedAlert = () => {
+  getErrorAlert = (error) => {
     return {
-      type: 'success',
-      message: django.gettext('Notification unarchived successfully.')
+      type: 'error',
+      message: error.message
     }
   }
 
@@ -141,6 +142,7 @@ export default class ModerationNotificationList extends Component {
                       userProfileUrl={item.comment.user_profile_url}
                       aiClassified={item?.meta?.aiClassified}
                       onChangePending={(isPending) => this.handleAlert(isPending)}
+                      onChangeBlocked={(isBlocked) => this.handleAlert(isBlocked)}
                     />
                   </li>
                 ))}

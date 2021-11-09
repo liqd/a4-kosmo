@@ -23,35 +23,44 @@ export default class ModerationNotification extends Component {
     )
   }
 
-  toggleIsPending () {
-    const data = { is_pending: !this.state.isPending }
+  safeFetch = (payload) => {
     const headers = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-CSRFToken': Cookies.get('csrftoken')
     }
-
-    fetch(this.props.apiUrl, {
+    return fetch(this.props.apiUrl, {
       method: 'PATCH',
       headers: headers,
-      body: JSON.stringify(data)
+      body: JSON.stringify(payload)
     })
       .then(res => res.json())
-      .then(json => {
-        this.props.onChangePending(json.is_pending)
-        this.setState({
-          isPending: json.is_pending
-        })
-      }).catch((err) => {
-        console.log(err)
-      })
+      .then(response => [response, undefined])
+      .catch(error => Promise.resolve([undefined, error]))
   }
 
-  toggleIsBlocked () {
-    const newIsBlocked = !this.state.isBlocked
-    this.setState({
-      isBlocked: newIsBlocked
-    })
+  async toggleIsPending () {
+    const [response, error] =
+      await this.safeFetch({ is_pending: !this.state.isPending })
+    const alertMessage = response && response.is_pending
+      ? 'unarchived'
+      : 'archived'
+
+    !error || this.props.onChangeBlocked(error)
+    !error && this.props.onChangeBlocked(alertMessage)
+    !error && this.setState({ isPending: response.is_pending })
+  }
+
+  async toggleIsBlocked () {
+    const [response, error] =
+      await this.safeFetch({ is_blocked: !this.state.isBlocked })
+    const alertMessage = response && response.comment.is_blocked
+      ? 'blocked'
+      : 'unblocked'
+
+    !error || this.props.onChangeBlocked(error)
+    !error && this.props.onChangeBlocked(alertMessage)
+    !error && this.setState({ isBlocked: response.comment.is_blocked })
   }
 
   render () {
