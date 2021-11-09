@@ -8,7 +8,7 @@ export default class ModerationNotification extends Component {
 
     this.state = {
       isPending: this.props.isPending,
-      isBlocked: false
+      isBlocked: this.props.isBlocked
     }
   }
 
