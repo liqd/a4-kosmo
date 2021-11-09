@@ -11,23 +11,23 @@ export default class ModerationNotificationList extends Component {
 
     this.state = {
       notifications: [],
-      filter: '',
+      filterItem: { filter: '', name: '' },
       isLoaded: false,
       alert: undefined
     }
   }
 
   componentDidMount () {
-    this.loadData(this.state.filter)
-    this.timer = setInterval(() => this.loadData(this.state.filter), 3000)
+    this.loadData(this.state.filterItem.filter)
+    this.timer = setInterval(() => this.loadData(this.state.filterItem.filter), 3000)
   }
 
-  filterChangeHandle (filter) {
+  filterChangeHandle (filterItem) {
     this.setState({
-      filter: filter,
+      filterItem: filterItem,
       isLoaded: false
     })
-    this.loadData(filter)
+    this.loadData(filterItem.filter)
   }
 
   async loadData (filter = undefined) {
@@ -44,7 +44,10 @@ export default class ModerationNotificationList extends Component {
     const userFetch = await fetch(userUrl)
     const userNotifications = await userFetch.json()
 
-    this.setState({ notifications: [...aiNotifications, ...userNotifications], isLoaded: true })
+    this.setState(
+      { notifications: [...aiNotifications, ...userNotifications] },
+      () => this.setState({ isLoaded: true })
+    )
   }
 
   handleAlert = (isPending) => {
@@ -77,15 +80,26 @@ export default class ModerationNotificationList extends Component {
     this.setState({ alert: undefined })
   }
 
+  filterNotifications = () => {
+    return this.state.notifications.filter(notification => {
+      return this.state.filterItem.filter === ''
+        ? true
+        : this.state.filterItem.name === 'Pending'
+          ? notification.is_pending
+          : !notification.is_pending
+    })
+  }
+
   componentWillUnmount () {
     clearInterval(this.timer)
     this.timer = null
   }
 
   render () {
-    const { isLoaded, notifications } = this.state
+    const { isLoaded } = this.state
     const { projectTitle, organisation, projectUrl } = this.props
     const byText = django.pgettext('kosmo', 'By ')
+    const filteredNotifications = this.filterNotifications()
 
     return (
       <div className="row mb-2">
@@ -100,8 +114,8 @@ export default class ModerationNotificationList extends Component {
           </span>
           <div className="mt-3">
             <FilterBar
-              onFilterChange={(filter) => this.filterChangeHandle(filter)}
-              selectedFilter={this.state.filter}
+              onFilterChange={(filterItem) => this.filterChangeHandle(filterItem)}
+              selectedFilter={this.state.filterItem.filter}
             />
           </div>
           {!isLoaded
@@ -112,7 +126,7 @@ export default class ModerationNotificationList extends Component {
               )
             : (
               <ul className="ps-0 mt-5">
-                {notifications.map((item, i) => (
+                {filteredNotifications.map((item, i) => (
                   <li className="list-item" key={i}>
                     <ModerationNotification
                       apiUrl={item.api_url}
