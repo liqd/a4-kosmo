@@ -16,7 +16,7 @@ export const FilterBar = (props) => {
 
   const onSelectFilter = (filterItem) => {
     setCurrFilterItem(filterItem)
-    props.onFilterChange(filterItem.filter)
+    props.onFilterChange(filterItem)
   }
 
   return (
