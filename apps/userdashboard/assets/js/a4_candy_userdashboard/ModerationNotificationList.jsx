@@ -64,9 +64,10 @@ export default class ModerationNotificationList extends Component {
   }
 
   getSuccessAlert = (message) => {
+    const alertMessage = `Notification ${django.gettext(message)} successfully.`
     return {
       type: 'success',
-      message: django.gettext(`Notification ${message} successfully.`)
+      message: django.gettext(alertMessage)
     }
   }
 
