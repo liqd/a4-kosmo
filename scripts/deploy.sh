@@ -15,9 +15,8 @@ jEzDMGdjZJIX0X3WZVQYSnjY3dB4vd8ptHJkdDP2Oj8JTF39CRkYWmNWB68Xa6sf
 7vZ1Q3o3njRGe6R5LrMOQHLR4eMv9f8SjXl8Hifmbk/vqXd9aZD3n75f6ggQR+if
 ywfoxlB+aACB3xQM40xY6LHXeE8YbO1hbpAqF23T72yoLTrPjQ0xi9SvP8oNmsNh
 u9yspubt1Jha/GR03caafw==
-
 EOF
     chmod 600 ~/id_rsa
 fi
 
-ssh ${SSH_ID_ARG} -oStrictHostKeyChecking=no build@build.liqd.net deploy a4_kosmo main
+ssh ${SSH_ID_ARG} -oServerAliveInterval=15 -oServerAliveCountMax=2 -oStrictHostKeyChecking=no build@build.liqd.net deploy a4_kosmo main
