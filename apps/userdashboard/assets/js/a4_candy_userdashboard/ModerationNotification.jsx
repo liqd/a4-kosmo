@@ -46,9 +46,12 @@ export default class ModerationNotification extends Component {
       ? 'unarchived'
       : 'archived'
 
-    !error || this.props.onChangeBlocked(error)
-    !error && this.props.onChangeBlocked(alertMessage)
-    !error && this.setState({ isPending: response.is_pending })
+    if (error) {
+      this.props.onChangeStatus(error)
+    } else {
+      this.props.onChangeStatus(alertMessage)
+      this.setState({ isPending: response.is_pending })
+    }
   }
 
   async toggleIsBlocked () {
@@ -58,9 +61,12 @@ export default class ModerationNotification extends Component {
       ? 'blocked'
       : 'unblocked'
 
-    !error || this.props.onChangeBlocked(error)
-    !error && this.props.onChangeBlocked(alertMessage)
-    !error && this.setState({ isBlocked: response.comment.is_blocked })
+    if (error) {
+      this.props.onChangeStatus(error)
+    } else {
+      this.props.onChangeStatus(alertMessage)
+      this.setState({ isBlocked: response.comment.is_blocked })
+    }
   }
 
   render () {
