@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "User Dashboard" %} &mdash; {{ block.super }}{% endblock %}
+{# Translators: kosmo #}
+{% block title %}{% trans "My Overview" %} &mdash; {{ block.super }}{% endblock %}
 
 {% block content %}
 
 <div class="container mt-4">
     <div class="row">
 
-        <nav class="col-md-3" aria-label="{% trans 'User Dashboard navigation' %}">
+        <nav class="col-md-3" aria-label="{% trans 'My Overview navigation' %}">
             <div class="dashboard-nav">
                 <div class="dropdown dashboard-nav__dropdown u-word-break-all">
                     {{ request.user.username }}
