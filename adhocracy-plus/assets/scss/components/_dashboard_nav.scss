@@ -30,18 +30,7 @@
     }
 
     i.fa-chevron-up {
-        position: absolute;
-        top: $spacer;
-        right: $spacer;
-        transition: transform 0.3s;
-
-        &.dashboard-nav-i-spacer {
-            right: 1.5 * $spacer;
-        }
-    }
-
-    &.collapsed i.fa-chevron-up {
-        transform: rotate(-180deg);
+        margin-top: $spacer;
     }
 }
 
