@@ -92,6 +92,7 @@ INSTALLED_APPS = (
     # General components that define models or helpers
     'apps.actions',
     'apps.captcha',
+    'apps.classifications',
     'apps.contrib',
     'apps.interactiveevents',
     'apps.maps',
@@ -109,6 +110,7 @@ INSTALLED_APPS = (
     'apps.exports',
     'apps.offlineevents',
     'apps.projects',
+    'apps.userdashboard',
 
     # Apps defining phases
     'apps.activities',
@@ -145,7 +147,7 @@ LOCALE_PATHS = [
     # use the first line in branches and forks to keep the original translations
     # from main branch and overwrite or add extra translations in fork
 
-    # os.path.join(BASE_DIR, 'locale-fork/locale'),
+    os.path.join(BASE_DIR, 'locale-fork/locale'),
     os.path.join(BASE_DIR, 'locale-source/locale')
 ]
 
@@ -266,7 +268,8 @@ THUMBNAIL_ALIASES = {
         'idea_thumbnail': {'size': (240, 240), 'crop': 'smart'},
         'avatar': {'size': (200, 200), 'crop': 'smart'},
         'item_image': {'size': (330, 0), 'crop': 'scale'},
-        'map_thumbnail': {'size': (200, 200), 'crop': 'smart'}
+        'map_thumbnail': {'size': (200, 200), 'crop': 'smart'},
+        'tiny_thumbnail': {'size': (50, 50), 'crop': 'smart'}
     }
 }
 
@@ -550,3 +553,6 @@ SITE_ID = 1  # overwrite this in local.py if needed
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
+AI_API_AUTH_TOKEN = ''
+AI_API_URL = 'https://kosmo-api-dev.liqd.net/api/classify/'
+AI_USAGE = True
