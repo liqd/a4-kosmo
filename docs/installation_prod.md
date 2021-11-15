@@ -19,21 +19,21 @@ This guide will focus on Debian/Ubuntu-like systems - however, it works very sim
 Create and switch to user (as `root` or using `sudo`)
 
 ```
-adduser aplus
-su aplus
+adduser kosmo
+su kosmo
 cd
 ```
 
 #### Get the code
 ```
-git clone https://github.com/liqd/adhocracy-plus.git
-cd adhocracy-plus
+git clone https://github.com/liqd/a4-kosmo.git
+cd a4-kosmo
 git checkout release
 ```
 
 #### Create and launch virtual environment
 ```
-mkvirtualenv --python=/usr/bin/python3 aplus
+mkvirtualenv --python=/usr/bin/python3 kosmo
 ```
 
 Note: you won't need the `--python` part when using a recent distribution.
@@ -50,7 +50,7 @@ python manage.py collectstatic
 
 #### Static configuration (`local.py`)
 
-Create a config file at `~/adhocracy-plus/adhocracy-plus/config/settings/local.py`
+Create a config file at `~/a4-kosmo/adhocracy-plus/config/settings/local.py`
 
 See the [django-documentation](https://docs.djangoproject.com/en/2.2/ref/settings/) for a comprehensive list of settings and `config/settings/base.py` for pre-configured ones. The settings you will most likely want to set are:
 
@@ -63,7 +63,7 @@ ALLOWED_HOSTS = [u'your.domain', u'localhost']
 DATABASES = {
   'default': {
     'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': 'aplus-test-database',
+    'NAME': 'kosmo-test-database',
   }
 }
 
@@ -72,7 +72,7 @@ EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='127.0.0.1'
 
 # folder for user-uploads, directly served from the webserver (see nginx example below). Must be created manually.
-MEDIA_ROOT='/home/aplus/aplus-media'
+MEDIA_ROOT='/home/kosmo/kosmo-media'
 
 # replace the value below with some random value
 SECRET_KEY = u'SOMESECRETKEY'
@@ -119,65 +119,65 @@ Cancel the server after testing via `ctrl`+`c`
 
 In order to start up the software as a regular system daemon, similar to a database or webserver, we need to create unit files.
 
-`/etc/systemd/system/adhocracy-plus.service`:
+`/etc/systemd/system/kosmo.service`:
 
 ```
 [Unit]
-Description=adhocracy+ server
+Description=kosmo server
 After=network.target
 
 [Service]
-User=aplus
-WorkingDirectory=/home/aplus/adhocracy-plus
-ExecStart=/home/aplus/.virtualenvs/aplus/bin/gunicorn -e DJANGO_SETTINGS_MODULE=adhocracy-plus.config.settings.production --workers 4 --threads 2 -b 127.0.0.1:8000 -n adhocracy-plus adhocracy-plus.config.wsgi
+User=kosmo
+WorkingDirectory=/home/kosmo/a4-kosmo
+ExecStart=/home/kosmo/.virtualenvs/kosmo/bin/gunicorn -e DJANGO_SETTINGS_MODULE=adhocracy-plus.config.settings.production --workers 4 --threads 2 -b 127.0.0.1:8000 -n kosmo adhocracy-plus.config.wsgi
 Restart=always
 RestartSec=3
-StandardOutput=append:/var/log/adhocracy-plus/adhocracy-plus.log
+StandardOutput=append:/var/log/kosmo/kosmo.log
 StandardError=inherit
 
 [Install]
 WantedBy=default.target
 ```
 
-`/etc/systemd/system/adhocracy-plus-background-task.service`:
+`/etc/systemd/system/kosmo-background-task.service`:
 
 ```
 [Unit]
-Description=adhocracy+ background task
+Description=kosmo background task
 After=network.target
 
 [Service]
-User=aplus
-WorkingDirectory=/home/aplus/adhocracy-plus
-ExecStart=/home/aplus/.virtualenvs/aplus/bin/python manage.py process_tasks --settings adhocracy-plus.config.settings.production --sleep 5
+User=kosmo
+WorkingDirectory=/home/kosmo/a4-kosmo
+ExecStart=/home/kosmo/.virtualenvs/kosmo/bin/python manage.py process_tasks --settings adhocracy-plus.config.settings.production --sleep 5
 Restart=always
 RestartSec=3
-StandardOutput=append:/var/log/adhocracy-plus/adhocracy-plus-background-task.log
+StandardOutput=append:/var/log/kosmo/kosmo-background-task.log
 StandardError=inherit
 
 [Install]
 WantedBy=default.target
 ```
 
-This will log all output to files in `/var/log/adhocracy-plus/`. You will also need to create that folder before starting the service (as `root` or using `sudo`):
+This will log all output to files in `/var/log/kosmo/`. You will also need to create that folder before starting the service (as `root` or using `sudo`):
 
 ```
-mkdir /var/log/adhocracy-plus
+mkdir /var/log/kosmo
 ```
 
 Load and start units (as `root` or using `sudo`):
 
 ```
 systemctl daemon-reload
-systemctl start adhocracy-plus
-systemctl start adhocracy-plus-background-task
+systemctl start kosmo
+systemctl start kosmo-background-task
 ```
 
 Enable autostart on boot:
 
 ```
-systemctl enable adhocracy-plus
-systemctl enable adhocracy-plus-background-task
+systemctl enable kosmo
+systemctl enable kosmo-background-task
 ```
 
 ### Setting up a proxy webserver
@@ -195,7 +195,7 @@ server {
 
   server_name your.domain;
 
-  # forward traffic to adhocracy-plus
+  # forward traffic to kosmo
   location / {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
@@ -203,10 +203,10 @@ server {
     proxy_pass http://127.0.0.1:8000;
   }
 
-  # serve media files directly, without going through adhocracy-plus.
+  # serve media files directly, without going through kosmo.
   # See MEDIA_ROOT in local.py
   location /media {
-    alias /home/aplus/aplus-media;
+    alias /home/kosmo/kosmo-media;
   }
 
   # max upload size for images and documents
@@ -224,9 +224,9 @@ You can now continue setting up the website in the `django-admin` configuration 
 #### Create initial admin user
 
 ```
-su aplus
-cd ~/adhocracy-plus
-workon aplus
+su kosmo
+cd ~/a4-kosmo
+workon kosmo
 python manage.py createsuperuser
 ```
 
@@ -253,21 +253,21 @@ The landing page is managed via [wagtail](https://wagtail.io/). You can find the
 #### Stop server
 
 ```
-systemctl stop adhocracy-plus
-systemctl stop adhocracy-plus-background-task
+systemctl stop kosmo
+systemctl stop kosmo-background-task
 ```
 
 #### Switch to user
 
 ```
-su aplus
-cd ~/adhocracy-plus
+su kosmo
+cd ~/a4-kosmo
 ```
 
 ####  Enable virtual environment
 
 ```
-workon aplus
+workon kosmo
 ```
 
 #### Update the code
@@ -309,6 +309,6 @@ python manage.py runserver
 #### Restart server (as `root` or using `sudo`)
 
 ```
-systemctl start adhocracy-plus
-systemctl start adhocracy-plus-background-task
+systemctl start kosmo
+systemctl start kosmo-background-task
 ```
