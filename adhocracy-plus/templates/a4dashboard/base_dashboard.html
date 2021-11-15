@@ -3,7 +3,7 @@
 
 {% block content %}
     {% block dashboard_nav %}
-    <div class="tablist tablist--right tablist--background">
+    <div class="tablist tablist--right mt-3">
         <div class="container">
         <div class="tablist__left d-flex">
             {% if ORGANISATION.logo %}
@@ -42,11 +42,11 @@
                             </a>
                         {% endfor %}
                     </div>
-                {% else %}
-                    <span class="btn btn--none btn--small">{{ view.organisation.name }}</span>
-                {% endif %}
+                    {% else %}
+                        <span class="btn btn--none btn--small">{{ view.organisation.name }}</span>
+                    {% endif %}
+                </div>
             </div>
-          </div>
 
             <nav class="d-none d-sm-inline-block" aria-label="{% trans 'Dashboard' %}">
                 <a href="{% url 'a4dashboard:project-list' organisation_slug=view.organisation.slug %}"
@@ -109,8 +109,6 @@
                   </div>
                 </li>
             </ul>
-
-
         </div>
     </div>
     {% endblock %}
