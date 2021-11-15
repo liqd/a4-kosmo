@@ -1,0 +1,31 @@
+.userdashboard-profile__side {
+    min-height: 100%;
+    display: block; // tabpanel se display to none?!
+}
+
+.userdashboard-profile__user {
+    border: 1px solid #dadada;
+    text-align: center;
+    padding-bottom: 2 * $padding;
+}
+
+.userdashboard-profile__avatar {
+    max-width: 120px;
+    border-radius: 50%;
+    shape-outside: circle();
+    position: relative;
+}
+
+.userdashboard-profile__main {
+    padding: 0 $padding;
+}
+
+.userdashboard__mobile-nav-toggle {
+    width: 100%;
+}
+
+.userdashboard__mobile-nav-link {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
