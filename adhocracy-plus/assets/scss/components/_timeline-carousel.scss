@@ -2,10 +2,10 @@
     $timeline-carousel__top-space: 12px;
 
     .timeline-carousel__container {
-        max-width: 1140px; //same width as widest container
+        max-width: 1140px; // same width as widest container
     }
 
-    .timeline-carousel__item { //to stop items displaying as a list before js is initialized
+    .timeline-carousel__item { // to stop items displaying as a list before js is initialized
         visibility: hidden;
 
         &.slick-initialized {
@@ -28,7 +28,7 @@
 
     .timeline-carousel__label {
         padding: $padding;
-        margin-top: 2*$spacer;
+        margin-top: 2 * $spacer;
         color: $text-color-gray;
         border: 1px solid $text-color-gray;
         background-color: $body-bg;
@@ -45,9 +45,9 @@
         border-top: 1px dotted $border-color;
     }
 
-    //slick overwrites
+    // slick overwrites
     .slick-slide {
-        margin: 0 3*$spacer;
+        margin: 0 3 * $spacer;
         min-width: 275px;
 
         & a {
@@ -79,7 +79,7 @@
         text-align: center;
         margin: $spacer 0;
 
-        //slick overwrites - nested for specificity
+        // slick overwrites - nested for specificity
         .slick-prev,
         .slick-next {
             top: $timeline-carousel__top-space;
@@ -92,7 +92,7 @@
 
             /* stylelint-disable max-nesting-depth */
             @media screen and (min-width: $breakpoint) {
-                z-index: 1; //for when tile links overlap - on mobile people swipe
+                z-index: 1; // for when tile links overlap - on mobile people swipe
             }
 
             &:hover,
@@ -112,15 +112,15 @@
         }
 
         .slick-prev:before {
-            content: '\f104'; // angle-left
+            content: "\f104"; // angle-left
         }
 
         .slick-next:before {
-            content: '\f105'; // angle-right
+            content: "\f105"; // angle-right
         }
     }
 
-    //mobile slick overwrites
+    // mobile slick overwrites
     @media screen and (max-width: $breakpoint-xl-down) {
         .slick-next {
             right: 0 !important;
@@ -137,7 +137,7 @@
         border: 2px solid $brand-primary;
 
         &.timeline-carousel__label {
-            padding: 1.5*$padding;
+            padding: 1.5 * $padding;
         }
 
         &.timeline-carousel__label > .timeline-carousel__title {
@@ -151,8 +151,8 @@
 
     @media screen and (min-width: $breakpoint-md) {
         .timeline-carousel__wrapper {
-            margin-top: 4*$r-spacer;
-            margin-bottom: 3*$r-spacer;
+            margin-top: 4 * $r-spacer;
+            margin-bottom: 3 * $r-spacer;
         }
     }
 }

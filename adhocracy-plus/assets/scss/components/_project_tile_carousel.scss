@@ -1,6 +1,6 @@
 .project-tile-carousel {
     position: relative;
-    margin: $spacer 0.75*$spacer;
+    margin: $spacer 0.75 * $spacer;
 
     // overwrites for tiles in carousel
     .tile.organisation__tile {
@@ -13,13 +13,13 @@
         min-height: 12rem;
     }
 
-    //slick overwrites - nested for specificity
+    // slick overwrites - nested for specificity
     .slick-list {
-        margin: 0 -0.5*$spacer;
+        margin: 0 -0.5 * $spacer;
     }
 
     .slick-slide {
-        margin: 0 0.5*$spacer;
+        margin: 0 0.5 * $spacer;
     }
 
     .slick-track {
@@ -35,7 +35,7 @@
         border-radius: 100%;
         border: 1px solid $border-color;
         background-color: $body-bg;
-        z-index: 1; //for when tile links overlap - on mobile people swipe
+        z-index: 1; // for when tile links overlap - on mobile people swipe
 
         &:hover,
         :focus {
@@ -53,11 +53,11 @@
     }
 
     .slick-prev:before {
-        content: '\f104'; // angle-left
+        content: "\f104"; // angle-left
     }
 
     .slick-next:before {
-        content: '\f105'; // angle-right
+        content: "\f105"; // angle-right
     }
 
     .slick-arrow.slick-disabled {
@@ -75,7 +75,7 @@
     }
 
     .project-tile-carousel__wrapper {
-        margin-top: 4*$r-spacer;
-        margin-bottom: 3*$r-spacer;
+        margin-top: 4 * $r-spacer;
+        margin-bottom: 3 * $r-spacer;
     }
 }

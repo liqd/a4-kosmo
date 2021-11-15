@@ -8,7 +8,7 @@
 
 .status-item--baseline {
     position: absolute;
-    bottom: 0.5*$spacer;
+    bottom: 0.5 * $spacer;
 }
 
 .status-bar__active {
@@ -36,7 +36,7 @@
     left: 0;
 
     &--sm {
-        padding: 0.25*$padding;
+        padding: 0.25 * $padding;
     }
 }
 

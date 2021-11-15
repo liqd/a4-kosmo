@@ -5,9 +5,9 @@ from adhocracy4.modules.models import Module
 from adhocracy4.projects.models import Project
 from apps.projects.serializers import ProjectSerializer
 
+from . import helpers
 from .serializers import AppModuleSerializer
 from .serializers import AppProjectSerializer
-from . import helpers
 
 
 class AppProjectsViewSet(viewsets.ReadOnlyModelViewSet):
