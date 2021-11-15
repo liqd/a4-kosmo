@@ -9,3 +9,5 @@ SITE_ID=1
 
 CAPTCHA_TEST_ACCEPTED_ANSWER = 'testpass'
 CAPTCHA_URL = 'https://captcheck.netsyms.com/api.php'
+
+AI_API_AUTH_TOKEN = ''
