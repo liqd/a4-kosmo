@@ -84,24 +84,28 @@ INSTALLED_APPS = (
     "adhocracy4.reports",
     "adhocracy4.rules",
     # General components that define models or helpers
-    "apps.actions",
-    "apps.captcha",
-    "apps.contrib",
-    "apps.interactiveevents",
-    "apps.maps",
-    "apps.moderatorfeedback",
-    "apps.moderatorremark",
-    "apps.newsletters",
-    "apps.notifications",
-    "apps.organisations",
-    "apps.users",
+    'apps.actions',
+    'apps.captcha',
+    'apps.classifications',
+    'apps.contrib',
+    'apps.interactiveevents',
+    'apps.maps',
+    'apps.moderatorfeedback',
+    'apps.moderatorremark',
+    'apps.newsletters',
+    'apps.notifications',
+    'apps.organisations',
+    'apps.users',
+
     # General apps containing views
-    "apps.account",
-    "apps.dashboard",
-    "apps.embed",
-    "apps.exports",
-    "apps.offlineevents",
-    "apps.projects",
+    'apps.account',
+    'apps.dashboard',
+    'apps.embed',
+    'apps.exports',
+    'apps.offlineevents',
+    'apps.projects',
+    'apps.userdashboard',
+
     # Apps defining phases
     "apps.activities",
     "apps.budgeting",
@@ -134,8 +138,9 @@ ROOT_URLCONF = "adhocracy-plus.config.urls"
 LOCALE_PATHS = [
     # use the first line in branches and forks to keep the original translations
     # from main branch and overwrite or add extra translations in fork
-    # os.path.join(BASE_DIR, 'locale-fork/locale'),
-    os.path.join(BASE_DIR, "locale-source/locale")
+
+    os.path.join(BASE_DIR, 'locale-fork/locale'),
+    os.path.join(BASE_DIR, 'locale-source/locale')
 ]
 
 TEMPLATES = [
@@ -248,15 +253,16 @@ IMAGE_ALIASES = {
 }
 
 THUMBNAIL_ALIASES = {
-    "": {
-        "heroimage": {"size": (1500, 500), "crop": "smart"},
-        "heroimage_preview": {"size": (880, 220), "crop": "smart"},
-        "project_thumbnail": {"size": (520, 330), "crop": "smart"},
-        "idea_image": {"size": (800, 0), "crop": "scale"},
-        "idea_thumbnail": {"size": (240, 240), "crop": "smart"},
-        "avatar": {"size": (200, 200), "crop": "smart"},
-        "item_image": {"size": (330, 0), "crop": "scale"},
-        "map_thumbnail": {"size": (200, 200), "crop": "smart"},
+    '': {
+        'heroimage': {'size': (1500, 500), 'crop': 'smart'},
+        'heroimage_preview': {'size': (880, 220), 'crop': 'smart'},
+        'project_thumbnail': {'size': (520, 330), 'crop': 'smart'},
+        'idea_image': {'size': (800, 0), 'crop': 'scale'},
+        'idea_thumbnail': {'size': (240, 240), 'crop': 'smart'},
+        'avatar': {'size': (200, 200), 'crop': 'smart'},
+        'item_image': {'size': (330, 0), 'crop': 'scale'},
+        'map_thumbnail': {'size': (200, 200), 'crop': 'smart'},
+        'tiny_thumbnail': {'size': (50, 50), 'crop': 'smart'}
     }
 }
 
@@ -547,4 +553,8 @@ CSP_DEFAULT_SRC = ["'self'", "'unsafe-inline'", "'unsafe-eval'", "data:", "blob:
 
 SITE_ID = 1  # overwrite this in local.py if needed
 
-DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+AI_API_AUTH_TOKEN = ''
+AI_API_URL = 'https://kosmo-api-dev.liqd.net/api/classify/'
+AI_USAGE = True

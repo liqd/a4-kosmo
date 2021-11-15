@@ -7,6 +7,8 @@ ACCOUNT_EMAIL_VERIFICATION = "optional"
 
 SITE_ID = 1
 
-CAPTCHA_TEST_ACCEPTED_ANSWER = "testpass"
-CAPTCHA_URL = "https://captcheck.netsyms.com/api.php"
-WAGTAILADMIN_BASE_URL = "http://localhost:8004"
+CAPTCHA_TEST_ACCEPTED_ANSWER = 'testpass'
+CAPTCHA_URL = 'https://captcheck.netsyms.com/api.php'
+WAGTAILADMIN_BASE_URL = 'http://localhost:8004'
+
+AI_API_AUTH_TOKEN = ''
