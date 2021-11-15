@@ -51,7 +51,9 @@ h6 {
 h1,
 h2 {
     font-family: $font-family-serif;
-    font-weight: normal;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: $brand-primary;
 }
 
 h1 {

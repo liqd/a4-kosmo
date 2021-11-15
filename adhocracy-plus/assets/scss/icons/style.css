@@ -78,3 +78,7 @@
 .fa-eye {
   font-size: 1.05rem;
 }
+
+.font--lg {
+    font-size: 2rem !important;
+}

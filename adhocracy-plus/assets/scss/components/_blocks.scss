@@ -139,6 +139,7 @@ $block-padding-md: 7.5 * $padding;
 // coloured background block
 .block-background_cta_block .block > :first-child {
     background-color: $brand-secondary;
+    color: $text-color-inverted;
 }
 
 .block-background_cta_block .block > :last-child {
@@ -147,7 +148,7 @@ $block-padding-md: 7.5 * $padding;
 }
 
 // linked for specificty
-.btn--transparent.block-bg_btn-2 {
+.btn--transparent {
     @extend .btn--text-color-inverted;
 }
 
