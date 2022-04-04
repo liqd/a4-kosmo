@@ -7,7 +7,7 @@
 }
 
 .tablist {
-    border-bottom: 2px solid $brand-secondary;
+    border-bottom: 2px solid $brand-info;
     text-align: center;
     margin-bottom: $spacer * 2;
 }
@@ -35,7 +35,7 @@
     }
 
     &.active {
-        border-color: $brand-secondary;
+        border-color: $brand-info;
         background-color: $body-bg;
     }
 }
