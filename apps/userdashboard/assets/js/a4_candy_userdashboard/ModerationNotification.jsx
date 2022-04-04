@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import Cookies from 'js-cookie'
 import django from 'django'
+import api from './api'
+
+import { ModerationStatementForm } from './ModerationStatementForm'
 
 export default class ModerationNotification extends Component {
   constructor (props) {
@@ -8,7 +10,8 @@ export default class ModerationNotification extends Component {
 
     this.state = {
       isPending: this.props.isPending,
-      isBlocked: this.props.isBlocked
+      isBlocked: this.props.isBlocked,
+      moderatorStatement: ''
     }
   }
 
@@ -23,25 +26,31 @@ export default class ModerationNotification extends Component {
     )
   }
 
-  safeFetch = (payload) => {
-    const headers = {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRFToken': Cookies.get('csrftoken')
-    }
-    return fetch(this.props.apiUrl, {
-      method: 'PATCH',
-      headers: headers,
-      body: JSON.stringify(payload)
+  handleStatementSubmit = async (payload) => {
+    const statementApiUrl =
+      `/api/comments/${this.props.commentPk}/moderatorstatement/`
+
+    const [response, error] = await api.fetch({
+      url: statementApiUrl,
+      method: 'POST',
+      body: { statement: payload }
     })
-      .then(res => res.json())
-      .then(response => [response, undefined])
-      .catch(error => Promise.resolve([undefined, error]))
+    if (error) {
+      this.props.onChangeStatus(error)
+    } else {
+      this.props.onChangeStatus('added')
+      console.log(response)
+    }
   }
 
   async toggleIsPending () {
     const [response, error] =
-      await this.safeFetch({ is_pending: !this.state.isPending })
+      await api.fetch({
+        url: this.props.apiUrl,
+        method: 'PATCH',
+        body: { is_pending: !this.state.isPending }
+      })
+
     const alertMessage = response && response.is_pending
       ? 'unarchived'
       : 'archived'
@@ -56,7 +65,11 @@ export default class ModerationNotification extends Component {
 
   async toggleIsBlocked () {
     const [response, error] =
-      await this.safeFetch({ is_blocked: !this.state.isBlocked })
+      await api.fetch({
+        url: this.props.apiUrl,
+        method: 'PATCH',
+        body: { is_blocked: !this.state.isBlocked }
+      })
     const alertMessage = response && response.comment.is_blocked
       ? 'blocked'
       : 'unblocked'
@@ -67,6 +80,31 @@ export default class ModerationNotification extends Component {
       this.props.onChangeStatus(alertMessage)
       this.setState({ isBlocked: response.comment.is_blocked })
     }
+  }
+
+  toggleModerationStatementForm (e) {
+    const newModerationStatementForm = !this.state.moderationStatementForm
+    this.setState({
+      moderationStatementForm: newModerationStatementForm
+    })
+  }
+
+  componentDidMount () {
+    const moderationStatementApiUrl =
+      `/api/comments/${this.props.commentPk}/moderatorstatement/`
+
+    api.fetch({
+      url: moderationStatementApiUrl,
+      method: 'GET'
+    }).then(([response, error]) => {
+      if (error) {
+        this.props.onChangeStatus(error)
+      } else {
+        response.length > 0 && this.setState({
+          moderatorStatement: response[0].statement
+        })
+      }
+    })
   }
 
   render () {
@@ -142,7 +180,11 @@ export default class ModerationNotification extends Component {
         </div>
         <div className={'mt-3 d-flex justify-content-' + (!this.state.isPending && !this.state.isBlocked ? 'end' : 'between')}>
           {this.state.isPending
-            ? <><button className="btn btn--none" type="button"><i className="fas fa-reply" aria-hidden="true" />{replyText}</button>
+            ? <>
+              <button className="btn btn--none" type="button" onClick={() => this.toggleModerationStatementForm()} disabled={this.state.moderatorStatement}>
+                <i className="fas fa-reply" aria-hidden="true" />
+                {replyText}
+              </button>
               <button className="btn btn--none" type="button" onClick={() => this.toggleIsBlocked()}>
                 <i className="fas fa-ban" aria-hidden="true" />
                 {this.state.isBlocked ? unblockText : blockText}
@@ -152,6 +194,13 @@ export default class ModerationNotification extends Component {
               <button className="btn btn--none" type="button" onClick={() => this.toggleIsPending()}><i className="fas fa-archive me-1" aria-hidden="true" />{unarchiveText}</button>
             </> /* eslint-disable-line react/jsx-closing-tag-location */}
         </div>
+        {this.state.moderationStatementForm &&
+          <ModerationStatementForm
+            onStatementSubmit={this.handleStatementSubmit}
+            initialStatement={this.state.moderatorStatement}
+          />}
+        {this.state.moderatorStatement &&
+          <div>{this.state.moderatorStatement}</div>}
       </div>
     )
   }
