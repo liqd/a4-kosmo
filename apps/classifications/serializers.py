@@ -17,8 +17,8 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['comment_url', 'user_name', 'user_image', 'user_profile_url',
-                  'is_blocked']
+        fields = ['pk', 'comment_url', 'user_name', 'user_image',
+                  'user_profile_url', 'is_blocked']
 
     def get_comment_url(self, instance):
         return instance.get_absolute_url()
