@@ -133,6 +133,7 @@ export default class ModerationNotificationList extends Component {
                     <ModerationNotification
                       apiUrl={item.api_url}
                       classifications={item.classifications}
+                      commentPk={item.comment.pk}
                       commentText={item.comment_text}
                       commentUrl={item.comment.comment_url}
                       created={item.created}
