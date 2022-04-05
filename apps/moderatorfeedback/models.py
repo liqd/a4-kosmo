@@ -58,9 +58,13 @@ class Moderateable(models.Model):
 class ModeratorCommentStatement(UserGeneratedContentModel):
     statement = RichTextField(
         blank=True,
+        # Translators: kosmo
         verbose_name=_('Moderator feedback'),
     )
     comment = models.OneToOneField(
         Comment,
         on_delete=models.CASCADE
     )
+
+    def __str__(self):
+        return ('{} - {}').format(self.comment.id, self.statement)

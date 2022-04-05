@@ -34,6 +34,7 @@ from apps.interactiveevents.api import LikesViewSet
 from apps.interactiveevents.api import LiveQuestionViewSet
 from apps.interactiveevents.routers import LikesDefaultRouter
 from apps.moderatorfeedback.api import ModeratorCommentStatementViewSet
+from apps.moderatorfeedback.routers import FeedbackDetailDefaultRouter
 from apps.moderatorremark.api import ModeratorRemarkViewSet
 from apps.organisations.sitemaps import organisations_sitemap_index
 from apps.projects.api import AppModuleViewSet
@@ -53,8 +54,6 @@ router.register(r'app-modules', AppModuleViewSet,
                 basename='app-modules')
 router.register(r'moderationprojects', ModerationProjectsViewSet,
                 basename='moderationprojects')
-router.register(r'moderatorcomment', ModeratorCommentStatementViewSet,
-                basename='moderatorcomment')
 
 module_router = a4routers.ModuleDefaultRouter()
 # FIXME: rename to 'chapters'
@@ -71,6 +70,10 @@ moderation_router.register(r'userclassifications', UserClassificationViewSet,
                            basename='userclassifications')
 moderation_router.register(r'aiclassifications', AIClassificationViewSet,
                            basename='aiclassifications')
+
+feedback_router = FeedbackDetailDefaultRouter()
+feedback_router.register(r'moderatorcomment', ModeratorCommentStatementViewSet,
+                         basename='moderatorcomment')
 
 orga_router = a4routers.OrganisationDefaultRouter()
 
