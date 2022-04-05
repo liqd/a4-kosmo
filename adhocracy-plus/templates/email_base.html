@@ -5,36 +5,34 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{% block subject %}{% endblock %}</title>
   </head>
-<body style="margin: 0; padding: 0; min-width: 100% !important; background: #f7f7f7;">
-  <div style="margin: 20px auto; margin-top: 100px; padding: 20px; width: 100%; max-width: 630px; background-color: #fff;">
+<body style="margin: 0; padding: 0; min-width: 100% !important; background: #edf0f1;">
+  <div style="margin: 100px auto 0; width: 100%; max-width: 630px; height: 140px; background-color: #2a2077; padding: 0 20px; display: flex; justify-content: center">
+      {% if organisation and organisation.logo %}
+      <div style="width: 100px; height: 140px; display: flex; align: center">
+          <img src="cid:organisation_logo" style="width: 100px; object-fit: contain" alt="{{ organisation.name }} logo" />
+      </div>
+      {% else %}
+      <div  style="width: 150px; height: 140px; display: flex; align: center">
+          <img src="cid:logo" style="width: 150px; object-fit: contain" alt="kosmo logo" />
+      </div>
+      {% endif %}
+  </div>
+  <div style="margin: 0 auto 20px; padding: 20px; width: 100%; max-width: 630px; background-color: #fff;">
       <table width="100%" border="0" cellpadding="0" cellspacing="0"
            style="width: 100%; max-width: 600px; margin: auto;">
-    <tr>
-            <td style="padding: 0px; position: relative; top: -4.5em;" align="center">
-                    {% if organisation and organisation.logo %}
-                    <div style="width: 100px; height: 100px; box-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.08); background-color: #ffffff;">
-                        <img src="cid:organisation_logo" height="80" width="80" alt="{{ organisation.name }} logo" style="margin: 10px;" />
-                    </div>
-                    {% else %}
-                    <div  style="width: 150px; height: 100px; box-shadow: 0 2px 18px 0 rgba(0, 0, 0, 0.08); background-color: #ffffff;">
-                        <img src="cid:logo" height="80" alt="kosmo logo" style="margin: 10px;" />
-                    </div>
-                    {% endif %}
-            </td>
-     </tr>
       <tr>
-          <td style="text-align: center; position: relative; top: -2.5em;" align="center">
-              <h2>{% block headline %}{% endblock %}</h2>
+          <td style="text-align: center; position: relative; padding-top: 3em" align="center">
+              <h2 style="color: #2a2077;">{% block headline %}{% endblock %}</h2>
           </td>
       </tr>
       <tr>
-          <td style= "text-align: center; position: relative; top: -2.5em;" align="center">
-              <h3 style="color: #818181;">
+          <td style= "text-align: center; position: relative;" align="center">
+              <h3 style="color: #2a2077;">
               {% block sub-headline %}{% endblock %}</h3>
           </td>
       </tr>
       <tr>
-          <td style="text-align: center; position: relative; top: -1.5em;" align="center">
+          <td style="position: relative;">
             <p>
               {% block greeting %}
               {% trans 'Hello' %},
@@ -49,9 +47,9 @@
       </tr>
       {% block cta %}
       <tr>
-          <td style="padding-top: 10px; padding-bottom: 10px; text-align: center;" align="center">
+          <td style="padding-top: 40px; padding-bottom: 10px; text-align: center;" align="center">
               <a href="{% block cta_url %}{% endblock %}"
-                 style="padding: 0 20px; font-weight: bold; line-height: 40px; margin: 0 auto; color: #fff;
+                 style="padding: 0 20px; line-height: 40px; margin: 0 auto; color: #fff;
                         background-color: #2a2077; border-color: #2a2077; display: inline-block;
                         vertical-align: middle; text-decoration: none;">
                  {% block cta_label %}{% endblock %}
@@ -85,7 +83,7 @@
       {% endblock %}
     </table>
     </div>
-    <div style="margin: 20px auto; padding-left: 20px; padding-right: 20px; width: 100%; max-width: 630px; background-color: #f7f7f7; ">
+    <div style="margin: 20px auto; padding-left: 20px; padding-right: 20px; width: 100%; max-width: 630px; background-color: #edf0f1; ">
         <table width="100%" border="0" cellpadding="0" cellspacing="0"
            style="width: 100%; max-width: 600px; margin: auto;">
         <tr>
