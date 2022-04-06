@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
+from django.urls import reverse
 
 from adhocracy4.actions.models import Action
 from adhocracy4.actions.verbs import Verbs
@@ -64,6 +65,7 @@ class Command(BaseCommand):
         self._send_notification_event_upcoming()
         self._send_notification_phase()
         self._send_notification_project_created()
+        self._send_notifications_blocked_comment()
 
         self._send_report_mails()
 
@@ -165,6 +167,26 @@ class Command(BaseCommand):
             receiver=[self.user],
             template_name=notification_emails.
             NotifyInitiatorsOnProjectCreatedEmail.template_name
+        )
+
+    def _send_notifications_blocked_comment(self):
+        # Send notification when comment is blocked
+        comment = Comment.objects.first()
+        netiquette_url = ''
+        organisation = comment.project.organisation
+        if organisation.netiquette:
+            netiquette_url = reverse('organisation-netiquette', kwargs={
+                'organisation_slug': organisation.slug
+            })
+        TestEmail.send(
+            comment,
+            module=comment.module,
+            project=comment.project,
+            netiquette_url=netiquette_url,
+            creator=self.user,
+            receiver=[self.user],
+            template_name=notification_emails.
+            NotifyCreatorOnModeratorBlocked.template_name
         )
 
     def _send_report_mails(self):
