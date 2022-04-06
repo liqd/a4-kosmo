@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
+from django.urls import reverse
 
 from adhocracy4.actions.models import Action
 from adhocracy4.actions.verbs import Verbs
@@ -66,6 +67,13 @@ class Command(BaseCommand):
         self._send_notifications_on_moderator_feedback()
         self._send_notification_event_upcoming()
         self._send_notification_phase()
+        self._send_notification_project_created()
+        self._send_notifications_blocked_comment()
+
+        self._send_report_mails()
+
+        self._send_allauth_email_confirmation()
+        self._send_allauth_password_reset()
 
         self._send_invitation_private_project()
         self._send_invitation_moderator()
@@ -176,6 +184,84 @@ class Command(BaseCommand):
             action,
             receiver=[self.user],
             template_name=notification_emails.NotifyFollowersOnPhaseStartedEmail.template_name,
+        )
+
+    def _send_notification_project_created(self):
+        project = Project.objects.first()
+        TestEmail.send(
+            project,
+            project=project,
+            creator=self.user,
+            receiver=[self.user],
+            template_name=notification_emails.
+            NotifyInitiatorsOnProjectCreatedEmail.template_name
+        )
+
+    def _send_notifications_blocked_comment(self):
+        # Send notification when comment is blocked
+        comment = Comment.objects.first()
+        netiquette_url = ''
+        organisation = comment.project.organisation
+        if organisation.netiquette:
+            netiquette_url = reverse('organisation-netiquette', kwargs={
+                'organisation_slug': organisation.slug
+            })
+        TestEmail.send(
+            comment,
+            module=comment.module,
+            project=comment.project,
+            netiquette_url=netiquette_url,
+            creator=self.user,
+            receiver=[self.user],
+            template_name=notification_emails.
+            NotifyCreatorOnModeratorBlocked.template_name
+        )
+
+    def _send_report_mails(self):
+        report = Report.objects.first()
+        if not report:
+            self.stderr.write('At least on report is required')
+            return
+
+        TestEmail.send(
+            report,
+            receiver=[self.user],
+            template_name=reports_emails.ReportModeratorEmail.template_name
+        )
+
+    def _send_allauth_password_reset(self):
+        context = {"current_site": 'http://example.com/...',
+                   "user": self.user,
+                   "password_reset_url": 'http://example.com/...',
+                   "request": None,
+                   "username": self.user.username}
+
+        TestEmail.send(self.user,
+                       receiver=[self.user],
+                       template_name='account/email/password_reset_key',
+                       **context
+                       )
+
+    def _send_allauth_email_confirmation(self):
+        context = {
+            "user": self.user,
+            "activate_url": 'http://example.com/...',
+            "current_site": 'http://example.com/...',
+            "key": 'the1454key',
+        }
+
+        TestEmail.send(
+            self.user,
+            receiver=[self.user],
+            template_name='account/email/email_confirmation_signup',
+            **context
+        )
+
+        TestEmail.send(
+            self.user,
+            receiver=[self.user],
+            template_name='account/email/email_confirmation',
+            **context
         )
 
     def _send_invitation_private_project(self):

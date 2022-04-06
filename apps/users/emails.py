@@ -18,6 +18,7 @@ PROJECT_LINK_TEXT = _(
     "If you no longer want to receive notifications about "
     "this project, unsubscribe from the {}project{}."
 )
+NETIQUETTE_LINK_TEXT = _('It does not correspond to the {}netiquette{}.')
 
 
 class EmailAplus(Email):
@@ -68,6 +69,10 @@ class EmailAplus(Email):
                 if project:
                     context["project_link"] = self.get_html_link(
                         PROJECT_LINK_TEXT, project.get_absolute_url()
+                    )
+                if 'netiquette_url' in context and context['netiquette_url']:
+                    context['netiquette_link'] = self.get_html_link(
+                        NETIQUETTE_LINK_TEXT, context['netiquette_url']
                     )
 
             parts = []
