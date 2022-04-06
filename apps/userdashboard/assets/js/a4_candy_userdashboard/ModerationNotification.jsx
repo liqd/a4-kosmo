@@ -4,6 +4,8 @@ import api from './api'
 
 import { ModerationStatementForm } from './ModerationStatementForm'
 
+import { ModerationStatement } from './ModerationStatement'
+
 export default class ModerationNotification extends Component {
   constructor (props) {
     super(props)
@@ -199,8 +201,11 @@ export default class ModerationNotification extends Component {
             onStatementSubmit={this.handleStatementSubmit}
             initialStatement={this.state.moderatorStatement}
           />}
-        {this.state.moderatorStatement &&
-          <div>{this.state.moderatorStatement}</div>}
+        {this.state.hasStatement &&
+          <ModerationStatement
+            statementText="test"
+            statementEdited="Last edit was on 23.04.2022"
+          />}
       </div>
     )
   }
