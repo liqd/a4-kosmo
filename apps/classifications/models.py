@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from multiselectfield import MultiSelectField
 
 from adhocracy4.comments.models import Comment
 from adhocracy4.models import base
@@ -7,6 +8,10 @@ from adhocracy4.models import base
 CLASSIFICATION_CHOICES = (
     # Translators: kosmo
     ('OFFENSIVE', _('offensive')),
+    # Translators: kosmo
+    ('ENGAGING', _('engaging')),
+    # Translators: kosmo
+    ('FACTCLAIMING', _('fact claiming')),
     # Translators: kosmo
     ('OTHER', _('other')),
 )
@@ -24,8 +29,8 @@ class Classification(models.Model):
 
     is_pending = models.BooleanField(default=True)
 
-    classification = models.CharField(max_length=50,
-                                      choices=CLASSIFICATION_CHOICES)
+    classifications = MultiSelectField(max_length=50,
+                                       choices=CLASSIFICATION_CHOICES)
 
     comment_text = models.TextField(max_length=4000)
 
