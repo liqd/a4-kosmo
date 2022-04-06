@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import Cookies from 'js-cookie'
 import django from 'django'
 
+import { ModerationStatement } from './ModerationStatement'
+
 export default class ModerationNotification extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
       isPending: this.props.isPending,
-      isBlocked: this.props.isBlocked
+      isBlocked: this.props.isBlocked,
+      hasStatement: true
     }
   }
 
@@ -151,6 +154,11 @@ export default class ModerationNotification extends Component {
               <button className="btn btn--none" type="button" onClick={() => this.toggleIsPending()}><i className="fas fa-archive me-1" aria-hidden="true" />{unarchiveText}</button>
             </> /* eslint-disable-line react/jsx-closing-tag-location */}
         </div>
+        {this.state.hasStatement &&
+          <ModerationStatement
+            statementText="test"
+            statementEdited="Last edit was on 23.04.2022"
+          />}
       </div>
     )
   }
