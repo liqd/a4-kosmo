@@ -70,12 +70,12 @@ export default class ModerationNotification extends Component {
   }
 
   render () {
-    const { classification, commentText, commentUrl, created, userImage, userName, userProfileUrl, aiClassified } = this.props
+    const { classifications, commentText, commentUrl, created, userImage, userName, userProfileUrl, aiClassified } = this.props
     const offensiveTextReport = django.pgettext('kosmo', ' posted a {}comment{} that has been reported as %(classification)s')
     const offensiveTextAI = django.pgettext('kosmo', ' posted a {}comment{} that might be %(classification)s')
     /* eslint-disable */
-    const offensiveTextReportInterpolated = django.interpolate(offensiveTextReport, { 'classification': classification }, true)
-    const offensiveTextAIInterpolated = django.interpolate(offensiveTextAI, { 'classification': classification }, true)
+    const offensiveTextReportInterpolated = django.interpolate(offensiveTextReport, { 'classification': classifications }, true)
+    const offensiveTextAIInterpolated = django.interpolate(offensiveTextAI, { 'classification': classifications }, true)
     /* eslint-enable */
     const classificationText = django.pgettext('kosmo', 'Classification: ')
     const aiText = django.pgettext('kosmo', 'AI')
@@ -128,8 +128,9 @@ export default class ModerationNotification extends Component {
         <div className="row">
           <div className="a4-comments__box--comment">
             <div className="col-12">
-              <span className="sr-only">{classificationText}{classification}</span>
-              <span className="badge a4-comments__badge a4-comments__badge--que">{classification}</span>
+              <span className="sr-only">{classificationText}{classifications}</span>
+              {classifications.map((classification, i) => (
+                <span className="badge a4-comments__badge a4-comments__badge--que" key={i}>{classification}</span>))}
               {aiClassified && <span className="badge a4-comments__badge a4-comments__badge--que">{aiText}</span>}
             </div>
           </div>
