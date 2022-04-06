@@ -33,6 +33,6 @@ class ReportViewSet(mixins.CreateModelMixin,
             classification = UserClassification(
                 creator=self.request.user,
                 comment=Comment.objects.get(pk=serializer.data['object_pk']),
-                classification='OFFENSIVE',
+                classifications=['OFFENSIVE'],
                 user_message=serializer.data['description'])
             classification.save()
