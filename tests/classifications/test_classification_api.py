@@ -58,7 +58,7 @@ def test_moderator_can_view_classifications(apiclient,
     assert len(response.data) == 1
     assert comment_text_1 in response.data[0].values()
     assert comment_1.get_absolute_url() in response.data[0]['comment'].values()
-    assert user_classification.get_classification_display() in \
+    assert user_classification.get_classifications_list() in \
            response.data[0].values()
 
     ai_classifications_url = reverse('aiclassifications-list',
@@ -68,5 +68,5 @@ def test_moderator_can_view_classifications(apiclient,
     assert len(response.data) == 1
     assert comment_text_2 in response.data[0].values()
     assert comment_2.get_absolute_url() in response.data[0]['comment'].values()
-    assert ai_classification.get_classification_display() in \
+    assert ai_classification.get_classifications_list() in \
            response.data[0].values()
