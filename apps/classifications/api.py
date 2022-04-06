@@ -7,6 +7,7 @@ from adhocracy4.api.permissions import ViewSetRulesPermission
 from adhocracy4.projects.models import Project
 from apps.classifications.models import AIClassification
 from apps.classifications.models import UserClassification
+from apps.notifications.emails import NotifyCreatorOnModeratorBlocked
 from apps.projects import helpers
 
 from . import serializers
@@ -40,6 +41,8 @@ class ClassificationViewSet(mixins.ListModelMixin,
             comment = self.get_object().comment
             comment.is_blocked = request.data['is_blocked']
             comment.save()
+            if comment.is_blocked:
+                NotifyCreatorOnModeratorBlocked.send(comment)
         return super().update(request, *args, **kwargs)
 
 
