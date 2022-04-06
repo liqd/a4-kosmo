@@ -132,7 +132,7 @@ export default class ModerationNotificationList extends Component {
                   <li className="list-item" key={i}>
                     <ModerationNotification
                       apiUrl={item.api_url}
-                      classification={item.classification}
+                      classifications={item.classifications}
                       commentText={item.comment_text}
                       commentUrl={item.comment.comment_url}
                       created={item.created}
