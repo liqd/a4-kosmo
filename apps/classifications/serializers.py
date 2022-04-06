@@ -62,17 +62,17 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class UserClassificationSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(read_only=True)
-    classification = serializers.SerializerMethodField()
+    classifications = serializers.SerializerMethodField()
     created = serializers.SerializerMethodField()
     api_url = serializers.SerializerMethodField()
 
     class Meta:
         model = UserClassification
-        fields = ['api_url', 'classification', 'comment', 'comment_text',
+        fields = ['api_url', 'classifications', 'comment', 'comment_text',
                   'created', 'is_pending', 'user_message']
 
-    def get_classification(self, instance):
-        return instance.get_classification_display()
+    def get_classifications(self, instance):
+        return instance.get_classifications_list()
 
     def get_created(self, instance):
         return instance.created.strftime('%d.%m.%y')
@@ -85,17 +85,17 @@ class UserClassificationSerializer(serializers.ModelSerializer):
 
 class AIClassificationSerializer(serializers.ModelSerializer):
     comment = CommentSerializer(read_only=True)
-    classification = serializers.SerializerMethodField()
+    classifications = serializers.SerializerMethodField()
     created = serializers.SerializerMethodField()
     api_url = serializers.SerializerMethodField()
 
     class Meta:
         model = AIClassification
-        fields = ['api_url', 'classification', 'comment', 'comment_text',
+        fields = ['api_url', 'classifications', 'comment', 'comment_text',
                   'created', 'is_pending']
 
-    def get_classification(self, instance):
-        return instance.get_classification_display()
+    def get_classifications(self, instance):
+        return instance.get_classifications_list()
 
     def get_created(self, instance):
         return instance.created.strftime('%d.%m.%y')
