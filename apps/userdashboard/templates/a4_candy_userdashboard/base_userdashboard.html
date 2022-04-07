@@ -79,13 +79,13 @@
                       <h4>{% trans 'Initiator Organisations' %}</h4>
                       {% for organisation in request.user.organisations %}
                       <div>
-                          <a class="btn btn--link text-decoration-none text-muted" href="{% url 'a4dashboard:project-list' organisation_slug=organisation.slug %}">
+                          <a class="btn btn--link text-decoration-none text-muted d-flex align-items-center" href="{% url 'a4dashboard:project-list' organisation_slug=organisation.slug %}">
                             {% if organisation.logo %}
                               <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ organisation.name }}" />
                             {% else %}
                               <i class="fas fa-edit font--lg pt-1" aria-label="{{ organisation.name }} {% trans 'Home' %}"></i>
                             {% endif %}
-                            &nbsp{{ organisation.name }}
+                            &nbsp {{ organisation.name }}
                           </a>
                       </div>
                       {% endfor %}
@@ -127,7 +127,7 @@
                         <h4>{% trans 'Organisations' %}</h4>
                         {% if view.organisations %}
                         {% for organisation in view.organisations %}
-                        <a class="btn btn--link text-decoration-none text-muted" href="{% url 'organisation' organisation_slug=organisation.slug %}">
+                        <a class="btn btn--link text-decoration-none text-muted d-flex align-items-center" href="{% url 'organisation' organisation_slug=organisation.slug %}">
                           {% if organisation.logo %}
                             <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ organisation.name }}" />
                           {% else %}
