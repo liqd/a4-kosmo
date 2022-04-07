@@ -97,10 +97,10 @@ export default class ModerationNotification extends Component {
     return (
       <div>
         <div className="row">
-          <div className="col-2 col-md-1">
+          <div className="col-sm-2 col-md-1">
             {userImageDiv}
           </div>
-          <div className="col-7 col-md-8">
+          <div className="col-sm-7 col-md-8">
             <div><i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
               {userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName}
               {aiClassified ? this.getLink(offensiveTextAIInterpolated, commentUrl) : this.getLink(offensiveTextReportInterpolated, commentUrl)}
