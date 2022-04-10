@@ -25,12 +25,14 @@ from adhocracy4.ratings.api import RatingViewSet
 from apps.classifications.api import AIClassificationViewSet
 from apps.classifications.api import UserClassificationViewSet
 from apps.contrib import views as contrib_views
+from apps.contrib.routers import CommentDefaultRouter
 from apps.contrib.sitemaps import static_sitemap_index
 from apps.documents.api import DocumentViewSet
 from apps.ideas.api import IdeaViewSet
 from apps.interactiveevents.api import LikesViewSet
 from apps.interactiveevents.api import LiveQuestionViewSet
 from apps.interactiveevents.routers import LikesDefaultRouter
+from apps.moderatorfeedback.api import ModeratorCommentStatementViewSet
 from apps.moderatorremark.api import ModeratorRemarkViewSet
 from apps.organisations.sitemaps import organisations_sitemap_index
 from apps.projects.api import AppModuleViewSet
@@ -77,6 +79,11 @@ ct_router.register(r'moderatorremarks', ModeratorRemarkViewSet,
 ct_router.register(r'comment-moderate', CommentModerateSet,
                    basename='comment-moderate')
 
+comment_router = CommentDefaultRouter()
+comment_router.register(r'moderatorstatement',
+                        ModeratorCommentStatementViewSet,
+                        basename='moderatorstatement')
+
 urlpatterns = [
     # General platform urls
     re_path(r'^django-admin/', admin.site.urls),
@@ -96,6 +103,7 @@ urlpatterns = [
     re_path(r'^api/', include(orga_router.urls)),
     re_path(r'^api/', include(likes_router.urls)),
     re_path(r'^api/', include(moderation_router.urls)),
+    re_path(r'^api/', include(comment_router.urls)),
     re_path(r'^api/', include(router.urls)),
     re_path(r'^api/login', obtain_auth_token, name='api-login'),
 
