@@ -12,6 +12,7 @@ class ModeratorCommentStatementViewSet(CommentMixin,
                                        mixins.CreateModelMixin,
                                        mixins.DestroyModelMixin,
                                        mixins.UpdateModelMixin,
+                                       mixins.ListModelMixin,
                                        viewsets.GenericViewSet):
     serializer_class = ModeratorCommentStatementSerializer
     permission_classes = (ViewSetRulesPermission,)
