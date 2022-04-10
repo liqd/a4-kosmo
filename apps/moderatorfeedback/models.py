@@ -68,3 +68,6 @@ class ModeratorCommentStatement(UserGeneratedContentModel):
     @property
     def project(self):
         return self.comment.project
+
+    def __str__(self):
+        return ('{} - {}').format(self.comment.id, self.statement)
