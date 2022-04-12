@@ -2,12 +2,17 @@ import React from 'react'
 import django from 'django'
 
 export const ModerationStatement = (props) => {
-  const statementText = props.statementText
-  const lastEditedText = props.statementEdited
+  const { statement, last_edit: lastEdit, pk } = props.statement
   const translated = {
     delete: django.pgettext('kosmo', 'delete'),
     edit: django.pgettext('kosmo', 'edit'),
-    statementTitle: django.gettext('kosmo', 'Moderation statement')
+    statementTitle: django.pgettext('kosmo', 'Moderator\'s statement'),
+    editWasOn: django.pgettext('kosmo', 'Last edit was on')
+  }
+
+  const formatDate = (date) => {
+    const editDate = new Date(date)
+    return editDate.toLocaleDateString()
   }
 
   return (
@@ -26,10 +31,22 @@ export const ModerationStatement = (props) => {
             </button>
             <ul className="dropdown-menu dropdown-menu-end">
               <li key="1">
-                <button className="dropdown-item" type="button">{translated.delete}</button>
+                <button
+                  className="dropdown-item"
+                  type="button"
+                  onClick={() => props.onDelete(pk)}
+                >
+                  {translated.delete}
+                </button>
               </li>
               <li key="2">
-                <button className="dropdown-item" type="button">{translated.edit}</button>
+                <button
+                  className="dropdown-item"
+                  type="button"
+                  onClick={() => props.onEdit(pk, statement)}
+                >
+                  {translated.edit}
+                </button>
               </li>
             </ul>
           </div>
@@ -37,12 +54,14 @@ export const ModerationStatement = (props) => {
       </div>
       <div className="row">
         <div className="col">
-          <p>{lastEditedText}</p>
+          <p>
+            {`${translated.editWasOn} ${formatDate(lastEdit)}`}
+          </p>
         </div>
       </div>
       <div className="row">
         <div className="col-12">
-          <p>{statementText}</p>
+          <p>{statement}</p>
         </div>
       </div>
     </div>
