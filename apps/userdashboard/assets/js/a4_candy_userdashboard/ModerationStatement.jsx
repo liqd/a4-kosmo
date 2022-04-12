@@ -43,7 +43,7 @@ export const ModerationStatement = (props) => {
                 <button
                   className="dropdown-item"
                   type="button"
-                  onClick={() => props.onEdit(pk, statement)}
+                  onClick={props.onEdit}
                 >
                   {translated.edit}
                 </button>
