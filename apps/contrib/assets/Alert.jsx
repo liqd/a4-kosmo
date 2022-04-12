@@ -1,7 +1,10 @@
 const React = require('react')
 const django = require('django')
 
-const Alert = ({ type, message, onClick }) => {
+const Alert = ({ type, message, onClick, timer }) => {
+  if (timer) {
+    setTimeout(onClick, timer)
+  }
   if (type) {
     return (
       <div className={`alert alert--${type}`} role="alert">
