@@ -129,23 +129,22 @@ export default class ModerationNotificationList extends Component {
             : (
               <ul className="ps-0 mt-5">
                 {filteredNotifications.map((item, i) => (
-                  <li className="list-item" key={i}>
-                    <ModerationNotification
-                      apiUrl={item.api_url}
-                      classifications={item.classifications}
-                      commentPk={item.comment.pk}
-                      commentText={item.comment_text}
-                      commentUrl={item.comment.comment_url}
-                      created={item.created}
-                      isBlocked={item.comment.is_blocked}
-                      isPending={item.is_pending}
-                      userImage={item.comment.user_image}
-                      userName={item.comment.user_name}
-                      userProfileUrl={item.comment.user_profile_url}
-                      aiClassified={item?.meta?.aiClassified}
-                      onChangeStatus={(message, type) => this.handleAlert(message, type)}
-                    />
-                  </li>
+                  <ModerationNotification
+                    key={i}
+                    apiUrl={item.api_url}
+                    classifications={item.classifications}
+                    commentPk={item.comment.pk}
+                    commentText={item.comment_text}
+                    commentUrl={item.comment.comment_url}
+                    created={item.created}
+                    isBlocked={item.comment.is_blocked}
+                    isPending={item.is_pending}
+                    userImage={item.comment.user_image}
+                    userName={item.comment.user_name}
+                    userProfileUrl={item.comment.user_profile_url}
+                    aiClassified={item?.meta?.aiClassified}
+                    onChangeStatus={(message, type) => this.handleAlert(message, type)}
+                  />
                 ))}
               </ul>
               )}
