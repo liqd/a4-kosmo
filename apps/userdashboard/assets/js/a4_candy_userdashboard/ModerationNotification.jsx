@@ -14,7 +14,8 @@ export default class ModerationNotification extends Component {
       isPending: this.props.isPending,
       isBlocked: this.props.isBlocked,
       moderatorStatementForm: false,
-      moderatorStatement: undefined
+      moderatorStatement: undefined,
+      isEditing: false
     }
   }
 
@@ -49,25 +50,25 @@ export default class ModerationNotification extends Component {
     }
   }
 
-  handleStatementEdit = async (payload) => {
-    console.log('tb implemented')
-    // const statementApiUrl =
-    //   `/api/comments/${this.props.commentPk}/moderatorstatement/`
+  handleStatementEdit = async (payload, pk) => {
+    const statementApiUrl =
+      `/api/comments/${this.props.commentPk}/moderatorstatement/${pk}/`
 
-    // const [response, error] = await api.fetch({
-    //   url: statementApiUrl,
-    //   method: 'POST',
-    //   body: { statement: payload }
-    // })
-    // if (error) {
-    //   this.props.onChangeStatus(error)
-    // } else {
-    //   this.props.onChangeStatus('added')
-    //   this.setState({
-    //     moderatorStatement: response,
-    //     moderatorStatementForm: false
-    //   })
-    // }
+    const [response, error] = await api.fetch({
+      url: statementApiUrl,
+      method: 'PUT',
+      body: { statement: payload }
+    })
+    if (error) {
+      this.props.onChangeStatus(error)
+    } else {
+      this.props.onChangeStatus('edited')
+      this.setState({
+        moderatorStatement: response,
+        moderatorStatementForm: false,
+        isEditing: false
+      })
+    }
   }
 
   handleStatementDelete = async (pk) => {
@@ -235,16 +236,18 @@ export default class ModerationNotification extends Component {
               <button className="btn btn--none" type="button" onClick={() => this.toggleIsPending()}><i className="fas fa-archive me-1" aria-hidden="true" />{unarchiveText}</button>
             </> /* eslint-disable-line react/jsx-closing-tag-location */}
         </div>
-        {this.state.moderatorStatementForm &&
+        {(this.state.moderatorStatementForm || this.state.isEditing) &&
           <ModerationStatementForm
-            onStatementSubmit={this.handleStatementSubmit}
+            onSubmit={this.handleStatementSubmit}
+            onEditSubmit={(payload, pk) => this.handleStatementEdit(payload, pk)}
             initialStatement={this.state.moderatorStatement}
+            editing={this.state.isEditing}
           />}
-        {this.state.moderatorStatement &&
+        {this.state.moderatorStatement && !this.state.isEditing &&
           <ModerationStatement
             statement={this.state.moderatorStatement}
             onDelete={this.handleStatementDelete}
-            onEdit={this.handleStatementEdit}
+            onEdit={() => this.setState({ isEditing: true })}
           />}
       </div>
     )
