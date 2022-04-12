@@ -50,9 +50,9 @@ export default class ModerationNotificationList extends Component {
     )
   }
 
-  handleAlert = (message) => {
+  handleAlert = (message, type = 'Notification') => {
     const alertMessage = typeof message === 'string'
-      ? this.getSuccessAlert(message)
+      ? this.getSuccessAlert(message, type)
       : this.getErrorAlert(message)
 
     this.setState({
@@ -63,8 +63,8 @@ export default class ModerationNotificationList extends Component {
     })
   }
 
-  getSuccessAlert = (message) => {
-    const alertMessage = `Notification ${django.gettext(message)} successfully.`
+  getSuccessAlert = (message, type) => {
+    const alertMessage = `${type} ${django.gettext(message)} successfully.`
     return {
       type: 'success',
       message: django.gettext(alertMessage)
@@ -143,7 +143,7 @@ export default class ModerationNotificationList extends Component {
                       userName={item.comment.user_name}
                       userProfileUrl={item.comment.user_profile_url}
                       aiClassified={item?.meta?.aiClassified}
-                      onChangeStatus={(isPending) => this.handleAlert(isPending)}
+                      onChangeStatus={(message, type) => this.handleAlert(message, type)}
                     />
                   </li>
                 ))}
