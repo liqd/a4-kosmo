@@ -6,9 +6,10 @@ import { ModerationStatement } from './ModerationStatement'
 import Alert from '../../../../contrib/assets/Alert'
 
 const translated = {
-  statementAdded: 'Your note was successfully delivered.',
-  statementEdited: 'Your note was successfully updated.',
-  statementDeleted: 'Your note was successfully deleted.',
+  statementAdded: 'Your statement was successfully delivered.',
+  statementEdited: 'Your statement was successfully updated.',
+  statementDeleted: 'Your statement was successfully deleted.',
+  anotherStatement: 'The comment has already been moderated. Your statement could not be saved.',
   goToDiscussion: 'Go to discussion'
 }
 
@@ -45,30 +46,47 @@ export default class ModerationNotification extends Component {
     const statementApiUrl =
       `/api/comments/${this.props.commentPk}/moderatorstatement/`
 
-    const [response, error] = await api.fetch({
+    const [getResponse] = await api.fetch({
       url: statementApiUrl,
-      method: 'POST',
-      body: { statement: payload }
+      method: 'GET'
     })
-    if (error) {
+
+    if (getResponse.length > 0) {
       this.setState({
-        alert:
-          {
-            type: 'error',
-            message: error,
-            timer: 3000
-          }
-      })
-    } else {
-      this.setState({
-        moderatorStatement: response,
+        moderatorStatement: getResponse[0],
         showModeratorStatmentForm: false,
         alert: {
-          type: 'success',
-          message: translated.statementAdded,
+          type: 'error',
+          message: translated.anotherStatement,
           timer: 3000
         }
       })
+    } else {
+      const [response, error] = await api.fetch({
+        url: statementApiUrl,
+        method: 'POST',
+        body: { statement: payload }
+      })
+      if (error) {
+        this.setState({
+          alert:
+            {
+              type: 'error',
+              message: error,
+              timer: 3000
+            }
+        })
+      } else {
+        this.setState({
+          moderatorStatement: response,
+          moderatorStatementForm: false,
+          alert: {
+            type: 'success',
+            message: translated.statementAdded,
+            timer: 3000
+          }
+        })
+      }
     }
   }
 
