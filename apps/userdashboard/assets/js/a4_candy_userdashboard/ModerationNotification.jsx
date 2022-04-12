@@ -13,7 +13,8 @@ export default class ModerationNotification extends Component {
     this.state = {
       isPending: this.props.isPending,
       isBlocked: this.props.isBlocked,
-      moderatorStatement: ''
+      moderatorStatementForm: false,
+      moderatorStatement: undefined
     }
   }
 
@@ -40,9 +41,47 @@ export default class ModerationNotification extends Component {
     if (error) {
       this.props.onChangeStatus(error)
     } else {
-      this.props.onChangeStatus('added')
-      console.log(response)
+      this.props.onChangeStatus('added', 'Statement')
+      this.setState({
+        moderatorStatement: response,
+        moderatorStatementForm: false
+      })
     }
+  }
+
+  handleStatementEdit = async (payload) => {
+    console.log('tb implemented')
+    // const statementApiUrl =
+    //   `/api/comments/${this.props.commentPk}/moderatorstatement/`
+
+    // const [response, error] = await api.fetch({
+    //   url: statementApiUrl,
+    //   method: 'POST',
+    //   body: { statement: payload }
+    // })
+    // if (error) {
+    //   this.props.onChangeStatus(error)
+    // } else {
+    //   this.props.onChangeStatus('added')
+    //   this.setState({
+    //     moderatorStatement: response,
+    //     moderatorStatementForm: false
+    //   })
+    // }
+  }
+
+  handleStatementDelete = async (pk) => {
+    const statementApiUrl =
+      `/api/comments/${this.props.commentPk}/moderatorstatement/${pk}/`
+
+    await api.fetch({
+      url: statementApiUrl,
+      method: 'DELETE'
+    })
+    this.props.onChangeStatus('deleted', 'Statement')
+    this.setState({
+      moderatorStatement: undefined
+    })
   }
 
   async toggleIsPending () {
@@ -85,9 +124,9 @@ export default class ModerationNotification extends Component {
   }
 
   toggleModerationStatementForm (e) {
-    const newModerationStatementForm = !this.state.moderationStatementForm
+    const newModerationStatementForm = !this.state.moderatorStatementForm
     this.setState({
-      moderationStatementForm: newModerationStatementForm
+      moderatorStatementForm: newModerationStatementForm
     })
   }
 
@@ -103,7 +142,7 @@ export default class ModerationNotification extends Component {
         this.props.onChangeStatus(error)
       } else {
         response.length > 0 && this.setState({
-          moderatorStatement: response[0].statement
+          moderatorStatement: response[0]
         })
       }
     })
@@ -121,7 +160,7 @@ export default class ModerationNotification extends Component {
     const aiText = django.pgettext('kosmo', 'AI')
     const blockText = django.pgettext('kosmo', ' Block')
     const unblockText = django.pgettext('kosmo', ' Unblock')
-    const replyText = django.pgettext('kosmo', ' Add Remark')
+    const replyText = django.pgettext('kosmo', ' Add statement')
     const archiveText = django.pgettext('kosmo', ' Archive')
     const unarchiveText = django.pgettext('kosmo', ' Unarchive')
     const blockedText = django.pgettext('kosmo', 'This negative comment was blocked because it is spam')
@@ -196,15 +235,16 @@ export default class ModerationNotification extends Component {
               <button className="btn btn--none" type="button" onClick={() => this.toggleIsPending()}><i className="fas fa-archive me-1" aria-hidden="true" />{unarchiveText}</button>
             </> /* eslint-disable-line react/jsx-closing-tag-location */}
         </div>
-        {this.state.moderationStatementForm &&
+        {this.state.moderatorStatementForm &&
           <ModerationStatementForm
             onStatementSubmit={this.handleStatementSubmit}
             initialStatement={this.state.moderatorStatement}
           />}
-        {this.state.hasStatement &&
+        {this.state.moderatorStatement &&
           <ModerationStatement
-            statementText="test"
-            statementEdited="Last edit was on 23.04.2022"
+            statement={this.state.moderatorStatement}
+            onDelete={this.handleStatementDelete}
+            onEdit={this.handleStatementEdit}
           />}
       </div>
     )
