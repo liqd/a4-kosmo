@@ -4,18 +4,24 @@ import django from 'django'
 import Alert from '../../../../contrib/assets/Alert'
 
 export const ModerationStatementForm = (props) => {
-  const [statement, setStatement] = useState(props.initialStatement || '')
+  const [statement, setStatement] =
+    useState((props.editing && props.initialStatement.statement) || '')
 
   const translated = {
     placeholder: django.pgettext('kosmo', 'Write statement'),
     charCount: django.pgettext('kosmo', ' characters'),
     alertError: django.gettext('kosmo', 'Your statement could not be saved, please check if there is already one saved.'),
-    submitLabel: django.pgettext('kosmo', 'submit statement')
+    submitLabel: django.pgettext('kosmo', 'submit statement'),
+    submitEditLabel: django.pgettext('kosmo', 'update statement')
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    props.onStatementSubmit(statement)
+    if (props.editing) {
+      props.onEditSubmit(statement, props.initialStatement.pk)
+    } else {
+      props.onSubmit(statement)
+    }
   }
 
   const removeAlert = (e) => {
@@ -42,7 +48,7 @@ export const ModerationStatementForm = (props) => {
             type="submit"
             className="btn a4-comments__submit-input ms-auto"
           >
-            {translated.submitLabel}
+            {props.editing ? translated.submitEditLabel : translated.submitLabel}
           </button>
         </div>
       </div>
