@@ -2573,7 +2573,7 @@ msgstr ""
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:6
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:11
 msgid "Your contribution was blocked"
-msgstr ""
+msgstr "Ihr Beitrag wurde gesperrt"
 
 #. Translators: KOSMO
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:23
@@ -2582,6 +2582,8 @@ msgid ""
 "Your contribution in the project \"%(project_name)s\" was blocked by the "
 "moderator."
 msgstr ""
+"Ihr Beitrag im Project \"%(project_name)s\" wurde von der "
+"Moderation gesperrt."
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:23
 msgid ""
@@ -2589,15 +2591,18 @@ msgid ""
 "way we create a pleasant atmosphere for an open exchange and achieve good "
 "results."
 msgstr ""
+"Bitte achten Sie beim Verfassen von Beiträgen auf diese Grundregeln. "
+"So schaffen wir gemeinsam eine angenehme Atmosphäre für einen "
+"offenen Austausch und kommen zu guten Ergebnissen kommen. "
 
 #. Translators: KOSMO
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:26
 msgid "Thank you very much!"
-msgstr ""
+msgstr "Vielen Dank!"
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:32
 msgid "Show discussion"
-msgstr ""
+msgstr "Zur Diskussion"
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:36
 #, python-format
@@ -2605,6 +2610,8 @@ msgid ""
 "This email was sent to %(receiver_mail)s. This email was sent to you because "
 "of your participation in the project."
 msgstr ""
+"Diese E-Mail wurde an %(receiver_mail)s gesendet. Diese E-Mail wurde an Sie gesendet, aufgrund "
+"Ihrer Teilnahme an dem Projekt."
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_feedback.en.email:4
 #, python-format
