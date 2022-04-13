@@ -6,11 +6,11 @@ import { ModerationStatement } from './ModerationStatement'
 import Alert from '../../../../contrib/assets/Alert'
 
 const translated = {
-  statementAdded: 'Your statement was successfully delivered.',
-  statementEdited: 'Your statement was successfully updated.',
-  statementDeleted: 'Your statement was successfully deleted.',
-  anotherStatement: 'The comment has already been moderated. Your statement could not be saved.',
-  goToDiscussion: 'Go to discussion'
+  statementAdded: django.pgettext('kosmo', 'Your statement was successfully delivered.'),
+  statementEdited: django.pgettext('kosmo', 'Your statement was successfully updated.'),
+  statementDeleted: django.pgettext('kosmo', 'Your statement was successfully deleted.'),
+  anotherStatement: django.pgettext('kosmo', 'The comment has already been moderated. Your statement could not be saved.'),
+  goToDiscussion: django.pgettext('kosmo', 'Go to discussion')
 }
 
 export default class ModerationNotification extends Component {
