@@ -20,7 +20,7 @@ export default class ModerationNotification extends Component {
     this.state = {
       isPending: this.props.isPending,
       isBlocked: this.props.isBlocked,
-      showModeratorStatmentForm: false,
+      showModeratorStatementForm: false,
       moderatorStatement: undefined,
       isEditing: false,
       alert: undefined
@@ -54,7 +54,7 @@ export default class ModerationNotification extends Component {
     if (getResponse.length > 0) {
       this.setState({
         moderatorStatement: getResponse[0],
-        showModeratorStatmentForm: false,
+        showModeratorStatementForm: false,
         alert: {
           type: 'error',
           message: translated.anotherStatement,
@@ -79,7 +79,7 @@ export default class ModerationNotification extends Component {
       } else {
         this.setState({
           moderatorStatement: response,
-          moderatorStatementForm: false,
+          showModeratorStatementForm: false,
           alert: {
             type: 'success',
             message: translated.statementAdded,
@@ -102,11 +102,15 @@ export default class ModerationNotification extends Component {
     if (error) {
       this.props.onChangeStatus(error)
     } else {
-      this.props.onChangeStatus('edited')
       this.setState({
         moderatorStatement: response,
-        showModeratorStatmentForm: false,
-        isEditing: false
+        showModeratorStatementForm: false,
+        isEditing: false,
+        alert: {
+          type: 'success',
+          message: translated.statementEdited,
+          timer: 3000
+        }
       })
     }
   }
@@ -169,9 +173,9 @@ export default class ModerationNotification extends Component {
   }
 
   toggleModerationStatementForm (e) {
-    const newModerationStatementForm = !this.state.showModeratorStatmentForm
+    const newModerationStatementForm = !this.state.showModeratorStatementForm
     this.setState({
-      showModeratorStatmentForm: newModerationStatementForm
+      showModeratorStatementForm: newModerationStatementForm
     })
   }
 
@@ -280,18 +284,18 @@ export default class ModerationNotification extends Component {
                   <button className="btn btn--none" type="button" onClick={() => this.toggleIsPending()}><i className="fas fa-archive me-1" aria-hidden="true" />{unarchiveText}</button>
                 </> /* eslint-disable-line react/jsx-closing-tag-location */}
             </div>
-            {this.state.showModeratorStatmentForm &&
+            {this.state.showModeratorStatementForm &&
               <ModerationStatementForm
                 onSubmit={this.handleStatementSubmit}
                 onEditSubmit={(payload, pk) => this.handleStatementEdit(payload, pk)}
                 initialStatement={this.state.moderatorStatement}
                 editing={this.state.isEditing}
               />}
-            {this.state.moderatorStatement && !this.state.showModeratorStatmentForm &&
+            {this.state.moderatorStatement && !this.state.showModeratorStatementForm &&
               <ModerationStatement
                 statement={this.state.moderatorStatement}
                 onDelete={this.handleStatementDelete}
-                onEdit={() => this.setState({ showModeratorStatmentForm: true, isEditing: true })}
+                onEdit={() => this.setState({ showModeratorStatementForm: true, isEditing: true })}
               />}
           </div>
         </li>
