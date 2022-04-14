@@ -16,3 +16,10 @@ rules.add_perm(
     'a4_candy_moderatorfeedback.delete_moderatorcommentstatement',
     module_predicates.is_allowed_moderate_project
 )
+
+rules.add_perm(
+    'a4_candy_moderatorfeedback.view_moderatorcommentstatement',
+    module_predicates.is_allowed_moderate_project |
+    module_predicates.is_public_context |
+    module_predicates.is_context_member
+)
