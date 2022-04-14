@@ -10,7 +10,11 @@ const translated = {
   statementEdited: django.pgettext('kosmo', 'Your statement was successfully updated.'),
   statementDeleted: django.pgettext('kosmo', 'Your statement was successfully deleted.'),
   anotherStatement: django.pgettext('kosmo', 'The comment has already been moderated. Your statement could not be saved.'),
-  goToDiscussion: django.pgettext('kosmo', 'Go to discussion')
+  goToDiscussion: django.pgettext('kosmo', 'Go to discussion'),
+  commentBlocked: django.pgettext('kosmo', 'Comment blocked successfully.'),
+  commentUnblocked: django.pgettext('kosmo', 'Comment unblocked successfully.'),
+  notificationArchived: django.pgettext('kosmo', 'Notification archived successfully.'),
+  notificationUnarchived: django.pgettext('kosmo', 'Notification unarchived successfully.')
 }
 
 export default class ModerationNotification extends Component {
@@ -152,8 +156,8 @@ export default class ModerationNotification extends Component {
       })
 
     const alertMessage = response && response.is_pending
-      ? 'unarchived'
-      : 'archived'
+      ? translated.notificationUnarchived
+      : translated.notificationArchived
 
     if (error) {
       this.props.onChangeStatus(error)
@@ -171,8 +175,8 @@ export default class ModerationNotification extends Component {
         body: { is_blocked: !this.state.isBlocked }
       })
     const alertMessage = response && response.comment.is_blocked
-      ? 'blocked'
-      : 'unblocked'
+      ? translated.commentBlocked
+      : translated.commentUnblocked
 
     if (error) {
       this.props.onChangeStatus(error)
