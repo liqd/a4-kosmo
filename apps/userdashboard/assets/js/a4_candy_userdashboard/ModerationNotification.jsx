@@ -38,11 +38,21 @@ export default class ModerationNotification extends Component {
     )
   }
 
+  // Return a react component to render the anchor, we should probably rather
+  // extent the Alert component to handle this.
+  getStatementAdded (commentUrl) {
+    return (
+      <>
+        {translated.statementAdded} <a href={commentUrl}>{translated.goToDiscussion}</a>
+      </>
+    )
+  }
+
   hideAlert () {
     this.setState({ alert: undefined })
   }
 
-  handleStatementSubmit = async (payload) => {
+  handleStatementSubmit = async (payload, commentUrl) => {
     const statementApiUrl =
       `/api/comments/${this.props.commentPk}/moderatorstatement/`
 
@@ -82,7 +92,7 @@ export default class ModerationNotification extends Component {
           showModeratorStatementForm: false,
           alert: {
             type: 'success',
-            message: translated.statementAdded,
+            message: this.getStatementAdded(commentUrl),
             timer: 3000
           }
         })
@@ -286,7 +296,7 @@ export default class ModerationNotification extends Component {
             </div>
             {this.state.showModeratorStatementForm &&
               <ModerationStatementForm
-                onSubmit={this.handleStatementSubmit}
+                onSubmit={(payload) => this.handleStatementSubmit(payload, commentUrl)}
                 onEditSubmit={(payload, pk) => this.handleStatementEdit(payload, pk)}
                 initialStatement={this.state.moderatorStatement}
                 editing={this.state.isEditing}
