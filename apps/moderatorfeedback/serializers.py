@@ -1,3 +1,5 @@
+from django.template import defaultfilters
+from django.utils import timezone
 from rest_framework import serializers
 
 from adhocracy4.comments.models import Comment
@@ -25,9 +27,14 @@ class ModeratorCommentStatementSerializer(serializers.ModelSerializer):
         return super().update(statement, validated_data)
 
     def get_last_edit(self, statement):
+        last_edit = statement.created
         if statement.modified:
-            return statement.modified
-        return statement.created
+            last_edit = statement.modified
+
+        localtime_created = timezone.localtime(last_edit)
+        last_edit_date = defaultfilters.date(localtime_created)
+        last_edit_time = defaultfilters.time(localtime_created)
+        return last_edit_date + ', ' + last_edit_time
 
 
 class CommentWithStatementSerializer(a4_serializers.CommentSerializer):
