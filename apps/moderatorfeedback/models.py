@@ -62,7 +62,8 @@ class ModeratorCommentStatement(UserGeneratedContentModel):
     )
     comment = models.OneToOneField(
         Comment,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='moderator_statement'
     )
 
     @property
