@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-13 16:58+0200\n"
+"POT-Creation-Date: 2022-04-19 11:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2531,6 +2531,7 @@ msgstr ""
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator.en.email:9
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:19
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:19
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_feedback.en.email:9
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_followers_event_upcomming.en.email:9
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_followers_phase_over_soon.en.email:9
@@ -2582,8 +2583,8 @@ msgid ""
 "Your contribution in the project \"%(project_name)s\" was blocked by the "
 "moderator."
 msgstr ""
-"Ihr Beitrag im Project \"%(project_name)s\" wurde von der "
-"Moderation gesperrt."
+"Ihr Beitrag im Project \"%(project_name)s\" wurde von der Moderation "
+"gesperrt."
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:23
 msgid ""
@@ -2591,9 +2592,9 @@ msgid ""
 "way we create a pleasant atmosphere for an open exchange and achieve good "
 "results."
 msgstr ""
-"Bitte achten Sie beim Verfassen von Beiträgen auf diese Grundregeln. "
-"So schaffen wir gemeinsam eine angenehme Atmosphäre für einen "
-"offenen Austausch und kommen zu guten Ergebnissen kommen. "
+"Bitte achten Sie beim Verfassen von Beiträgen auf diese Grundregeln. So "
+"schaffen wir gemeinsam eine angenehme Atmosphäre für einen offenen Austausch "
+"und kommen zu guten Ergebnissen kommen. "
 
 #. Translators: KOSMO
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:26
@@ -2605,13 +2606,39 @@ msgid "Show discussion"
 msgstr "Zur Diskussion"
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:36
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:38
 #, python-format
 msgid ""
 "This email was sent to %(receiver_mail)s. This email was sent to you because "
 "of your participation in the project."
 msgstr ""
-"Diese E-Mail wurde an %(receiver_mail)s gesendet. Diese E-Mail wurde an Sie gesendet, aufgrund "
-"Ihrer Teilnahme an dem Projekt."
+"Diese E-Mail wurde an %(receiver_mail)s gesendet. Diese E-Mail wurde an Sie "
+"gesendet, aufgrund Ihrer Teilnahme an dem Projekt."
+
+#. Translators: KOSMO
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:6
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:11
+msgid "Feedback of the moderation"
+msgstr "Nachricht von der Moderation"
+
+#. Translators: KOSMO
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:23
+#, python-format
+msgid ""
+"the moderator %(moderator_name)s of the project %(project_name)s gave "
+"feedback on your contribution:"
+msgstr ""
+"die Moderation %(moderator_name)s von dem Projekt %(project_name)s hat Ihren "
+"Beitrag kommentiert:"
+
+#. Translators: KOSMO
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:28
+msgid "Here you can find your contribution:"
+msgstr "Hier kommen Sie zu ihrem Beitrag:"
+
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:34
+msgid "Show contribution"
+msgstr "Beitrag anzeigen"
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_feedback.en.email:4
 #, python-format

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-13 16:58+0200\n"
+"POT-Creation-Date: 2022-04-19 11:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2531,6 +2531,7 @@ msgstr ""
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator.en.email:9
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:19
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:19
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_feedback.en.email:9
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_followers_event_upcomming.en.email:9
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_followers_phase_over_soon.en.email:9
@@ -2600,10 +2601,34 @@ msgid "Show discussion"
 msgstr ""
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:36
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:38
 #, python-format
 msgid ""
 "This email was sent to %(receiver_mail)s. This email was sent to you because "
 "of your participation in the project."
+msgstr ""
+
+#. Translators: KOSMO
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:6
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:11
+msgid "Feedback of the moderation"
+msgstr ""
+
+#. Translators: KOSMO
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:23
+#, python-format
+msgid ""
+"the moderator %(moderator_name)s of the project %(project_name)s gave "
+"feedback on your contribution:"
+msgstr ""
+
+#. Translators: KOSMO
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:28
+msgid "Here you can find your contribution:"
+msgstr ""
+
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:34
+msgid "Show contribution"
 msgstr ""
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_feedback.en.email:4
