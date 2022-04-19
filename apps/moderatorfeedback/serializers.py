@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from adhocracy4.comments.models import Comment
+from adhocracy4.comments_async import serializers as a4_serializers
 from apps.moderatorfeedback.models import ModeratorCommentStatement
 
 
@@ -26,3 +28,36 @@ class ModeratorCommentStatementSerializer(serializers.ModelSerializer):
         if statement.modified:
             return statement.modified
         return statement.created
+
+
+class CommentWithStatementSerializer(a4_serializers.CommentSerializer):
+
+    moderator_statement = ModeratorCommentStatementSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        read_only_fields = \
+            a4_serializers.CommentSerializer.Meta.read_only_fields + \
+            ('moderator_comment_statement',)
+        exclude = ('creator',)
+
+
+class CommentWithStatementListSerializer(CommentWithStatementSerializer):
+    """Serializer for the comments to be used when viewed as list."""
+
+
+class ThreadSerializer(CommentWithStatementSerializer):
+    """Serializes a comment including child comment (replies)."""
+
+    child_comments = CommentWithStatementSerializer(many=True, read_only=True)
+
+
+class ThreadListSerializer(CommentWithStatementListSerializer):
+    """
+    Serializes comments when viewed.
+
+    As list including child comment (replies).
+    """
+
+    child_comments = CommentWithStatementListSerializer(many=True,
+                                                        read_only=True)
