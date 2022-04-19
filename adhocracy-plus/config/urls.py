@@ -18,7 +18,6 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 from adhocracy4.api import routers as a4routers
 from adhocracy4.comments.api import CommentModerateSet
-from adhocracy4.comments_async.api import CommentViewSet
 from adhocracy4.follows.api import FollowViewSet
 from adhocracy4.polls.api import PollViewSet
 from adhocracy4.ratings.api import RatingViewSet
@@ -32,6 +31,7 @@ from apps.ideas.api import IdeaViewSet
 from apps.interactiveevents.api import LikesViewSet
 from apps.interactiveevents.api import LiveQuestionViewSet
 from apps.interactiveevents.routers import LikesDefaultRouter
+from apps.moderatorfeedback.api import CommentWithStatementViewSet
 from apps.moderatorfeedback.api import ModeratorCommentStatementViewSet
 from apps.moderatorremark.api import ModeratorRemarkViewSet
 from apps.organisations.sitemaps import organisations_sitemap_index
@@ -72,7 +72,8 @@ moderation_router.register(r'aiclassifications', AIClassificationViewSet,
 orga_router = a4routers.OrganisationDefaultRouter()
 
 ct_router = a4routers.ContentTypeDefaultRouter()
-ct_router.register(r'comments', CommentViewSet, basename='comments')
+ct_router.register(r'comments', CommentWithStatementViewSet,
+                   basename='comments')
 ct_router.register(r'ratings', RatingViewSet, basename='ratings')
 ct_router.register(r'moderatorremarks', ModeratorRemarkViewSet,
                    basename='moderatorremarks')
