@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import django from 'django'
 
-import Alert from '../../../../contrib/assets/Alert'
-
 export const ModerationStatementForm = (props) => {
   const [statement, setStatement] =
     useState((props.editing && props.initialStatement.statement) || '')
@@ -10,7 +8,6 @@ export const ModerationStatementForm = (props) => {
   const translated = {
     placeholder: django.pgettext('kosmo', 'Write statement'),
     charCount: django.pgettext('kosmo', ' characters'),
-    alertError: django.gettext('kosmo', 'Your statement could not be saved, please check if there is already one saved.'),
     submitLabel: django.pgettext('kosmo', 'submit statement'),
     submitEditLabel: django.pgettext('kosmo', 'update statement')
   }
@@ -24,15 +21,8 @@ export const ModerationStatementForm = (props) => {
     }
   }
 
-  const removeAlert = (e) => {
-    this.setState({
-      alert: null
-    })
-  }
-
   return (
     <form className="general-form" onSubmit={handleSubmit}>
-      <Alert onClick={() => removeAlert()}>{translated.alertError}</Alert>
       <textarea
         className="a4-comments__textarea--small form-group"
         placeholder={translated.placeholder}
