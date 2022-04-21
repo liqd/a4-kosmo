@@ -41,6 +41,7 @@ from apps.projects.api import AppModuleViewSet
 from apps.projects.api import AppProjectsViewSet
 from apps.projects.api import ModerationProjectsViewSet
 from apps.reports.api import ReportViewSet
+from apps.userdashboard.api import ModerationCommentViewSet
 from apps.userdashboard.routers import ModerationDetailDefaultRouter
 from apps.users.api import UserViewSet
 from apps.users.decorators import user_is_project_admin
@@ -74,6 +75,9 @@ moderation_router.register(r'userclassifications', UserClassificationViewSet,
                            basename='userclassifications')
 moderation_router.register(r'aiclassifications', AIClassificationViewSet,
                            basename='aiclassifications')
+
+moderation_router.register(r'comments', ModerationCommentViewSet,
+                           basename='moderationcomments')
 
 orga_router = a4routers.OrganisationDefaultRouter()
 
