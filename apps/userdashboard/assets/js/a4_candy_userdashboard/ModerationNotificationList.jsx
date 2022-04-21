@@ -114,11 +114,12 @@ export default class ModerationNotificationList extends Component {
                   <ModerationNotification
                     key={i}
                     apiUrl={this.props.moderationCommentsApiUrl + item.pk + '/'}
-                    classifications={Object.keys(item.category_counts)}
+                    classifications={Object.entries(item.category_counts).map(([k, v]) => `${k}: ${v}`)}
                     commentPk={item.pk}
                     commentText={item.comment}
                     commentUrl={item.comment_url}
                     created={item.last_edit}
+                    isModified={item.is_modified}
                     isBlocked={item.is_blocked}
                     isPending={item.has_pending_notifications}
                     userImage={item.user_image}
@@ -126,6 +127,7 @@ export default class ModerationNotificationList extends Component {
                     userProfileUrl={item.user_profile_url}
                     aiClassified={item.category_counts[aiText] > 0}
                     onChangeStatus={(message, type) => this.handleAlert(message, type)}
+                    activeNotifications={item.num_active_notifications}
                     moderatorStatement={item.moderator_statement}
                     statementApiUrl={item.statement_api_url}
                     loadData={() => this.loadData(this.state.filterItem.filter)}
