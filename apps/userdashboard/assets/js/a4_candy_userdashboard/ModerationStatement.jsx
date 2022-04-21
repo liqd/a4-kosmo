@@ -51,7 +51,7 @@ export const ModerationStatement = (props) => {
       <div className="row">
         <div className="col">
           <p>
-            {translated.editWasOn} {lastEdit}
+            {translated.editWasOn}{lastEdit}
           </p>
         </div>
       </div>
