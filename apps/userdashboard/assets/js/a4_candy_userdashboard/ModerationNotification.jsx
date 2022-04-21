@@ -186,6 +186,17 @@ export default class ModerationNotification extends Component {
     })
   }
 
+  translatedReportText (reportsFound) {
+    const tmp = django.ngettext(
+      'kosmo', '\'s {}comment{} has been reported 1 time since it\'s creation',
+      'kosmo', '\'s {}comment{} has been reported %s times since it\'s creation',
+      reportsFound
+    )
+    return (
+      django.interpolate(tmp, [reportsFound])
+    )
+  }
+
   componentDidMount () {
     const moderationStatementApiUrl =
       `/api/comments/${this.props.commentPk}/moderatorstatement/`
@@ -203,15 +214,8 @@ export default class ModerationNotification extends Component {
   }
 
   render () {
-    const { classifications, commentText, commentUrl, created, userImage, userName, userProfileUrl, aiClassified } = this.props
-    const offensiveTextReport = django.pgettext('kosmo', ' posted a {}comment{} that has been reported as %(classification)s')
-    const offensiveTextAI = django.pgettext('kosmo', ' posted a {}comment{} that might be %(classification)s')
-    /* eslint-disable */
-    const offensiveTextReportInterpolated = django.interpolate(offensiveTextReport, { 'classification': classifications }, true)
-    const offensiveTextAIInterpolated = django.interpolate(offensiveTextAI, { 'classification': classifications }, true)
-    /* eslint-enable */
+    const { classifications, commentText, commentUrl, created, isModified, userImage, userName, userProfileUrl, activeNotifications } = this.props
     const classificationText = django.pgettext('kosmo', 'Classification: ')
-    const aiText = django.pgettext('kosmo', 'AI')
     const blockText = django.pgettext('kosmo', ' Block')
     const unblockText = django.pgettext('kosmo', ' Unblock')
     const replyText = django.pgettext('kosmo', ' Add statement')
@@ -227,6 +231,13 @@ export default class ModerationNotification extends Component {
       userImageDiv = <div className="user-avatar user-avatar--small user-avatar--shadow mb-1 userindicator__btn-img" style={sectionStyle} />
     }
 
+    let commentChangeLog
+    if (isModified) {
+      commentChangeLog = django.pgettext('kosmo', 'Last edited on ' + created)
+    } else {
+      commentChangeLog = django.pgettext('kosmo', 'Created on ' + created)
+    }
+
     return (
       <>
         <li className="list-item">
@@ -236,11 +247,11 @@ export default class ModerationNotification extends Component {
                 {userImageDiv}
               </div>
               <div className="col-sm-7 col-md-8">
-                <div><i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
-                  {userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName}
-                  {aiClassified ? this.getLink(offensiveTextAIInterpolated, commentUrl) : this.getLink(offensiveTextReportInterpolated, commentUrl)}
+                <div className="pb-1"><i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
+                  <strong>{userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName}</strong>
+                  {this.getLink(this.translatedReportText(activeNotifications), commentUrl)}
                 </div>
-                <div>{created}</div>
+                <div>{commentChangeLog}</div>
               </div>
               {this.state.isPending &&
                 <div className="col">
@@ -266,7 +277,6 @@ export default class ModerationNotification extends Component {
                   <span className="sr-only">{classificationText}{classifications}</span>
                   {classifications.map((classification, i) => (
                     <span className="badge a4-comments__badge a4-comments__badge--que" key={i}>{classification}</span>))}
-                  {aiClassified && <span className="badge a4-comments__badge a4-comments__badge--que">{aiText}</span>}
                 </div>
               </div>
             </div>
@@ -275,10 +285,10 @@ export default class ModerationNotification extends Component {
                 <p>{commentText}</p>
               </div>
             </div>
-            <div className={'mt-3 d-flex justify-content-' + (!this.state.isPending && !this.state.isBlocked ? 'end' : 'between')}>
+            <div className={'my-3 d-flex justify-content-' + (!this.state.isPending && !this.state.isBlocked ? 'end' : 'between')}>
               {this.state.isPending
                 ? <>
-                  <button className="btn btn--none" type="button" onClick={() => this.toggleModerationStatementForm()} disabled={this.state.moderatorStatement}>
+                  <button className="btn btn--none ps-0" type="button" onClick={() => this.toggleModerationStatementForm()} disabled={this.state.moderatorStatement}>
                     <i className="fas fa-reply" aria-hidden="true" />
                     {replyText}
                   </button>
