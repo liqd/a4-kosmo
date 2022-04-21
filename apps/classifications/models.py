@@ -22,11 +22,6 @@ class Classification(models.Model):
     class Meta:
         abstract = True
 
-    comment = models.ForeignKey(
-        Comment,
-        on_delete=models.CASCADE
-    )
-
     is_pending = models.BooleanField(default=True)
 
     classifications = MultiSelectField(max_length=50,
@@ -46,9 +41,19 @@ class Classification(models.Model):
 
 class UserClassification(Classification, base.UserGeneratedContentModel):
 
+    comment = models.ForeignKey(
+        Comment,
+        on_delete=models.CASCADE,
+        related_name='user_classifications'
+    )
+
     user_message = models.TextField(max_length=1024)
 
 
 class AIClassification(Classification, base.TimeStampedModel):
 
-    pass
+    comment = models.ForeignKey(
+        Comment,
+        on_delete=models.CASCADE,
+        related_name='ai_classifications'
+    )
