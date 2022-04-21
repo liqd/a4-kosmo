@@ -3,7 +3,7 @@ import django from 'django'
 import api from './api'
 import { ModerationStatementForm } from './ModerationStatementForm'
 import { ModerationStatement } from './ModerationStatement'
-import Alert from '../../../../contrib/assets/Alert'
+import { alert as Alert } from 'adhocracy4'
 
 const translated = {
   statementAdded: django.pgettext('kosmo', 'Your statement was successfully delivered.'),
