@@ -3,7 +3,7 @@ import django from 'django'
 
 import ModerationNotification from './ModerationNotification'
 import { FilterBar } from './FilterBar'
-import Alert from '../../../../contrib/assets/Alert'
+import { alert as Alert } from 'adhocracy4'
 
 export default class ModerationNotificationList extends Component {
   constructor (props) {
