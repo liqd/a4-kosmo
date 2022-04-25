@@ -7,8 +7,8 @@ const getItemByFilter = (items, filter) => {
 
 export const FilterBar = (props) => {
   const filterItems = [
-    { name: 'Pending', filter: '?is_pending=true' },
-    { name: 'Archived', filter: '?is_pending=false' },
+    { name: 'Pending', filter: '?has_pending_notifications=true' },
+    { name: 'Archived', filter: '?has_pending_notifications=false' },
     { name: 'All', filter: '' }
   ]
   const [currFilterItem, setCurrFilterItem] =
