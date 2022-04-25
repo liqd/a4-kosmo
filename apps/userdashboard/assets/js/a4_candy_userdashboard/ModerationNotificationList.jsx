@@ -10,7 +10,7 @@ export default class ModerationNotificationList extends Component {
     super(props)
 
     this.state = {
-      notifications: [],
+      moderationComments: [],
       filterItem: { filter: '', name: '' },
       isLoaded: false,
       alert: undefined
@@ -31,21 +31,14 @@ export default class ModerationNotificationList extends Component {
   }
 
   async loadData (filter = undefined) {
-    const aiUrl = filter
-      ? this.props.aiclassificationApiUrl + filter
-      : this.props.aiclassificationApiUrl
-    const aiFetch = await fetch(aiUrl)
-    const aiNotifications = await aiFetch.json()
-    aiNotifications && aiNotifications.forEach(nf => { nf.meta = { aiClassified: true } })
-
-    const userUrl = filter
-      ? this.props.userclassificationApiUrl + filter
-      : this.props.userclassificationApiUrl
-    const userFetch = await fetch(userUrl)
-    const userNotifications = await userFetch.json()
+    const url = filter
+      ? this.props.moderationCommentsApiUrl + filter
+      : this.props.moderationCommentsApiUrl
+    const data = await fetch(url)
+    const moderationComments = await data.json()
 
     this.setState(
-      { notifications: [...aiNotifications, ...userNotifications] },
+      { moderationComments: moderationComments },
       () => this.setState({ isLoaded: true })
     )
   }
@@ -82,12 +75,12 @@ export default class ModerationNotificationList extends Component {
   }
 
   filterNotifications = () => {
-    return this.state.notifications.filter(notification => {
+    return this.state.moderationComments.filter(comment => {
       return this.state.filterItem.filter === ''
         ? true
         : this.state.filterItem.name === 'Pending'
-          ? notification.is_pending
-          : !notification.is_pending
+          ? comment.has_pending_notifications
+          : !comment.has_pending_notifications
     })
   }
 
@@ -101,6 +94,7 @@ export default class ModerationNotificationList extends Component {
     const { projectTitle, organisation, projectUrl } = this.props
     const byText = django.pgettext('kosmo', 'By ')
     const filteredNotifications = this.filterNotifications()
+    const aiText = django.pgettext('kosmo', 'AI')
 
     return (
       <div className="row mb-2">
@@ -130,18 +124,18 @@ export default class ModerationNotificationList extends Component {
                 {filteredNotifications.map((item, i) => (
                   <ModerationNotification
                     key={i}
-                    apiUrl={item.api_url}
-                    classifications={item.classifications}
-                    commentPk={item.comment.pk}
-                    commentText={item.comment_text}
-                    commentUrl={item.comment.comment_url}
-                    created={item.created}
-                    isBlocked={item.comment.is_blocked}
-                    isPending={item.is_pending}
-                    userImage={item.comment.user_image}
-                    userName={item.comment.user_name}
-                    userProfileUrl={item.comment.user_profile_url}
-                    aiClassified={item?.meta?.aiClassified}
+                    apiUrl={this.props.moderationCommentsApiUrl + item.pk + '/'}
+                    classifications={Object.keys(item.category_counts)}
+                    commentPk={item.pk}
+                    commentText={item.comment}
+                    commentUrl={item.comment_url}
+                    created={item.last_edit}
+                    isBlocked={item.is_blocked}
+                    isPending={item.has_pending_notifications}
+                    userImage={item.user_image}
+                    userName={item.user_name}
+                    userProfileUrl={item.user_profile_url}
+                    aiClassified={item.category_counts[aiText] > 0}
                     onChangeStatus={(message, type) => this.handleAlert(message, type)}
                   />
                 ))}
