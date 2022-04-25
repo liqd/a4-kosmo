@@ -102,11 +102,8 @@ class UserDashboardModerationDetailView(UserDashboardBaseMixin,
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['aiclassification_api_url'] = \
-            reverse('aiclassifications-list',
-                    kwargs={'project_pk': self.project.pk})
-        context['userclassification_api_url'] = \
-            reverse('userclassifications-list',
+        context['moderation_comments_api_url'] = \
+            reverse('moderationcomments-list',
                     kwargs={'project_pk': self.project.pk})
         return context
 
