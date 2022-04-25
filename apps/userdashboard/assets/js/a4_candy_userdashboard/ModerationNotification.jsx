@@ -148,14 +148,15 @@ export default class ModerationNotification extends Component {
   }
 
   async toggleIsPending () {
+    const url = this.state.isPending
+      ? this.props.apiUrl + 'archive/'
+      : this.props.apiUrl + 'unarchive/'
     const [response, error] =
       await api.fetch({
-        url: this.props.apiUrl,
-        method: 'PATCH',
-        body: { is_pending: !this.state.isPending }
+        url: url,
+        method: 'GET'
       })
-
-    const alertMessage = response && response.is_pending
+    const alertMessage = response && response.has_pending_notifications
       ? translated.notificationUnarchived
       : translated.notificationArchived
 
@@ -163,7 +164,7 @@ export default class ModerationNotification extends Component {
       this.props.onChangeStatus(error)
     } else {
       this.props.onChangeStatus(alertMessage)
-      this.setState({ isPending: response.is_pending })
+      this.setState({ isPending: response.has_pending_notifications })
     }
   }
 
@@ -174,7 +175,7 @@ export default class ModerationNotification extends Component {
         method: 'PATCH',
         body: { is_blocked: !this.state.isBlocked }
       })
-    const alertMessage = response && response.comment.is_blocked
+    const alertMessage = response && response.is_blocked
       ? translated.commentBlocked
       : translated.commentUnblocked
 
@@ -182,7 +183,7 @@ export default class ModerationNotification extends Component {
       this.props.onChangeStatus(error)
     } else {
       this.props.onChangeStatus(alertMessage)
-      this.setState({ isBlocked: response.comment.is_blocked })
+      this.setState({ isBlocked: response.is_blocked })
     }
   }
 
