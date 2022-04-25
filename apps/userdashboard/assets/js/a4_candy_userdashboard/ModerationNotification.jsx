@@ -72,7 +72,7 @@ export default class ModerationNotification extends Component {
         alert: {
           type: 'error',
           message: translated.anotherStatement,
-          timer: 3000
+          timeInMs: 3000
         }
       })
     } else {
@@ -87,7 +87,7 @@ export default class ModerationNotification extends Component {
             {
               type: 'error',
               message: error,
-              timer: 3000
+              timeInMs: 3000
             }
         })
       } else {
@@ -97,7 +97,7 @@ export default class ModerationNotification extends Component {
           alert: {
             type: 'success',
             message: this.getStatementAdded(commentUrl),
-            timer: 3000
+            timeInMs: 3000
           }
         })
       }
@@ -123,7 +123,7 @@ export default class ModerationNotification extends Component {
         alert: {
           type: 'success',
           message: translated.statementEdited,
-          timer: 3000
+          timeInMs: 3000
         }
       })
     }
@@ -142,7 +142,7 @@ export default class ModerationNotification extends Component {
       alert: {
         type: 'success',
         message: translated.statementDeleted,
-        timer: 3000
+        timeInMs: 3000
       }
     })
   }
