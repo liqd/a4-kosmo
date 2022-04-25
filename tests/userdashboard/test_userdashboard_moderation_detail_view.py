@@ -64,16 +64,10 @@ def test_moderation_dashboard_context_data(client, project_factory):
            'a4_candy_userdashboard/userdashboard_moderation_detail.html'
 
     context_data = response.context_data
-    userclassifications_api_url = reverse('userclassifications-list',
+    moderation_comments_api_url = reverse('moderationcomments-list',
                                           kwargs={'project_pk': project.pk})
-    aiclassifications_api_url = reverse('aiclassifications-list',
-                                        kwargs={'project_pk': project.pk})
-    assert 'userclassification_api_url' in context_data
-    assert userclassifications_api_url == \
-           context_data['userclassification_api_url']
-
-    assert 'aiclassification_api_url' in context_data
-    assert aiclassifications_api_url == \
-           context_data['aiclassification_api_url']
+    assert 'moderation_comments_api_url' in context_data
+    assert moderation_comments_api_url == \
+           context_data['moderation_comments_api_url']
     assert context_data['view'].project == project
     assert context_data['view'].project_url == project.get_absolute_url()
