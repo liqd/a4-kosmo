@@ -78,7 +78,10 @@ class ModerationCommentSerializer(serializers.ModelSerializer):
         category_counts = {force_str(choices_dict[classification]):
                            classifications_list.count(classification)
                            for classification in classifications_list}
-        category_counts[_('AI')] = ai_classifications.count()
+
+        num_ai_classifications = ai_classifications.count()
+        if num_ai_classifications > 0:
+            category_counts[_('AI')] = num_ai_classifications
 
         return category_counts
 
