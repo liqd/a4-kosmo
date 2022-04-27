@@ -25,7 +25,7 @@ export default class ModerationNotification extends Component {
       isPending: this.props.isPending,
       isBlocked: this.props.isBlocked,
       showModeratorStatementForm: false,
-      moderatorStatement: undefined,
+      moderatorStatement: this.props.moderatorStatement,
       isEditing: false,
       alert: undefined
     }
@@ -47,7 +47,7 @@ export default class ModerationNotification extends Component {
   getStatementAdded (commentUrl) {
     return (
       <>
-        {translated.statementAdded} <a href={commentUrl}>{translated.goToDiscussion}</a>
+        {translated.statementAdded} <a href={this.props.commentUrl}>{translated.goToDiscussion}</a>
       </>
     )
   }
@@ -56,12 +56,9 @@ export default class ModerationNotification extends Component {
     this.setState({ alert: undefined })
   }
 
-  handleStatementSubmit = async (payload, commentUrl) => {
-    const statementApiUrl =
-      `/api/comments/${this.props.commentPk}/moderatorstatement/`
-
+  handleStatementSubmit = async (payload) => {
     const [getResponse] = await api.fetch({
-      url: statementApiUrl,
+      url: this.props.statementApiUrl,
       method: 'GET'
     })
 
@@ -77,7 +74,7 @@ export default class ModerationNotification extends Component {
       })
     } else {
       const [response, error] = await api.fetch({
-        url: statementApiUrl,
+        url: this.props.statementApiUrl,
         method: 'POST',
         body: { statement: payload }
       })
@@ -96,7 +93,7 @@ export default class ModerationNotification extends Component {
           showModeratorStatementForm: false,
           alert: {
             type: 'success',
-            message: this.getStatementAdded(commentUrl),
+            message: this.getStatementAdded(),
             timeInMs: 3000
           }
         })
@@ -104,12 +101,9 @@ export default class ModerationNotification extends Component {
     }
   }
 
-  handleStatementEdit = async (payload, pk) => {
-    const statementApiUrl =
-      `/api/comments/${this.props.commentPk}/moderatorstatement/${pk}/`
-
+  handleStatementEdit = async (payload) => {
     const [response, error] = await api.fetch({
-      url: statementApiUrl,
+      url: this.props.statementApiUrl + this.state.moderatorStatement.pk + '/',
       method: 'PUT',
       body: { statement: payload }
     })
@@ -129,12 +123,9 @@ export default class ModerationNotification extends Component {
     }
   }
 
-  handleStatementDelete = async (pk) => {
-    const statementApiUrl =
-      `/api/comments/${this.props.commentPk}/moderatorstatement/${pk}/`
-
+  handleStatementDelete = async () => {
     await api.fetch({
-      url: statementApiUrl,
+      url: this.props.statementApiUrl + this.state.moderatorStatement.pk + '/',
       method: 'DELETE'
     })
     this.setState({
@@ -164,6 +155,7 @@ export default class ModerationNotification extends Component {
       this.props.onChangeStatus(error)
     } else {
       this.props.onChangeStatus(alertMessage)
+      this.props.loadData()
       this.setState({ isPending: response.has_pending_notifications })
     }
   }
@@ -301,13 +293,14 @@ export default class ModerationNotification extends Component {
             </div>
             {this.state.showModeratorStatementForm &&
               <ModerationStatementForm
-                onSubmit={(payload) => this.handleStatementSubmit(payload, commentUrl)}
-                onEditSubmit={(payload, pk) => this.handleStatementEdit(payload, pk)}
+                onSubmit={(payload) => this.handleStatementSubmit(payload)}
+                onEditSubmit={(payload) => this.handleStatementEdit(payload)}
                 initialStatement={this.state.moderatorStatement}
                 editing={this.state.isEditing}
               />}
             {this.state.moderatorStatement && !this.state.showModeratorStatementForm &&
               <ModerationStatement
+                notificationIsPending={this.state.isPending}
                 statement={this.state.moderatorStatement}
                 onDelete={this.handleStatementDelete}
                 onEdit={() => this.setState({ showModeratorStatementForm: true, isEditing: true })}
