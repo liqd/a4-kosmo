@@ -24,6 +24,7 @@ test('ModerationStatement onDelete', () => {
     <ModerationStatement
       statement={mockProps}
       onDelete={mockOnDelete}
+      notificationIsPending
     />)
   const deleteButton = document.querySelector('li button')
   fireEvent.click(deleteButton)
