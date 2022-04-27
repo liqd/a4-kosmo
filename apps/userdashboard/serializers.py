@@ -1,5 +1,4 @@
-from django.template import defaultfilters
-from django.utils import timezone
+from django.urls import reverse
 from django.utils.encoding import force_str
 from django.utils.hashable import make_hashable
 from django.utils.translation import gettext as _
@@ -8,6 +7,7 @@ from rest_framework import serializers
 
 from adhocracy4.comments.models import Comment
 from apps.classifications.models import CLASSIFICATION_CHOICES
+from apps.contrib.dates import get_date_display
 from apps.moderatorfeedback.serializers import \
     ModeratorCommentStatementSerializer
 
@@ -23,6 +23,7 @@ class ModerationCommentSerializer(serializers.ModelSerializer):
     last_edit = serializers.SerializerMethodField()
     moderator_statement = ModeratorCommentStatementSerializer(read_only=True)
     num_active_notifications = serializers.SerializerMethodField()
+    statement_api_url = serializers.SerializerMethodField()
     time_of_last_notification = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
     user_image = serializers.SerializerMethodField()
@@ -35,8 +36,8 @@ class ModerationCommentSerializer(serializers.ModelSerializer):
                   'has_pending_notifications', 'is_blocked',
                   'is_moderator_marked', 'is_modified', 'last_edit',
                   'moderator_statement', 'num_active_notifications',
-                  'pk', 'time_of_last_notification', 'user_image', 'user_name',
-                  'user_profile_url']
+                  'pk', 'statement_api_url', 'time_of_last_notification',
+                  'user_image', 'user_name', 'user_profile_url']
 
     def get_has_pending_and_archived_notifications(self, comment):
         """Return if comment has both pending and archived notifications.
@@ -88,19 +89,18 @@ class ModerationCommentSerializer(serializers.ModelSerializer):
     def get_comment_url(self, instance):
         return instance.get_absolute_url()
 
-    def _get_date_display(self, date):
-        local_date = timezone.localtime(date)
-        return '{}, {}'.format(defaultfilters.date(local_date),
-                               defaultfilters.time(local_date))
-
     def get_is_modified(self, comment):
         return comment.modified is not None
 
     def get_last_edit(self, comment):
         if comment.modified:
-            return self._get_date_display(comment.modified)
+            return get_date_display(comment.modified)
         else:
-            return self._get_date_display(comment.created)
+            return get_date_display(comment.created)
+
+    def get_statement_api_url(self, comment):
+        return reverse('moderatorstatement-list',
+                       kwargs={'comment_pk': comment.pk})
 
     def get_time_of_last_notification(self, comment):
         ai_dates = comment.ai_classifications.all().values_list(
@@ -108,7 +108,7 @@ class ModerationCommentSerializer(serializers.ModelSerializer):
         user_dates = comment.user_classifications.all().values_list(
             'created', flat=True)
 
-        return self._get_date_display(max(ai_dates.union(user_dates)))
+        return get_date_display(max(ai_dates.union(user_dates)))
 
     def get_user_name(self, comment):
         if comment.is_censored or comment.is_removed:
