@@ -14,6 +14,7 @@ from adhocracy4.reports.models import Report
 from apps.cms.contacts.models import CustomFormSubmission
 from apps.cms.contacts.models import FormPage
 from apps.ideas.models import Idea
+from apps.moderatorfeedback.models import ModeratorCommentStatement
 from apps.notifications import emails as notification_emails
 from apps.offlineevents.models import OfflineEvent
 from apps.projects import models as project_models
@@ -65,7 +66,8 @@ class Command(BaseCommand):
         self._send_notification_event_upcoming()
         self._send_notification_phase()
         self._send_notification_project_created()
-        self._send_notifications_blocked_comment()
+        self._send_notification_blocked_comment()
+        self._send_notification_moderator_comment_statement()
 
         self._send_report_mails()
 
@@ -169,9 +171,12 @@ class Command(BaseCommand):
             NotifyInitiatorsOnProjectCreatedEmail.template_name
         )
 
-    def _send_notifications_blocked_comment(self):
+    def _send_notification_blocked_comment(self):
         # Send notification when comment is blocked
         comment = Comment.objects.first()
+        if not comment:
+            self.stderr.write('At least one comment is required')
+            return
         netiquette_url = ''
         organisation = comment.project.organisation
         if organisation.netiquette:
@@ -183,10 +188,27 @@ class Command(BaseCommand):
             module=comment.module,
             project=comment.project,
             netiquette_url=netiquette_url,
-            creator=self.user,
             receiver=[self.user],
             template_name=notification_emails.
             NotifyCreatorOnModeratorBlocked.template_name
+        )
+
+    def _send_notification_moderator_comment_statement(self):
+        # Send notification when moderator comment statement is added
+        statement = ModeratorCommentStatement.objects.first()
+        if not statement:
+            self.stderr.write(
+                'At least one moderator comment statement is required')
+            return
+        TestEmail.send(
+            statement,
+            project=statement.comment.project,
+            moderator_name=statement.creator.username,
+            moderator_statement=statement.statement,
+            comment_url=statement.comment.get_absolute_url(),
+            receiver=[self.user],
+            template_name=notification_emails.
+            NotifyCreatorOnModeratorCommentStatement.template_name
         )
 
     def _send_report_mails(self):
