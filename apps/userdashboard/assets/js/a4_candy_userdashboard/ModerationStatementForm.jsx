@@ -15,7 +15,7 @@ export const ModerationStatementForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (props.editing) {
-      props.onEditSubmit(statement, props.initialStatement.pk)
+      props.onEditSubmit(statement)
     } else {
       props.onSubmit(statement)
     }
