@@ -74,16 +74,6 @@ export default class ModerationNotificationList extends Component {
     this.setState({ alert: undefined })
   }
 
-  filterNotifications = () => {
-    return this.state.moderationComments.filter(comment => {
-      return this.state.filterItem.filter === ''
-        ? true
-        : this.state.filterItem.name === 'Pending'
-          ? comment.has_pending_notifications
-          : !comment.has_pending_notifications
-    })
-  }
-
   componentWillUnmount () {
     clearInterval(this.timer)
     this.timer = null
@@ -93,7 +83,6 @@ export default class ModerationNotificationList extends Component {
     const { isLoaded } = this.state
     const { projectTitle, organisation, projectUrl } = this.props
     const byText = django.pgettext('kosmo', 'By ')
-    const filteredNotifications = this.filterNotifications()
     const aiText = django.pgettext('kosmo', 'AI')
 
     return (
@@ -121,7 +110,7 @@ export default class ModerationNotificationList extends Component {
               )
             : (
               <ul className="ps-0 mt-5">
-                {filteredNotifications.map((item, i) => (
+                {this.state.moderationComments.map((item, i) => (
                   <ModerationNotification
                     key={i}
                     apiUrl={this.props.moderationCommentsApiUrl + item.pk + '/'}
@@ -137,6 +126,9 @@ export default class ModerationNotificationList extends Component {
                     userProfileUrl={item.user_profile_url}
                     aiClassified={item.category_counts[aiText] > 0}
                     onChangeStatus={(message, type) => this.handleAlert(message, type)}
+                    moderatorStatement={item.moderator_statement}
+                    statementApiUrl={item.statement_api_url}
+                    loadData={() => this.loadData(this.state.filterItem.filter)}
                   />
                 ))}
               </ul>
