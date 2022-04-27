@@ -3,6 +3,8 @@ import django from 'django'
 import api from './api'
 import { ModerationStatementForm } from './ModerationStatementForm'
 import { ModerationStatement } from './ModerationStatement'
+import { ModerationNotificationActionsBar } from './ModerationNotificationActionsBar'
+
 import { alert as Alert } from 'adhocracy4'
 
 const translated = {
@@ -13,6 +15,8 @@ const translated = {
   goToDiscussion: django.pgettext('kosmo', 'Go to discussion'),
   commentBlocked: django.pgettext('kosmo', 'Comment blocked successfully.'),
   commentUnblocked: django.pgettext('kosmo', 'Comment unblocked successfully.'),
+  commentHighlighted: django.pgettext('kosmo', 'Comment highlighted successfully.'),
+  commentUnhighlighted: django.pgettext('kosmo', 'Comment unhighlighted successfully.'),
   notificationArchived: django.pgettext('kosmo', 'Notification archived successfully.'),
   notificationUnarchived: django.pgettext('kosmo', 'Notification unarchived successfully.')
 }
@@ -24,6 +28,7 @@ export default class ModerationNotification extends Component {
     this.state = {
       isPending: this.props.isPending,
       isBlocked: this.props.isBlocked,
+      isHighlighted: this.props.isHighlighted,
       showModeratorStatementForm: false,
       moderatorStatement: this.props.moderatorStatement,
       isEditing: false,
@@ -179,6 +184,25 @@ export default class ModerationNotification extends Component {
     }
   }
 
+  async toggleIsHighlighted () {
+    const [response, error] =
+      await api.fetch({
+        url: this.props.apiUrl,
+        method: 'PATCH',
+        body: { is_moderator_marked: !this.state.isHighlighted }
+      })
+    const alertMessage = response && response.is_moderator_marked
+      ? translated.commentHighlighted
+      : translated.commentUnhighlighted
+
+    if (error) {
+      this.props.onChangeStatus(error)
+    } else {
+      this.props.onChangeStatus(alertMessage)
+      this.setState({ isHighlighted: response.is_moderator_marked })
+    }
+  }
+
   toggleModerationStatementForm (e) {
     const newModerationStatementForm = !this.state.showModeratorStatementForm
     this.setState({
@@ -216,12 +240,7 @@ export default class ModerationNotification extends Component {
   render () {
     const { classifications, commentText, commentUrl, created, isModified, userImage, userName, userProfileUrl, activeNotifications } = this.props
     const classificationText = django.pgettext('kosmo', 'Classification: ')
-    const blockText = django.pgettext('kosmo', ' Block')
-    const unblockText = django.pgettext('kosmo', ' Unblock')
-    const replyText = django.pgettext('kosmo', ' Add statement')
     const archiveText = django.pgettext('kosmo', ' Archive')
-    const unarchiveText = django.pgettext('kosmo', ' Unarchive')
-    const blockedText = django.pgettext('kosmo', 'This negative comment was blocked because it is spam')
 
     let userImageDiv
     if (userImage) {
@@ -285,22 +304,16 @@ export default class ModerationNotification extends Component {
                 <p>{commentText}</p>
               </div>
             </div>
-            <div className={'my-3 d-flex justify-content-' + (!this.state.isPending && !this.state.isBlocked ? 'end' : 'between')}>
-              {this.state.isPending
-                ? <>
-                  <button className="btn btn--none ps-0" type="button" onClick={() => this.toggleModerationStatementForm()} disabled={this.state.moderatorStatement}>
-                    <i className="fas fa-reply" aria-hidden="true" />
-                    {replyText}
-                  </button>
-                  <button className="btn btn--none" type="button" onClick={() => this.toggleIsBlocked()}>
-                    <i className="fas fa-ban" aria-hidden="true" />
-                    {this.state.isBlocked ? unblockText : blockText}
-                  </button>
-                </> /* eslint-disable-line react/jsx-closing-tag-location */
-                : <>{this.state.isBlocked && <div className="fw-bold"><i className="fas fa-exclamation-circle me-1" aria-hidden="true" />{blockedText}</div>}
-                  <button className="btn btn--none" type="button" onClick={() => this.toggleIsPending()}><i className="fas fa-archive me-1" aria-hidden="true" />{unarchiveText}</button>
-                </> /* eslint-disable-line react/jsx-closing-tag-location */}
-            </div>
+            <ModerationNotificationActionsBar
+              isPending={this.state.isPending}
+              isDisabled={this.state.moderatorStatement}
+              isBlocked={this.state.isBlocked}
+              isHighlighted={this.state.isHighlighted}
+              onToggleForm={() => this.toggleModerationStatementForm()}
+              onToggleBlock={() => this.toggleIsBlocked()}
+              onToggleHighlight={() => this.toggleIsHighlighted()}
+              onTogglePending={() => this.toggleIsPending()}
+            />
             {this.state.showModeratorStatementForm &&
               <ModerationStatementForm
                 onSubmit={(payload) => this.handleStatementSubmit(payload)}
