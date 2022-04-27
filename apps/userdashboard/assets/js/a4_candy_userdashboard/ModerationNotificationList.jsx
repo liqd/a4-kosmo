@@ -121,6 +121,7 @@ export default class ModerationNotificationList extends Component {
                     created={item.last_edit}
                     isModified={item.is_modified}
                     isBlocked={item.is_blocked}
+                    isHighlighted={item.is_moderator_marked}
                     isPending={item.has_pending_notifications}
                     userImage={item.user_image}
                     userName={item.user_name}
