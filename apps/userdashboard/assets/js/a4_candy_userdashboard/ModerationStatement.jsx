@@ -30,6 +30,7 @@ export const ModerationStatement = (props) => {
                   <button
                     className="dropdown-item"
                     type="button"
+                    id="delete-input"
                     onClick={() => props.onDelete(pk)}
                   >
                     {translated.delete}
@@ -39,6 +40,7 @@ export const ModerationStatement = (props) => {
                   <button
                     className="dropdown-item"
                     type="button"
+                    id="edit-input"
                     onClick={props.onEdit}
                   >
                     {translated.edit}
