@@ -27,6 +27,7 @@ export const ModerationNotificationActionsBar = (props) => {
     ? (
       <div className="my-3 d-flex justify-content-between">
         <button
+          id="moderation-notification-actions-bar-button-reply"
           className="btn btn--none ps-0"
           type="button"
           onClick={onToggleForm}
@@ -37,6 +38,7 @@ export const ModerationNotificationActionsBar = (props) => {
         </button>
         <div>
           <button
+            id="moderation-notification-actions-bar-button-highlight"
             className="btn btn--none"
             type="button"
             onClick={onToggleHighlight}
@@ -46,6 +48,7 @@ export const ModerationNotificationActionsBar = (props) => {
             {isHighlighted ? translated.unhighlightText : translated.highlightText}
           </button>
           <button
+            id="moderation-notification-actions-bar-button-block"
             className="btn btn--none"
             type="button"
             onClick={onToggleBlock}
@@ -64,6 +67,7 @@ export const ModerationNotificationActionsBar = (props) => {
             {translated.blockedText}
           </div>}
         <button
+          id="moderation-notification-actions-bar-button-pending"
           className="btn btn--none"
           type="button"
           onClick={onTogglePending}
