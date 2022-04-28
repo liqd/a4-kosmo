@@ -82,6 +82,10 @@ class ModerationCommentViewSet(mixins.ListModelMixin,
             comment.save()
             if comment.is_blocked:
                 NotifyCreatorOnModeratorBlocked.send(comment)
+        elif 'is_moderator_marked' in self.request.data:
+            comment = self.get_object()
+            comment.is_moderator_marked = request.data['is_moderator_marked']
+            comment.save()
         return super().update(request, *args, **kwargs)
 
     @action(detail=True)
