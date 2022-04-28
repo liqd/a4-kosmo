@@ -8,7 +8,9 @@ test('ModerationStatement with optimal values', () => {
     last_edit: '20. April 2022, 3 PM',
     pk: 1
   }
-  render(<ModerationStatement statement={mockProps} />)
+  render(
+    <ModerationStatement statement={mockProps} />
+  )
   const statement = screen.getByText('test statement')
   expect(statement).toBeTruthy()
 })
@@ -20,13 +22,31 @@ test('ModerationStatement onDelete', () => {
     pk: 1
   }
   const mockOnDelete = jest.fn()
-  render(
+  const tree = render(
     <ModerationStatement
       statement={mockProps}
       onDelete={mockOnDelete}
       notificationIsPending
     />)
-  const deleteButton = document.querySelector('li button')
+  const deleteButton = tree.container.querySelector('#delete-input')
   fireEvent.click(deleteButton)
   expect(mockOnDelete).toHaveBeenCalled()
+})
+
+test('ModerationStatement onEdit', () => {
+  const mockProps = {
+    statement: 'test statement',
+    last_edit: '20. April 2022, 3 PM',
+    pk: 1
+  }
+  const mockOnEdit = jest.fn()
+  const tree = render(
+    <ModerationStatement
+      statement={mockProps}
+      onEdit={mockOnEdit}
+      notificationIsPending
+    />)
+  const editButton = tree.container.querySelector('#edit-input')
+  fireEvent.click(editButton)
+  expect(mockOnEdit).toHaveBeenCalled()
 })
