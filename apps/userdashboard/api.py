@@ -17,6 +17,8 @@ from adhocracy4.comments.models import Comment
 from adhocracy4.projects.models import Project
 from apps.classifications.models import AIClassification
 from apps.classifications.models import UserClassification
+from apps.classifications.serializers import AIClassificationSerializer
+from apps.classifications.serializers import UserClassificationSerializer
 from apps.notifications.emails import NotifyCreatorOnModeratorBlocked
 from apps.projects import helpers
 
@@ -34,6 +36,7 @@ class PendingNotificationsFilter(FilterSet):
 
 class ModerationCommentViewSet(mixins.ListModelMixin,
                                mixins.UpdateModelMixin,
+                               mixins.RetrieveModelMixin,
                                viewsets.GenericViewSet):
 
     serializer_class = serializers.ModerationCommentSerializer
@@ -111,3 +114,21 @@ class ModerationCommentViewSet(mixins.ListModelMixin,
         serializer = self.get_serializer(comment)
 
         return Response(data=serializer.data, status=200)
+
+    @action(detail=True)
+    def aiclassifications(self, request, **kwargs):
+        comment = self.get_object()
+        classifications = comment.ai_classifications.all()
+
+        serializer = AIClassificationSerializer(classifications, many=True)
+
+        return Response(serializer.data, status=200)
+
+    @action(detail=True)
+    def userclassifications(self, request, **kwargs):
+        comment = self.get_object()
+        classifications = comment.user_classifications.all()
+
+        serializer = UserClassificationSerializer(classifications, many=True)
+
+        return Response(serializer.data, status=200)
