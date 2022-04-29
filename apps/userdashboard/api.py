@@ -76,12 +76,8 @@ class ModerationCommentViewSet(mixins.ListModelMixin,
         ).order_by('-created')
 
     def update(self, request, *args, **kwargs):
-        if 'is_blocked' in self.request.data:
-            comment = self.get_object()
-            comment.is_blocked = request.data['is_blocked']
-            comment.save()
-            if comment.is_blocked:
-                NotifyCreatorOnModeratorBlocked.send(comment)
+        if 'is_blocked' in self.request.data and request.data['is_blocked']:
+            NotifyCreatorOnModeratorBlocked.send(self.get_object())
         return super().update(request, *args, **kwargs)
 
     @action(detail=True)
