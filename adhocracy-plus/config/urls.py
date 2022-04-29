@@ -26,7 +26,6 @@ from apps.account.api import AccountViewSet
 from apps.classifications.api import AIClassificationViewSet
 from apps.classifications.api import UserClassificationViewSet
 from apps.contrib import views as contrib_views
-from apps.contrib.routers import CommentDefaultRouter
 from apps.contrib.sitemaps import static_sitemap_index
 from apps.documents.api import DocumentViewSet
 from apps.ideas.api import IdeaViewSet
@@ -71,11 +70,6 @@ likes_router = LikesDefaultRouter()
 likes_router.register(r'likes', LikesViewSet, basename='likes')
 
 moderation_router = ModerationDetailDefaultRouter()
-moderation_router.register(r'userclassifications', UserClassificationViewSet,
-                           basename='userclassifications')
-moderation_router.register(r'aiclassifications', AIClassificationViewSet,
-                           basename='aiclassifications')
-
 moderation_router.register(r'comments', ModerationCommentViewSet,
                            basename='moderationcomments')
 
@@ -90,7 +84,7 @@ ct_router.register(r'moderatorremarks', ModeratorRemarkViewSet,
 ct_router.register(r'comment-moderate', CommentModerateSet,
                    basename='comment-moderate')
 
-comment_router = CommentDefaultRouter()
+comment_router = a4routers.CommentDefaultRouter()
 comment_router.register(r'moderatorstatement',
                         ModeratorCommentStatementViewSet,
                         basename='moderatorstatement')
