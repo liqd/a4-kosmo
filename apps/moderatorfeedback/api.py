@@ -1,9 +1,9 @@
 from rest_framework import mixins
 from rest_framework import viewsets
 
+from adhocracy4.api.mixins import CommentMixin
 from adhocracy4.api.permissions import ViewSetRulesPermission
 from adhocracy4.comments_async import api as a4_api
-from apps.contrib.api import CommentMixin
 from apps.moderatorfeedback.models import ModeratorCommentStatement
 from apps.moderatorfeedback.serializers import \
     ModeratorCommentStatementSerializer
