@@ -43,6 +43,7 @@ class ModerationCommentViewSet(mixins.ListModelMixin,
     permission_classes = (ViewSetRulesPermission,)
     filter_backends = (DjangoFilterBackend,)
     filterset_class = PendingNotificationsFilter
+    lookup_field = 'pk'
 
     def dispatch(self, request, *args, **kwargs):
         self.project_pk = kwargs.get('project_pk', '')
@@ -132,3 +133,11 @@ class ModerationCommentViewSet(mixins.ListModelMixin,
         serializer = UserClassificationSerializer(classifications, many=True)
 
         return Response(serializer.data, status=200)
+
+    @property
+    def rules_method_map(self):
+        return ViewSetRulesPermission.default_rules_method_map._replace(
+            GET='a4_candy_userdashboard.view_moderation_comment',
+            PUT='a4_candy_userdashboard.change_moderation_comment',
+            PATCH='a4_candy_userdashboard.change_moderation_comment'
+        )
