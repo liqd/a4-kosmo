@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import django from 'django'
 import api from './api'
 import { ModerationStatementForm } from './ModerationStatementForm'
 import { ModerationStatement } from './ModerationStatement'
 import { ModerationNotificationActionsBar } from './ModerationNotificationActionsBar'
-
 import { alert as Alert } from 'adhocracy4'
 
 const translated = {
@@ -21,22 +20,13 @@ const translated = {
   notificationUnarchived: django.pgettext('kosmo', 'Notification unarchived successfully.')
 }
 
-export default class ModerationNotification extends Component {
-  constructor (props) {
-    super(props)
+export const ModerationNotification = (props) => {
+  const { notification } = props
+  const [showStatementForm, setShowStatementForm] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [alert, setAlert] = useState()
 
-    this.state = {
-      isPending: this.props.isPending,
-      isBlocked: this.props.isBlocked,
-      isHighlighted: this.props.isHighlighted,
-      showModeratorStatementForm: false,
-      moderatorStatement: this.props.moderatorStatement,
-      isEditing: false,
-      alert: undefined
-    }
-  }
-
-  getLink (string, url) {
+  function getLink (string, url) {
     const splitted = string.split('{}')
     return (
       <span>
@@ -48,105 +38,102 @@ export default class ModerationNotification extends Component {
   }
 
   // Return a react component to render the anchor, we should probably rather
-  // extent the Alert component to handle this.
-  getStatementAdded (commentUrl) {
+  // extent the Alert component to handle
+  function getStatementAdded (commentUrl) {
     return (
       <>
-        {translated.statementAdded} <a href={this.props.commentUrl}>{translated.goToDiscussion}</a>
+        {translated.statementAdded} <a href={commentUrl}>{translated.goToDiscussion}</a>
       </>
     )
   }
 
-  hideAlert () {
-    this.setState({ alert: undefined })
-  }
+  // **** Start statement methods ****
 
-  handleStatementSubmit = async (payload) => {
+  const handleStatementSubmit = async (payload) => {
     const [getResponse] = await api.fetch({
-      url: this.props.statementApiUrl,
+      url: notification.statement_api_url,
       method: 'GET'
     })
 
     if (getResponse.length > 0) {
-      this.setState({
-        moderatorStatement: getResponse[0],
-        showModeratorStatementForm: false,
-        alert: {
-          type: 'error',
-          message: translated.anotherStatement,
-          timeInMs: 3000
-        }
+      setShowStatementForm(false)
+      setAlert({
+        type: 'error',
+        message: translated.anotherStatement,
+        timeInMs: 3000
       })
     } else {
+      // eslint-disable-next-line no-unused-vars
       const [response, error] = await api.fetch({
-        url: this.props.statementApiUrl,
+        url: notification.statement_api_url,
         method: 'POST',
         body: { statement: payload }
       })
       if (error) {
-        this.setState({
-          alert:
-            {
-              type: 'error',
-              message: error,
-              timeInMs: 3000
-            }
+        setAlert({
+          type: 'error',
+          message: error,
+          timeInMs: 3000
         })
       } else {
-        this.setState({
-          moderatorStatement: response,
-          showModeratorStatementForm: false,
-          alert: {
-            type: 'success',
-            message: this.getStatementAdded(),
-            timeInMs: 3000
-          }
+        props.loadData()
+        setShowStatementForm(false)
+        setAlert({
+          type: 'success',
+          message: getStatementAdded(),
+          timeInMs: 3000
         })
       }
     }
   }
 
-  handleStatementEdit = async (payload) => {
+  const handleStatementEdit = async (payload) => {
+    // eslint-disable-next-line no-unused-vars
     const [response, error] = await api.fetch({
-      url: this.props.statementApiUrl + this.state.moderatorStatement.pk + '/',
+      url: notification.statement_api_url + notification.moderator_statement.pk + '/',
       method: 'PUT',
       body: { statement: payload }
     })
     if (error) {
-      this.props.onChangeStatus(error)
+      props.onChangeStatus(error)
     } else {
-      this.setState({
-        moderatorStatement: response,
-        showModeratorStatementForm: false,
-        isEditing: false,
-        alert: {
-          type: 'success',
-          message: translated.statementEdited,
-          timeInMs: 3000
-        }
+      props.loadData()
+      setShowStatementForm(false)
+      setIsEditing(false)
+      setAlert({
+        type: 'success',
+        message: translated.statementEdited,
+        timeInMs: 3000
       })
     }
   }
 
-  handleStatementDelete = async () => {
+  const handleStatementDelete = async () => {
     await api.fetch({
-      url: this.props.statementApiUrl + this.state.moderatorStatement.pk + '/',
+      url: notification.statement_api_url + notification.moderator_statement.pk + '/',
       method: 'DELETE'
     })
-    this.setState({
-      moderatorStatement: undefined,
-      alert: {
-        type: 'success',
-        message: translated.statementDeleted,
-        timeInMs: 3000
-      }
+    props.loadData()
+    setAlert({
+      type: 'success',
+      message: translated.statementDeleted,
+      timeInMs: 3000
     })
   }
 
-  async toggleIsPending () {
-    const url = this.state.isPending
-      ? this.props.apiUrl + 'archive/'
-      : this.props.apiUrl + 'unarchive/'
+  function toggleModerationStatementForm (e) {
+    const newModerationStatementForm = !showStatementForm
+    setShowStatementForm(newModerationStatementForm)
+  }
+
+  // **** End statement methods ****
+
+  // **** Start notification methods ****
+
+  async function toggleIsPending () {
+    const url = notification.has_pending_notifications
+      ? props.apiUrl + 'archive/'
+      : props.apiUrl + 'unarchive/'
     const [response, error] =
       await api.fetch({
         url: url,
@@ -157,60 +144,52 @@ export default class ModerationNotification extends Component {
       : translated.notificationArchived
 
     if (error) {
-      this.props.onChangeStatus(error)
+      props.onChangeStatus(error)
     } else {
-      this.props.onChangeStatus(alertMessage)
-      this.props.loadData()
-      this.setState({ isPending: response.has_pending_notifications })
+      props.onChangeStatus(alertMessage)
+      props.loadData()
     }
   }
 
-  async toggleIsBlocked () {
+  async function toggleIsBlocked () {
     const [response, error] =
       await api.fetch({
-        url: this.props.apiUrl,
+        url: props.apiUrl,
         method: 'PATCH',
-        body: { is_blocked: !this.state.isBlocked }
+        body: { is_blocked: !notification.is_blocked }
       })
     const alertMessage = response && response.is_blocked
       ? translated.commentBlocked
       : translated.commentUnblocked
 
     if (error) {
-      this.props.onChangeStatus(error)
+      props.onChangeStatus(error)
     } else {
-      this.props.onChangeStatus(alertMessage)
-      this.setState({ isBlocked: response.is_blocked })
+      props.onChangeStatus(alertMessage)
     }
   }
 
-  async toggleIsHighlighted () {
+  async function toggleIsHighlighted () {
     const [response, error] =
       await api.fetch({
-        url: this.props.apiUrl,
+        url: props.apiUrl,
         method: 'PATCH',
-        body: { is_moderator_marked: !this.state.isHighlighted }
+        body: { is_moderator_marked: !notification.is_moderator_marked }
       })
     const alertMessage = response && response.is_moderator_marked
       ? translated.commentHighlighted
       : translated.commentUnhighlighted
 
     if (error) {
-      this.props.onChangeStatus(error)
+      props.onChangeStatus(error)
     } else {
-      this.props.onChangeStatus(alertMessage)
-      this.setState({ isHighlighted: response.is_moderator_marked })
+      props.onChangeStatus(alertMessage)
     }
   }
 
-  toggleModerationStatementForm (e) {
-    const newModerationStatementForm = !this.state.showModeratorStatementForm
-    this.setState({
-      showModeratorStatementForm: newModerationStatementForm
-    })
-  }
+  // **** End notification methods ****
 
-  translatedReportText (reportsFound) {
+  function translatedReportText (reportsFound) {
     const tmp = django.ngettext(
       'kosmo', '\'s {}comment{} has been reported 1 time since it\'s creation',
       'kosmo', '\'s {}comment{} has been reported %s times since it\'s creation',
@@ -221,119 +200,130 @@ export default class ModerationNotification extends Component {
     )
   }
 
-  componentDidMount () {
-    const moderationStatementApiUrl =
-      `/api/comments/${this.props.commentPk}/moderatorstatement/`
+  const {
+    comment: commentText,
+    comment_url: commentUrl,
+    last_edit: created,
+    is_modified: isModified,
+    user_image: userImage,
+    user_name: userName,
+    user_profile_url: userProfileUrl,
+    num_active_notifications: activeNotifications
+  } = notification
+  const classificationText = django.pgettext('kosmo', 'Classification: ')
+  const archiveText = django.pgettext('kosmo', ' Archive')
 
-    api.fetch({
-      url: moderationStatementApiUrl,
-      method: 'GET'
-    }).then(([response, error]) => {
-      if (!error) {
-        response.length > 0 && this.setState({
-          moderatorStatement: response[0]
-        })
-      }
-    })
+  let userImageDiv
+  if (userImage) {
+    const sectionStyle = {
+      backgroundImage: 'url(' + userImage + ')'
+    }
+    userImageDiv = <div className="user-avatar user-avatar--small user-avatar--shadow mb-1 userindicator__btn-img" style={sectionStyle} />
   }
 
-  render () {
-    const { classifications, commentText, commentUrl, created, isModified, userImage, userName, userProfileUrl, activeNotifications } = this.props
-    const classificationText = django.pgettext('kosmo', 'Classification: ')
-    const archiveText = django.pgettext('kosmo', ' Archive')
+  let commentChangeLog
+  if (isModified) {
+    commentChangeLog = django.pgettext('kosmo', 'Last edited on ' + created)
+  } else {
+    commentChangeLog = django.pgettext('kosmo', 'Created on ' + created)
+  }
 
-    let userImageDiv
-    if (userImage) {
-      const sectionStyle = {
-        backgroundImage: 'url(' + userImage + ')'
-      }
-      userImageDiv = <div className="user-avatar user-avatar--small user-avatar--shadow mb-1 userindicator__btn-img" style={sectionStyle} />
-    }
-
-    let commentChangeLog
-    if (isModified) {
-      commentChangeLog = django.pgettext('kosmo', 'Last edited on ' + created)
-    } else {
-      commentChangeLog = django.pgettext('kosmo', 'Created on ' + created)
-    }
-
-    return (
-      <>
-        <li className="list-item">
-          <div>
-            <div className="row">
-              <div className="col-sm-2 col-md-1">
-                {userImageDiv}
+  return (
+    <>
+      <li className="list-item">
+        <div>
+          <div className="row">
+            <div className="col-sm-2 col-md-1">
+              {userImageDiv}
+            </div>
+            <div className="col-sm-7 col-md-8">
+              <div className="pb-1">
+                <i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
+                <strong>{userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName}</strong>
+                {getLink(translatedReportText(activeNotifications), commentUrl)}
               </div>
-              <div className="col-sm-7 col-md-8">
-                <div className="pb-1"><i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
-                  <strong>{userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName}</strong>
-                  {this.getLink(this.translatedReportText(activeNotifications), commentUrl)}
+              <div>{commentChangeLog}</div>
+            </div>
+            {notification.has_pending_notifications &&
+              <div className="col">
+                <div className="text-end">
+                  <button
+                    type="button"
+                    className="dropdown-toggle btn btn--none"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    data-bs-toggle="dropdown"
+                  >
+                    <i className="fas fa-ellipsis-v" aria-hidden="true" />
+                  </button>
+                  <ul className="dropdown-menu dropdown-menu-end">
+                    <li key="1">
+                      <button
+                        className="dropdown-item"
+                        type="button"
+                        onClick={() => toggleIsPending()}
+                      >
+                        {archiveText}
+                      </button>
+                    </li>
+                  </ul>
                 </div>
-                <div>{commentChangeLog}</div>
-              </div>
-              {this.state.isPending &&
-                <div className="col">
-                  <div className="text-end">
-                    <button
-                      type="button" className="dropdown-toggle btn btn--none" aria-haspopup="true"
-                      aria-expanded="false" data-bs-toggle="dropdown"
-                    >
-                      <i className="fas fa-ellipsis-v" aria-hidden="true" />
-                    </button>
-                    <ul className="dropdown-menu dropdown-menu-end">
-                      <li key="1">
-                        <button className="dropdown-item" type="button" onClick={() => this.toggleIsPending()}>{archiveText}</button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>}
+              </div>}
 
-            </div>
-            <div className="row">
-              <div className="a4-comments__box--comment">
-                <div className="col-12">
-                  <span className="sr-only">{classificationText}{classifications}</span>
-                  {classifications.map((classification, i) => (
-                    <span className="badge a4-comments__badge a4-comments__badge--que" key={i}>{classification}</span>))}
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-12">
-                <p>{commentText}</p>
-              </div>
-            </div>
-            <ModerationNotificationActionsBar
-              isPending={this.state.isPending}
-              isDisabled={this.state.moderatorStatement}
-              isBlocked={this.state.isBlocked}
-              isHighlighted={this.state.isHighlighted}
-              onToggleForm={() => this.toggleModerationStatementForm()}
-              onToggleBlock={() => this.toggleIsBlocked()}
-              onToggleHighlight={() => this.toggleIsHighlighted()}
-              onTogglePending={() => this.toggleIsPending()}
-            />
-            {this.state.showModeratorStatementForm &&
-              <ModerationStatementForm
-                onSubmit={(payload) => this.handleStatementSubmit(payload)}
-                onEditSubmit={(payload) => this.handleStatementEdit(payload)}
-                initialStatement={this.state.moderatorStatement}
-                editing={this.state.isEditing}
-              />}
-            {this.state.moderatorStatement && !this.state.showModeratorStatementForm &&
-              <ModerationStatement
-                notificationIsPending={this.state.isPending}
-                statement={this.state.moderatorStatement}
-                onDelete={this.handleStatementDelete}
-                onEdit={() => this.setState({ showModeratorStatementForm: true, isEditing: true })}
-              />}
           </div>
-        </li>
-        <div className="mb-3">
-          <Alert {...this.state.alert} onClick={() => this.hideAlert()} />
+          <div className="row">
+            <div className="a4-comments__box--comment">
+              <div className="col-12">
+                <span className="sr-only">
+                  {classificationText}{props.classifications}
+                </span>
+                {props.classifications.map((classification, i) => (
+                  <span
+                    className="badge a4-comments__badge a4-comments__badge--que"
+                    key={i}
+                  >
+                    {classification}
+                  </span>))}
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12">
+              <p>{commentText}</p>
+            </div>
+          </div>
+          <ModerationNotificationActionsBar
+            isPending={notification.has_pending_notifications}
+            isDisabled={notification.moderator_statement}
+            isBlocked={notification.is_blocked}
+            isHighlighted={notification.is_moderator_marked}
+            onToggleForm={() => toggleModerationStatementForm()}
+            onToggleBlock={() => toggleIsBlocked()}
+            onToggleHighlight={() => toggleIsHighlighted()}
+            onTogglePending={() => toggleIsPending()}
+          />
+          {showStatementForm &&
+            <ModerationStatementForm
+              onSubmit={(payload) => handleStatementSubmit(payload)}
+              onEditSubmit={(payload) => handleStatementEdit(payload)}
+              initialStatement={notification.moderator_statement}
+              editing={isEditing}
+            />}
+          {notification.moderator_statement && !showStatementForm &&
+            <ModerationStatement
+              notificationIsPending={notification.has_pending_notifications}
+              statement={notification.moderator_statement}
+              onDelete={handleStatementDelete}
+              onEdit={() => {
+                setShowStatementForm(true)
+                setIsEditing(true)
+              }}
+            />}
         </div>
-      </>
-    )
-  }
+      </li>
+      <div className="mb-3">
+        <Alert {...alert} onClick={() => setAlert(null)} />
+      </div>
+    </>
+  )
 }
