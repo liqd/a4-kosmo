@@ -19,7 +19,10 @@ export default class ModerationNotificationList extends Component {
 
   componentDidMount () {
     this.loadData(this.state.filterItem.filter)
-    this.timer = setInterval(() => this.loadData(this.state.filterItem.filter), 3000)
+    setInterval(
+      () => !this.timer && this.loadData(this.state.filterItem.filter),
+      3000
+    )
   }
 
   filterChangeHandle (filterItem) {
@@ -31,16 +34,17 @@ export default class ModerationNotificationList extends Component {
   }
 
   async loadData (filter = undefined) {
+    this.timer = true
     const url = filter
       ? this.props.moderationCommentsApiUrl + filter
       : this.props.moderationCommentsApiUrl
     const data = await fetch(url)
     const moderationComments = await data.json()
-
-    this.setState(
-      { moderationComments: moderationComments },
-      () => this.setState({ isLoaded: true })
-    )
+    this.timer = false
+    this.setState({
+      moderationComments: moderationComments,
+      isLoaded: true
+    })
   }
 
   handleAlert = (message, type = 'Notification') => {
