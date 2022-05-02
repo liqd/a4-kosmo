@@ -52,6 +52,7 @@ export const ModerationNotificationActionsBar = (props) => {
             className="btn btn--none"
             type="button"
             onClick={onToggleBlock}
+            disabled={isHighlighted}
           >
             <i className="fas fa-ban" aria-hidden="true" />
             {isBlocked ? translated.unblockText : translated.blockText}
