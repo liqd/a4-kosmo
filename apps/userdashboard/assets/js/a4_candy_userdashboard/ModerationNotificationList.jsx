@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import django from 'django'
 
-import ModerationNotification from './ModerationNotification'
+import { ModerationNotification } from './ModerationNotification'
 import { FilterBar } from './FilterBar'
 import { alert as Alert } from 'adhocracy4'
 
@@ -87,7 +87,6 @@ export default class ModerationNotificationList extends Component {
     const { isLoaded } = this.state
     const { projectTitle, organisation, projectUrl } = this.props
     const byText = django.pgettext('kosmo', 'By ')
-    const aiText = django.pgettext('kosmo', 'AI')
 
     return (
       <div className="row mb-2">
@@ -117,24 +116,10 @@ export default class ModerationNotificationList extends Component {
                 {this.state.moderationComments.map((item, i) => (
                   <ModerationNotification
                     key={i}
+                    notification={item}
                     apiUrl={this.props.moderationCommentsApiUrl + item.pk + '/'}
                     classifications={Object.entries(item.category_counts).map(([k, v]) => `${k}: ${v}`)}
-                    commentPk={item.pk}
-                    commentText={item.comment}
-                    commentUrl={item.comment_url}
-                    created={item.last_edit}
-                    isModified={item.is_modified}
-                    isBlocked={item.is_blocked}
-                    isHighlighted={item.is_moderator_marked}
-                    isPending={item.has_pending_notifications}
-                    userImage={item.user_image}
-                    userName={item.user_name}
-                    userProfileUrl={item.user_profile_url}
-                    aiClassified={item.category_counts[aiText] > 0}
                     onChangeStatus={(message, type) => this.handleAlert(message, type)}
-                    activeNotifications={item.num_active_notifications}
-                    moderatorStatement={item.moderator_statement}
-                    statementApiUrl={item.statement_api_url}
                     loadData={() => this.loadData(this.state.filterItem.filter)}
                   />
                 ))}
