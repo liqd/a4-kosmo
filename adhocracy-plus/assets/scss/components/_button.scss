@@ -75,6 +75,11 @@
 .btn {
     @extend %button-base;
     @include button-color($link-color, $link-hover-color);
+
+    &:focus {
+        outline: 2px solid Highlight !important;
+        outline: 5px auto -webkit-focus-ring-color !important;
+    }
 }
 
 .btn--light {
