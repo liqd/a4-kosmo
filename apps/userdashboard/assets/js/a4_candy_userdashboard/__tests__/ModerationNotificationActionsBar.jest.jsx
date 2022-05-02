@@ -44,6 +44,22 @@ test('Pending with highlight button disabled', () => {
   expect(button).toBeDisabled()
 })
 
+test('Pending with blocked button disabled', () => {
+  const mockPending = true
+  const mockBlocked = false
+  const mockHighlighted = true
+  const tree = render(
+    <ModerationNotificationActionsBar
+      isPending={mockPending}
+      isBlocked={mockBlocked}
+      isHighlighted={mockHighlighted}
+    />
+  )
+  const button =
+    tree.container.querySelector('#moderation-notification-actions-bar-button-block')
+  expect(button).toBeDisabled()
+})
+
 test('Pending is highlighted', () => {
   const mockPending = true
   const mockHighlighted = true
