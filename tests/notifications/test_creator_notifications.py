@@ -86,14 +86,13 @@ def test_notify_creator_on_moderator_feedback(proposal_factory, client):
 
 @pytest.mark.django_db
 def test_notify_comment_creator_on_block(
-        idea, comment_factory, apiclient, admin,
+        idea, comment_factory, apiclient,
         ai_classification_factory):
     """Check if creator gets email on comment blocked."""
     comment = comment_factory(content_object=idea)
     ai_classification_factory(comment=comment)
     creator = comment.creator
-    # FIXME: use moderator instead of admin when rules are there
-    # moderator = comment.project.moderators.first()
+    moderator = comment.project.moderators.first()
 
     # 3 emails because of creator notification for reaction on idea
     assert len(mail.outbox) == 3
@@ -109,7 +108,7 @@ def test_notify_comment_creator_on_block(
         "is_blocked": True,
     }
 
-    apiclient.force_authenticate(user=admin)
+    apiclient.force_authenticate(user=moderator)
     response = apiclient.patch(url, data, format='json')
     assert response.status_code == 200
     assert len(mail.outbox) == 4
@@ -120,13 +119,12 @@ def test_notify_comment_creator_on_block(
 
 @pytest.mark.django_db
 def test_no_notify_comment_creator_on_unblock(
-        idea, comment_factory, apiclient, admin,
+        idea, comment_factory, apiclient,
         ai_classification_factory):
     """Check creator gets no email on comment unblocked."""
     comment = comment_factory(content_object=idea, is_blocked=True)
     ai_classification_factory(comment=comment)
-    # FIXME: use moderator instead of admin when rules are there
-    # moderator = comment.project.moderators.first()
+    moderator = comment.project.moderators.first()
 
     # 3 emails because of creator notification for reaction on idea
     assert len(mail.outbox) == 3
@@ -142,7 +140,7 @@ def test_no_notify_comment_creator_on_unblock(
         "is_blocked": False,
     }
 
-    apiclient.force_authenticate(user=admin)
+    apiclient.force_authenticate(user=moderator)
     response = apiclient.patch(url, data, format='json')
     assert response.status_code == 200
     assert len(mail.outbox) == 3
