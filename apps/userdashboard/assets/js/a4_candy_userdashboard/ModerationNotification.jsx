@@ -25,6 +25,7 @@ export const ModerationNotification = (props) => {
   const [showStatementForm, setShowStatementForm] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [alert, setAlert] = useState()
+  const [loading, setLoading] = useState(false)
 
   function getLink (string, url) {
     const splitted = string.split('{}')
@@ -50,6 +51,7 @@ export const ModerationNotification = (props) => {
   // **** Start statement methods ****
 
   const handleStatementSubmit = async (payload) => {
+    setLoading(true)
     const [getResponse] = await api.fetch({
       url: notification.statement_api_url,
       method: 'GET'
@@ -85,9 +87,11 @@ export const ModerationNotification = (props) => {
         })
       }
     }
+    setLoading(false)
   }
 
   const handleStatementEdit = async (payload) => {
+    setLoading(true)
     // eslint-disable-next-line no-unused-vars
     const [response, error] = await api.fetch({
       url: notification.statement_api_url + notification.moderator_statement.pk + '/',
@@ -106,9 +110,11 @@ export const ModerationNotification = (props) => {
         timeInMs: 3000
       })
     }
+    setLoading(false)
   }
 
   const handleStatementDelete = async () => {
+    setLoading(true)
     await api.fetch({
       url: notification.statement_api_url + notification.moderator_statement.pk + '/',
       method: 'DELETE'
@@ -119,6 +125,7 @@ export const ModerationNotification = (props) => {
       message: translated.statementDeleted,
       timeInMs: 3000
     })
+    setLoading(false)
   }
 
   function toggleModerationStatementForm (e) {
@@ -131,6 +138,7 @@ export const ModerationNotification = (props) => {
   // **** Start notification methods ****
 
   async function toggleIsPending () {
+    setLoading(true)
     const url = notification.has_pending_notifications
       ? props.apiUrl + 'archive/'
       : props.apiUrl + 'unarchive/'
@@ -149,9 +157,11 @@ export const ModerationNotification = (props) => {
       props.onChangeStatus(alertMessage)
       props.loadData()
     }
+    setLoading(false)
   }
 
   async function toggleIsBlocked () {
+    setLoading(true)
     const [response, error] =
       await api.fetch({
         url: props.apiUrl,
@@ -167,9 +177,11 @@ export const ModerationNotification = (props) => {
     } else {
       props.onChangeStatus(alertMessage)
     }
+    setLoading(false)
   }
 
   async function toggleIsHighlighted () {
+    setLoading(true)
     const [response, error] =
       await api.fetch({
         url: props.apiUrl,
@@ -185,6 +197,7 @@ export const ModerationNotification = (props) => {
     } else {
       props.onChangeStatus(alertMessage)
     }
+    setLoading(false)
   }
 
   // **** End notification methods ****
@@ -292,16 +305,22 @@ export const ModerationNotification = (props) => {
               <p>{commentText}</p>
             </div>
           </div>
-          <ModerationNotificationActionsBar
-            isPending={notification.has_pending_notifications}
-            isDisabled={notification.moderator_statement}
-            isBlocked={notification.is_blocked}
-            isHighlighted={notification.is_moderator_marked}
-            onToggleForm={() => toggleModerationStatementForm()}
-            onToggleBlock={() => toggleIsBlocked()}
-            onToggleHighlight={() => toggleIsHighlighted()}
-            onTogglePending={() => toggleIsPending()}
-          />
+          {loading
+            ? (
+              <div className="d-flex justify-content-center my-3">
+                <i className="fa fa-spinner fa-pulse" aria-hidden="true" />
+              </div>)
+            : (
+              <ModerationNotificationActionsBar
+                isPending={notification.has_pending_notifications}
+                isDisabled={notification.moderator_statement}
+                isBlocked={notification.is_blocked}
+                isHighlighted={notification.is_moderator_marked}
+                onToggleForm={() => toggleModerationStatementForm()}
+                onToggleBlock={() => toggleIsBlocked()}
+                onToggleHighlight={() => toggleIsHighlighted()}
+                onTogglePending={() => toggleIsPending()}
+              />)}
           {showStatementForm &&
             <ModerationStatementForm
               onSubmit={(payload) => handleStatementSubmit(payload)}
