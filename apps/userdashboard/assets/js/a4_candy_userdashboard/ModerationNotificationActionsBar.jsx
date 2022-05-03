@@ -1,15 +1,19 @@
 import React from 'react'
 import django from 'django'
+import { HoverButton } from '../../../../../apps/contrib/assets/HoverButton'
 
 export const ModerationNotificationActionsBar = (props) => {
   const translated = {
-    blockText: django.pgettext('kosmo', ' Block'),
-    unblockText: django.pgettext('kosmo', ' Unblock'),
-    replyText: django.pgettext('kosmo', ' Add statement'),
-    unarchiveText: django.pgettext('kosmo', ' Unarchive'),
+    blockText: django.pgettext('kosmo', 'Block'),
+    unblockText: django.pgettext('kosmo', 'Unblock'),
+    isBlockedText: django.pgettext('kosmo', 'Blocked'),
+    replyText: django.pgettext('kosmo', 'Add statement'),
     blockedText: django.pgettext('kosmo', 'This negative comment was blocked because it is spam'),
     highlightText: django.pgettext('kosmo', 'Highlight'),
-    unhighlightText: django.pgettext('kosmo', 'Unhighlight')
+    unhighlightText: django.pgettext('kosmo', 'Unhighlight'),
+    isHighlightedText: django.pgettext('kosmo', 'Highlighted'),
+    unarchiveText: django.pgettext('kosmo', 'Unarchive'),
+    archivedText: django.pgettext('kosmo', 'Archived')
   }
 
   const {
@@ -34,29 +38,35 @@ export const ModerationNotificationActionsBar = (props) => {
           disabled={isDisabled}
         >
           <i className="fas fa-reply" aria-hidden="true" />
-          {translated.replyText}
+          <span className="ms-2">
+            {translated.replyText}
+          </span>
         </button>
         <div>
-          <button
+          <HoverButton
             id="moderation-notification-actions-bar-button-highlight"
             className="btn btn--none"
-            type="button"
             onClick={onToggleHighlight}
             disabled={isBlocked}
           >
-            <i className="icon-highlight" aria-hidden="true" />
-            {isHighlighted ? translated.unhighlightText : translated.highlightText}
-          </button>
-          <button
+            {{
+              icon: <i className="icon-highlight" aria-hidden="true" />,
+              text: isHighlighted ? translated.isHighlightedText : translated.highlightText,
+              hoverText: isHighlighted ? translated.unhighlightText : translated.highlightText
+            }}
+          </HoverButton>
+          <HoverButton
             id="moderation-notification-actions-bar-button-block"
             className="btn btn--none"
-            type="button"
             onClick={onToggleBlock}
             disabled={isHighlighted}
           >
-            <i className="fas fa-ban" aria-hidden="true" />
-            {isBlocked ? translated.unblockText : translated.blockText}
-          </button>
+            {{
+              icon: <i className="fas fa-ban" aria-hidden="true" />,
+              text: isBlocked ? translated.isBlockedText : translated.blockText,
+              hoverText: isBlocked ? translated.unblockText : translated.blockText
+            }}
+          </HoverButton>
         </div>
       </div>
       )
@@ -67,15 +77,17 @@ export const ModerationNotificationActionsBar = (props) => {
             <i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
             {translated.blockedText}
           </div>}
-        <button
+        <HoverButton
           id="moderation-notification-actions-bar-button-pending"
           className="btn btn--none"
-          type="button"
           onClick={onTogglePending}
         >
-          <i className="fas fa-archive me-1" aria-hidden="true" />
-          {translated.unarchiveText}
-        </button>
+          {{
+            icon: <i className="fas fa-archive me-1" aria-hidden="true" />,
+            text: translated.archivedText,
+            hoverText: translated.unarchiveText
+          }}
+        </HoverButton>
       </div>
       )
 }
