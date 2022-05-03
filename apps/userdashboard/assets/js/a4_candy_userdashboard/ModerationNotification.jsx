@@ -176,6 +176,7 @@ export const ModerationNotification = (props) => {
       props.onChangeStatus(error)
     } else {
       props.onChangeStatus(alertMessage)
+      props.loadData()
     }
     setLoading(false)
   }
@@ -196,6 +197,7 @@ export const ModerationNotification = (props) => {
       props.onChangeStatus(error)
     } else {
       props.onChangeStatus(alertMessage)
+      props.loadData()
     }
     setLoading(false)
   }
