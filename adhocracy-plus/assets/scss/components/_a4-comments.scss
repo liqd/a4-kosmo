@@ -270,6 +270,22 @@
     background-color: $green-light;
 }
 
+.a4-comments__badge[data-classification="offensive"] {
+    background-color: $red-light;
+}
+
+.a4-comments__badge[data-classification="engaging"] {
+    background-color: $purple-lighter;
+}
+
+.a4-comments__badge[data-classification="fact claiming"] {
+    background-color: $red-lighter;
+}
+
+.a4-comments__badge[data-classification="ai"] {
+    background-color: $purple-lightest;
+}
+
 .a4-comments__text--highlighted {
     border-left: solid 2px $brand-primary;
     padding-left: 0.5 * $padding;

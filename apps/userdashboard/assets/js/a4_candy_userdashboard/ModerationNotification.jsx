@@ -291,14 +291,15 @@ export const ModerationNotification = (props) => {
             <div className="a4-comments__box--comment">
               <div className="col-12">
                 <span className="sr-only">
-                  {classificationText}{props.classifications}
+                  {classificationText}{notification.category_counts[0]}
                 </span>
-                {props.classifications.map((classification, i) => (
+                {Object.entries(notification.category_counts).map((classification, i) => (
                   <span
                     className="badge a4-comments__badge a4-comments__badge--que"
+                    data-classification={classification[0]}
                     key={i}
                   >
-                    {classification}
+                    {`${classification[0]}: ${classification[1]}`}
                   </span>))}
                 <span>
                   {timeOfLastNotification}
