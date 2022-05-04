@@ -14,18 +14,17 @@ test('Pending has three buttons', () => {
   expect(buttons.length).toBe(3)
 })
 
-test('Pending with reply button disabled', () => {
+test('Pending with reply button changing to edit button', () => {
   const mockPending = true
-  const mockDisabled = true
+  const mockEditing = true
   const tree = render(
     <ModerationNotificationActionsBar
       isPending={mockPending}
-      isDisabled={mockDisabled}
+      isEditing={mockEditing}
     />
   )
-  const button =
-    tree.container.querySelector('#moderation-notification-actions-bar-button-reply')
-  expect(button).toBeDisabled()
+  const editIcon = tree.container.querySelector('.fa-pen')
+  expect(editIcon).toBeTruthy()
 })
 
 test('Pending with highlight button disabled', () => {
