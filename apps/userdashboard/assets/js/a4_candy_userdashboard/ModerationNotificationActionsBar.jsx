@@ -13,12 +13,13 @@ export const ModerationNotificationActionsBar = (props) => {
     unhighlightText: django.pgettext('kosmo', 'Unhighlight'),
     isHighlightedText: django.pgettext('kosmo', 'Highlighted'),
     unarchiveText: django.pgettext('kosmo', 'Unarchive'),
-    archivedText: django.pgettext('kosmo', 'Archived')
+    archivedText: django.pgettext('kosmo', 'Archived'),
+    editText: django.pgettext('kosmo', 'Edit statement')
   }
 
   const {
     isPending,
-    isDisabled,
+    isEditing,
     isBlocked,
     isHighlighted,
     onToggleForm,
@@ -39,13 +40,14 @@ export const ModerationNotificationActionsBar = (props) => {
           id="moderation-notification-actions-bar-button-reply"
           className="btn btn--none ps-0"
           type="button"
-          onClick={onToggleForm}
-          disabled={isDisabled}
+          onClick={() => onToggleForm(!!isEditing)}
         >
-          <i className="fas fa-reply" aria-hidden="true" />
-          <span className="ms-2">
-            {translated.replyText}
-          </span>
+          {isEditing
+            ? <i className="fas fa-pen" aria-hidden="true" />
+            : <i className="fas fa-reply" aria-hidden="true" />}
+          {isEditing
+            ? <span className="ms-2">{translated.editText}</span>
+            : <span className="ms-2">{translated.replyText}</span>}
         </button>
         <div>
           <HoverButton
