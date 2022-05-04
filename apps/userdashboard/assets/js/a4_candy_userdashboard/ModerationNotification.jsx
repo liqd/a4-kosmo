@@ -128,9 +128,9 @@ export const ModerationNotification = (props) => {
     setLoading(false)
   }
 
-  function toggleModerationStatementForm (e) {
-    const newModerationStatementForm = !showStatementForm
-    setShowStatementForm(newModerationStatementForm)
+  function toggleModerationStatementForm (isEditing) {
+    isEditing && setIsEditing(true)
+    setShowStatementForm(!showStatementForm)
   }
 
   // **** End statement methods ****
@@ -319,10 +319,10 @@ export const ModerationNotification = (props) => {
             : (
               <ModerationNotificationActionsBar
                 isPending={notification.has_pending_notifications}
-                isDisabled={notification.moderator_statement}
+                isEditing={notification.moderator_statement}
                 isBlocked={notification.is_blocked}
                 isHighlighted={notification.is_moderator_marked}
-                onToggleForm={() => toggleModerationStatementForm()}
+                onToggleForm={(isEditing) => toggleModerationStatementForm(isEditing)}
                 onToggleBlock={() => toggleIsBlocked()}
                 onToggleHighlight={() => toggleIsHighlighted()}
                 onTogglePending={() => toggleIsPending()}
