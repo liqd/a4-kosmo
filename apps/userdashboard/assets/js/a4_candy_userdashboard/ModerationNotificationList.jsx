@@ -163,7 +163,6 @@ export default class ModerationNotificationList extends Component {
                     key={i}
                     notification={item}
                     apiUrl={this.props.moderationCommentsApiUrl + item.pk + '/'}
-                    classifications={Object.entries(item.category_counts).map(([k, v]) => `${k}: ${v}`)}
                     onChangeStatus={(message, type) => this.handleAlert(message, type)}
                     loadData={() => this.loadData()}
                   />
