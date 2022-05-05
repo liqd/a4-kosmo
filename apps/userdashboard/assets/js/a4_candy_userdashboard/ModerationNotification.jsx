@@ -223,7 +223,8 @@ export const ModerationNotification = (props) => {
     user_image: userImage,
     user_name: userName,
     user_profile_url: userProfileUrl,
-    num_active_notifications: activeNotifications
+    num_active_notifications: activeNotifications,
+    time_of_last_notification: timeOfLastNotification
   } = notification
   const classificationText = django.pgettext('kosmo', 'Classification: ')
   const archiveText = django.pgettext('kosmo', ' Archive')
@@ -299,6 +300,9 @@ export const ModerationNotification = (props) => {
                   >
                     {classification}
                   </span>))}
+                <span>
+                  {timeOfLastNotification}
+                </span>
               </div>
             </div>
           </div>
