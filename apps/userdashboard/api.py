@@ -1,7 +1,10 @@
+from django.db.models import Case
 from django.db.models import Exists
 from django.db.models import ExpressionWrapper
 from django.db.models import OuterRef
 from django.db.models import Q
+from django.db.models import Value
+from django.db.models import When
 from django.db.models.fields import BooleanField
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import BooleanFilter
@@ -10,6 +13,7 @@ from django_filters.rest_framework import FilterSet
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from rest_framework.filters import BaseFilterBackend
 from rest_framework.response import Response
 
 from adhocracy4.api.permissions import ViewSetRulesPermission
@@ -23,6 +27,32 @@ from apps.notifications.emails import NotifyCreatorOnModeratorBlocked
 from apps.projects import helpers
 
 from . import serializers
+
+
+class ClassificationFilterBackend(BaseFilterBackend):
+    """Filter the comments for the classification categories.
+
+    When a comment has both pending and archived notifications, only
+    consider pending ones when filtering for categories.
+    """
+
+    def filter_queryset(self, request, queryset, view):
+        if ('classification' in request.GET
+                and request.GET['classification'] != ''):
+            classification = request.GET['classification']
+            return queryset.filter(
+                Q(ai_classifications__is_pending=Case(
+                    When(has_pending_notifications=True, then=Value(True)),
+                    When(has_pending_notifications=False, then=Value(False))
+                ),
+                  ai_classifications__classifications__contains=classification) |
+                Q(user_classifications__is_pending=Case(
+                    When(has_pending_notifications=True, then=Value(True)),
+                    When(has_pending_notifications=False, then=Value(False))
+                ),
+                  user_classifications__classifications__contains=classification)
+            )
+        return queryset
 
 
 class PendingNotificationsFilter(FilterSet):
@@ -41,7 +71,7 @@ class ModerationCommentViewSet(mixins.ListModelMixin,
 
     serializer_class = serializers.ModerationCommentSerializer
     permission_classes = (ViewSetRulesPermission,)
-    filter_backends = (DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, ClassificationFilterBackend)
     filterset_class = PendingNotificationsFilter
     lookup_field = 'pk'
 
