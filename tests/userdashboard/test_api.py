@@ -170,11 +170,11 @@ def test_moderator_can_view_classifications(apiclient,
 
 
 @pytest.mark.django_db
-def test_archive_filter(apiclient,
-                        ai_classification_factory,
-                        user_classification_factory,
-                        comment_factory,
-                        idea):
+def test_filters(apiclient,
+                 ai_classification_factory,
+                 user_classification_factory,
+                 comment_factory,
+                 idea):
     comment_1 = comment_factory(content_object=idea)
     comment_2 = comment_factory(content_object=idea)
     comment_3 = comment_factory(content_object=idea)
@@ -182,11 +182,13 @@ def test_archive_filter(apiclient,
         comment=comment_1)
     ai_classification_factory(
         comment=comment_1,
+        classifications=['ENGAGING'],
         is_pending=False)
     ai_classification_factory(
         comment=comment_2)
     ai_classification_factory(
         comment=comment_3,
+        classifications=['OFFENSIVE', 'ENGAGING'],
         is_pending=False)
 
     project = idea.project
@@ -199,16 +201,42 @@ def test_archive_filter(apiclient,
     assert response.status_code == 200
     assert len(response.data) == 3
 
-    url_filter_archived = url + '?has_pending_notifications=False'
+    url_filter_archived = \
+        url + '?has_pending_notifications=False&classification='
     response = apiclient.get(url_filter_archived)
     assert response.status_code == 200
     assert len(response.data) == 1
     assert response.data[0]['pk'] == comment_3.pk
 
-    url_filter_pending = url + '?has_pending_notifications=True'
+    url_filter_pending = \
+        url + '?has_pending_notifications=True&classification='
     response = apiclient.get(url_filter_pending)
     assert response.status_code == 200
     assert len(response.data) == 2
+
+    url_filter_offensive = \
+        url + '?has_pending_notifications=&classification=OFFENSIVE'
+    response = apiclient.get(url_filter_offensive)
+    assert response.status_code == 200
+    assert len(response.data) == 3
+
+    url_filter_engaging = \
+        url + '?has_pending_notifications=&classification=ENGAGING'
+    response = apiclient.get(url_filter_engaging)
+    assert response.status_code == 200
+    assert len(response.data) == 1
+
+    url_filter_pending_engaging = \
+        url + '?has_pending_notifications=True&classification=ENGAGING'
+    response = apiclient.get(url_filter_pending_engaging)
+    assert response.status_code == 200
+    assert len(response.data) == 0
+
+    url_filter_archived_engaging = \
+        url + '?has_pending_notifications=False&classification=ENGAGING'
+    response = apiclient.get(url_filter_archived_engaging)
+    assert response.status_code == 200
+    assert len(response.data) == 1
 
 
 @pytest.mark.django_db
