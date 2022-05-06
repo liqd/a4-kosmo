@@ -5,14 +5,10 @@ const getItemByFilter = (items, filter) => {
   return items.find(item => item.filter === filter)
 }
 
-export const FilterBar = (props) => {
-  const filterItems = [
-    { name: 'Pending', filter: '?has_pending_notifications=true' },
-    { name: 'Archived', filter: '?has_pending_notifications=false' },
-    { name: 'All', filter: '' }
-  ]
+export const Filter = (props) => {
+  console.log(props)
   const [currFilterItem, setCurrFilterItem] =
-    useState(getItemByFilter(filterItems, props.selectedFilter))
+    useState(getItemByFilter(props.filterItems, props.selectedFilter))
 
   const onSelectFilter = (filterItem) => {
     setCurrFilterItem(filterItem)
@@ -36,7 +32,7 @@ export const FilterBar = (props) => {
             <i className="fa fa-caret-down" aria-hidden="true" />
           </button>
           <ul className="dropdown-menu">
-            {filterItems.map((filterItem, i) => (
+            {props.filterItems.map((filterItem, i) => (
               <li key={`${i}_${filterItem.name}`}>
                 <button onClick={() => onSelectFilter(filterItem)}>
                   {django.gettext(filterItem.name)}
