@@ -2,8 +2,21 @@ import React, { Component } from 'react'
 import django from 'django'
 
 import { ModerationNotification } from './ModerationNotification'
-import { FilterBar } from './FilterBar'
+import { Filter } from './Filter'
 import { alert as Alert } from 'adhocracy4'
+
+const pendingFilterItems = [
+  { label: django.pgettext('kosmo', 'Pending'), value: 'true' },
+  { label: django.pgettext('kosmo', 'Archived'), value: 'false' },
+  { label: django.pgettext('kosmo', 'View all'), value: '' }
+]
+
+const classificationFilterItems = [
+  { label: django.pgettext('kosmo', 'Offensive'), value: 'OFFENSIVE' },
+  { label: django.pgettext('kosmo', 'Engaging'), value: 'ENGAGING' },
+  { label: django.pgettext('kosmo', 'Fact claiming'), value: 'FACTCLAIMING' },
+  { label: django.pgettext('kosmo', 'All categories'), value: '' }
+]
 
 export default class ModerationNotificationList extends Component {
   constructor (props) {
@@ -11,33 +24,51 @@ export default class ModerationNotificationList extends Component {
 
     this.state = {
       moderationComments: [],
-      filterItem: { filter: '', name: '' },
+      selectedFilters: { pending: '', classification: '' },
       isLoaded: false,
       alert: undefined
     }
   }
 
   componentDidMount () {
-    this.loadData(this.state.filterItem.filter)
+    this.loadData()
     setInterval(
-      () => !this.timer && this.loadData(this.state.filterItem.filter),
+      () => !this.timer && this.loadData(),
       3000
     )
   }
 
-  filterChangeHandle (filterItem) {
+  pendingFilterChangeHandle (value) {
     this.setState({
-      filterItem: filterItem,
+      selectedFilters: {
+        ...this.state.selectedFilters,
+        pending: value
+      },
       isLoaded: false
-    })
-    this.loadData(filterItem.filter)
+    },
+    () => this.loadData()
+    )
   }
 
-  async loadData (filter = undefined) {
+  classificationFilterChangeHandle (value) {
+    this.setState({
+      selectedFilters: {
+        ...this.state.selectedFilters,
+        classification: value
+      },
+      isLoaded: false
+    },
+    () => this.loadData()
+    )
+  }
+
+  getUrlParams () {
+    return `?has_pending_notifications=${this.state.selectedFilters.pending}&classification=${this.state.selectedFilters.classification}`
+  }
+
+  async loadData () {
     this.timer = true
-    const url = filter
-      ? this.props.moderationCommentsApiUrl + filter
-      : this.props.moderationCommentsApiUrl
+    const url = this.props.moderationCommentsApiUrl + this.getUrlParams()
     const data = await fetch(url)
     const moderationComments = await data.json()
     this.timer = false
@@ -99,12 +130,26 @@ export default class ModerationNotificationList extends Component {
             {byText}
             {organisation}
           </span>
-          <div className="mt-3">
-            <FilterBar
-              onFilterChange={(filterItem) => this.filterChangeHandle(filterItem)}
-              selectedFilter={this.state.filterItem.filter}
-            />
+          <div
+            className="filter-bar justify-content-end"
+            aria-label={django.gettext('Filter')}
+          >
+            <div className="mt-3 px-3">
+              <Filter
+                filterItems={classificationFilterItems}
+                onFilterChange={(value) => this.classificationFilterChangeHandle(value)}
+                selectedFilter={this.state.selectedFilters.classification}
+              />
+            </div>
+            <div className="mt-3">
+              <Filter
+                filterItems={pendingFilterItems}
+                onFilterChange={(value) => this.pendingFilterChangeHandle(value)}
+                selectedFilter={this.state.selectedFilters.pending}
+              />
+            </div>
           </div>
+
           {!isLoaded
             ? (
               <div className="d-flex justify-content-center">
@@ -120,7 +165,7 @@ export default class ModerationNotificationList extends Component {
                     apiUrl={this.props.moderationCommentsApiUrl + item.pk + '/'}
                     classifications={Object.entries(item.category_counts).map(([k, v]) => `${k}: ${v}`)}
                     onChangeStatus={(message, type) => this.handleAlert(message, type)}
-                    loadData={() => this.loadData(this.state.filterItem.filter)}
+                    loadData={() => this.loadData()}
                   />
                 ))}
               </ul>
