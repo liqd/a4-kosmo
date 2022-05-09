@@ -25,6 +25,10 @@
 .a4-comments__comment {
     border-top: solid 1px $gray-lightest;
     padding: 1.5 * $spacer 0 $spacer 0;
+
+    mark > p {
+        background-color: $purple-light;
+    }
 }
 
 .a4-comments__box--left {
@@ -275,7 +279,7 @@
 }
 
 .a4-comments__badge[data-classification="engaging"] {
-    background-color: $purple-lighter;
+    background-color: $purple-light;
 }
 
 .a4-comments__badge[data-classification="fact claiming"] {
@@ -283,9 +287,10 @@
 }
 
 .a4-comments__badge[data-classification="ai"] {
-    background-color: $purple-lightest;
+    background-color: $purple-lighter;
 }
 
+// FIXME this should be a4-comments__text--linked but will need changing in multiple projects
 .a4-comments__text--highlighted {
     border-left: solid 2px $brand-primary;
     padding-left: 0.5 * $padding;
