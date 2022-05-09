@@ -28,11 +28,6 @@ export const ModerationNotificationActionsBar = (props) => {
     onTogglePending
   } = props
 
-  const highlightButtonHoverText = isHighlighted ? translated.unhighlightText : translated.highlightText
-  const highlightButtonText = isHighlighted ? translated.isHighlightedText : translated.highlightText
-  const blockButtonHoverText = isBlocked ? translated.unblockText : translated.blockText
-  const blockButtonText = isBlocked ? translated.isBlockedText : translated.blockText
-
   return isPending
     ? (
       <div className="my-3 d-flex justify-content-between">
@@ -56,8 +51,8 @@ export const ModerationNotificationActionsBar = (props) => {
             onClick={onToggleHighlight}
             disabled={isBlocked}
             icon={<i className="icon-highlight" aria-hidden="true" />}
-            text={highlightButtonText}
-            hoverText={highlightButtonHoverText}
+            textMouseOff={isHighlighted ? translated.isHighlightedText : translated.highlightText}
+            textMouseOn={isHighlighted ? translated.unhighlightText : translated.highlightText}
           />
           <HoverButton
             id="moderation-notification-actions-bar-button-block"
@@ -65,8 +60,8 @@ export const ModerationNotificationActionsBar = (props) => {
             onClick={onToggleBlock}
             disabled={isHighlighted}
             icon={<i className="fas fa-ban" aria-hidden="true" />}
-            text={blockButtonText}
-            hoverText={blockButtonHoverText}
+            textMouseOff={isBlocked ? translated.isBlockedText : translated.blockText}
+            textMouseOn={isBlocked ? translated.unblockText : translated.blockText}
           />
         </div>
       </div>
@@ -83,8 +78,8 @@ export const ModerationNotificationActionsBar = (props) => {
           className="btn btn--none"
           onClick={onTogglePending}
           icon={<i className="fas fa-archive me-1" aria-hidden="true" />}
-          text={translated.archivedText}
-          hoverText={translated.unarchiveText}
+          textMouseOn={translated.unarchiveText}
+          textMouseOff={translated.archivedText}
         />
       </div>
       )
