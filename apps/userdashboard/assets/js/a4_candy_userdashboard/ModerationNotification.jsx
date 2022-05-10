@@ -31,7 +31,7 @@ export const ModerationNotification = (props) => {
     return (
       <span>
         {splitted[0]}
-        <a href={url}>{splitted[1]}</a>
+        <a target="_blank" rel="noreferrer" href={url}>{splitted[1]}</a>
         {splitted[2]}
       </span>
     )
