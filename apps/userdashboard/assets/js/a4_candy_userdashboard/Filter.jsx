@@ -23,7 +23,7 @@ export const Filter = (props) => {
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          {django.gettext('Filter')}: {currFilterItem.label}
+          {props.filterText}: {currFilterItem.label}
           <i className="fa fa-caret-down" aria-hidden="true" />
         </button>
         <ul className="dropdown-menu">
