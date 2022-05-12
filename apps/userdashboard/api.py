@@ -1,11 +1,15 @@
 from django.db.models import Case
+from django.db.models import Count
 from django.db.models import Exists
 from django.db.models import ExpressionWrapper
+from django.db.models import Max
 from django.db.models import OuterRef
 from django.db.models import Q
 from django.db.models import Value
 from django.db.models import When
 from django.db.models.fields import BooleanField
+from django.db.models.functions import Coalesce
+from django.db.models.functions import Greatest
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import BooleanFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -14,6 +18,7 @@ from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import BaseFilterBackend
+from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 
 from adhocracy4.api.permissions import ViewSetRulesPermission
@@ -39,19 +44,69 @@ class ClassificationFilterBackend(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         if ('classification' in request.GET
                 and request.GET['classification'] != ''):
-            classification = request.GET['classification']
+            classifi = request.GET['classification']
             return queryset.filter(
                 Q(ai_classifications__is_pending=Case(
                     When(has_pending_notifications=True, then=Value(True)),
                     When(has_pending_notifications=False, then=Value(False))
                 ),
-                  ai_classifications__classifications__contains=classification) |
+                    ai_classifications__classifications__contains=classifi) |
                 Q(user_classifications__is_pending=Case(
                     When(has_pending_notifications=True, then=Value(True)),
                     When(has_pending_notifications=False, then=Value(False))
                 ),
-                  user_classifications__classifications__contains=classification)
+                    user_classifications__classifications__contains=classifi)
             )
+        return queryset
+
+
+class ClassificationOrderingFilter(OrderingFilter):
+    """Sort the comments by notification time and count.
+
+    When a comment has both pending and archived notifications, only
+    consider pending ones for the sorting.
+    """
+
+    def filter_queryset(self, request, queryset, view):
+        ordering = self.get_ordering(request, queryset, view)
+        if ordering:
+            queryset = queryset.annotate(
+                time_of_last_notification=Coalesce(
+                    Greatest(
+                        Max('ai_classifications__created'),
+                        Max('user_classifications__created')
+                    ),
+                    Max('ai_classifications__created'),
+                    Max('user_classifications__created')
+                ))
+            if 'new' in ordering:
+                return queryset.order_by('-time_of_last_notification')
+            elif 'old' in ordering:
+                return queryset.order_by('time_of_last_notification')
+            elif 'most' in ordering:
+                queryset = queryset.annotate(
+                    number_of_notifications=(Case(
+                        When(has_pending_notifications=True, then=(
+                            Count(
+                                'ai_classifications',
+                                filter=Q(ai_classifications__is_pending=True),
+                                distinct=True
+                            ) +
+                            Count(
+                                'user_classifications',
+                                filter=Q(
+                                    user_classifications__is_pending=True
+                                ),
+                                distinct=True
+                            )
+                        )),
+                        When(has_pending_notifications=False, then=(
+                            Count('ai_classifications', distinct=True)
+                            + Count('user_classifications', distinct=True)
+                        ))
+                    )))
+                return queryset.order_by('-number_of_notifications',
+                                         '-time_of_last_notification')
         return queryset
 
 
@@ -71,8 +126,12 @@ class ModerationCommentViewSet(mixins.ListModelMixin,
 
     serializer_class = serializers.ModerationCommentSerializer
     permission_classes = (ViewSetRulesPermission,)
-    filter_backends = (DjangoFilterBackend, ClassificationFilterBackend)
+    filter_backends = (DjangoFilterBackend,
+                       ClassificationFilterBackend,
+                       ClassificationOrderingFilter)
     filterset_class = PendingNotificationsFilter
+    ordering_fields = ['new', 'old', 'most']
+    ordering = ['new']
     lookup_field = 'pk'
 
     def dispatch(self, request, *args, **kwargs):
@@ -107,7 +166,7 @@ class ModerationCommentViewSet(mixins.ListModelMixin,
                 Exists(pending_user_classifications) |
                 Exists(pending_ai_classifications),
                 output_field=BooleanField())
-        ).order_by('-created')
+        )
 
     def update(self, request, *args, **kwargs):
         if 'is_blocked' in self.request.data and request.data['is_blocked']:
