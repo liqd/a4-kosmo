@@ -231,99 +231,83 @@ export const ModerationNotification = (props) => {
   return (
     <>
       <li className="list-item">
-        <div>
-          <div className="row">
-            <div className="col-sm-2 col-md-1">
-              {userImageDiv}
-            </div>
-            <div className="col-sm-7 col-md-8">
-              <div className="pb-1">
-                <i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
-                <strong>{userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName}</strong>
-                {getLink(translatedReportText(activeNotifications), commentUrl)}
-              </div>
-              <div>{commentChangeLog}</div>
-            </div>
-            {notification.has_pending_notifications &&
-              <div className="col">
-                <div className="text-end">
+        <div class="d-flex">
+          {userImageDiv}
+          <div>
+            <i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
+            <strong>{userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName}</strong>
+            {getLink(translatedReportText(activeNotifications), commentUrl)}
+            <div className="pt-1">{commentChangeLog}</div>
+          </div>
+          {notification.has_pending_notifications &&
+            <div className="ms-auto">
+              <button
+                type="button"
+                className="dropdown-toggle btn btn--none"
+                aria-haspopup="true"
+                aria-expanded="false"
+                data-bs-toggle="dropdown"
+              >
+                <i className="fas fa-ellipsis-v" aria-hidden="true" />
+              </button>
+              <ul className="dropdown-menu dropdown-menu-end">
+                <li key="1">
                   <button
+                    className="dropdown-item"
                     type="button"
-                    className="dropdown-toggle btn btn--none"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    data-bs-toggle="dropdown"
+                    onClick={() => toggleIsPending()}
                   >
-                    <i className="fas fa-ellipsis-v" aria-hidden="true" />
+                    {archiveText}
                   </button>
-                  <ul className="dropdown-menu dropdown-menu-end">
-                    <li key="1">
-                      <button
-                        className="dropdown-item"
-                        type="button"
-                        onClick={() => toggleIsPending()}
-                      >
-                        {archiveText}
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>}
-
-          </div>
-          <div className="row">
-            <div className="a4-comments__box--comment">
-              <div className="col-12">
-                <span className="sr-only">
-                  {classificationText}{notification.category_counts[0]}
-                </span>
-                {Object.entries(notification.category_counts).map((classification, i) => (
-                  <span
-                    className="badge a4-comments__badge a4-comments__badge--que"
-                    data-classification={classification[0]}
-                    key={i}
-                  >
-                    {`${classification[0]}: ${classification[1]}`}
-                  </span>))}
-                <span>
-                  {timeOfLastNotification}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-12">
-              <p>{commentText}</p>
-            </div>
-          </div>
-          <ModerationNotificationActionsBar
-            isPending={notification.has_pending_notifications}
-            isEditing={notification.moderator_statement}
-            isBlocked={notification.is_blocked}
-            isHighlighted={notification.is_moderator_marked}
-            onToggleForm={(isEditing) => toggleModerationStatementForm(isEditing)}
-            onToggleBlock={() => toggleIsBlocked()}
-            onToggleHighlight={() => toggleIsHighlighted()}
-            onTogglePending={() => toggleIsPending()}
-          />
-          {showStatementForm &&
-            <ModerationStatementForm
-              onSubmit={(payload) => handleStatementSubmit(payload)}
-              onEditSubmit={(payload) => handleStatementEdit(payload)}
-              initialStatement={notification.moderator_statement}
-              editing={isEditing}
-            />}
-          {notification.moderator_statement && !showStatementForm &&
-            <ModerationStatement
-              notificationIsPending={notification.has_pending_notifications}
-              statement={notification.moderator_statement}
-              onDelete={handleStatementDelete}
-              onEdit={() => {
-                setShowStatementForm(true)
-                setIsEditing(true)
-              }}
-            />}
+                </li>
+              </ul>
+            </div>}
         </div>
+
+        <div className="a4-comments__box--comment">
+          <span className="sr-only">
+            {classificationText}{notification.category_counts[0]}
+          </span>
+          {Object.entries(notification.category_counts).map((classification, i) => (
+            <span
+              className="badge a4-comments__badge a4-comments__badge--que"
+              data-classification={classification[0]}
+              key={i}
+            >
+              {`${classification[0]}: ${classification[1]}`}
+            </span>))}
+          <span>
+            {timeOfLastNotification}
+          </span>
+        </div>
+        <p>{commentText}</p>
+        <ModerationNotificationActionsBar
+          isPending={notification.has_pending_notifications}
+          isEditing={notification.moderator_statement}
+          isBlocked={notification.is_blocked}
+          isHighlighted={notification.is_moderator_marked}
+          onToggleForm={(isEditing) => toggleModerationStatementForm(isEditing)}
+          onToggleBlock={() => toggleIsBlocked()}
+          onToggleHighlight={() => toggleIsHighlighted()}
+          onTogglePending={() => toggleIsPending()}
+        />
+        {showStatementForm &&
+          <ModerationStatementForm
+            onSubmit={(payload) => handleStatementSubmit(payload)}
+            onEditSubmit={(payload) => handleStatementEdit(payload)}
+            initialStatement={notification.moderator_statement}
+            editing={isEditing}
+          />}
+        {notification.moderator_statement && !showStatementForm &&
+          <ModerationStatement
+            notificationIsPending={notification.has_pending_notifications}
+            statement={notification.moderator_statement}
+            onDelete={handleStatementDelete}
+            onEdit={() => {
+              setShowStatementForm(true)
+              setIsEditing(true)
+            }}
+          />}
       </li>
       <div className="mb-3">
         <Alert {...alert} onClick={() => setAlert(null)} />
