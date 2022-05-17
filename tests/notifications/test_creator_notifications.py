@@ -114,7 +114,7 @@ def test_notify_comment_creator_on_block(
     assert len(mail.outbox) == 4
     assert mail.outbox[3].to[0] == creator.email
     assert mail.outbox[3].subject.startswith(
-        'Your contribution was blocked')
+        'Your contribution was deleted')
 
 
 @pytest.mark.django_db
