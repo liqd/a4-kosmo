@@ -231,7 +231,7 @@ export const ModerationNotification = (props) => {
   return (
     <>
       <li className="list-item">
-        <div class="d-flex">
+        <div className="d-flex">
           {userImageDiv}
           <div>
             <i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
