@@ -149,33 +149,30 @@ export default class ModerationNotificationList extends Component {
             {organisation}
           </span>
           <div
-            className="filter-bar justify-content-end"
+            className="filter-bar__filled"
             aria-label={django.pgettext('kosmo', 'Filter')}
           >
-            <div className="mt-3">
-              <Filter
-                filterItems={classificationFilterItems}
-                onFilterChange={(value) => this.classificationFilterChangeHandle(value)}
-                selectedFilter={this.state.selectedFilters.classification}
-                filterText={django.pgettext('kosmo', 'Filter')}
-              />
-            </div>
-            <div className="mt-3 px-3">
-              <Filter
-                filterItems={pendingFilterItems}
-                onFilterChange={(value) => this.pendingFilterChangeHandle(value)}
-                selectedFilter={this.state.selectedFilters.pending}
-                filterText={django.pgettext('kosmo', 'Filter')}
-              />
-            </div>
-            <div className="mt-3">
-              <Filter
-                filterItems={orderingFilterItems}
-                onFilterChange={(value) => this.orderingFilterChangeHandle(value)}
-                selectedFilter={this.state.selectedFilters.ordering}
-                filterText={django.pgettext('kosmo', 'Sorting')}
-              />
-            </div>
+            <Filter
+              filterClass="mt-3 mt-lg-5 pe-lg-3 dropdown dropdown-menu-end"
+              filterItems={classificationFilterItems}
+              onFilterChange={(value) => this.classificationFilterChangeHandle(value)}
+              selectedFilter={this.state.selectedFilters.classification}
+              filterText={django.pgettext('kosmo', 'Filter')}
+            />
+            <Filter
+              filterClass="mt-3 mt-lg-5 px-lg-3 dropdown dropdown-menu-end"
+              filterItems={pendingFilterItems}
+              onFilterChange={(value) => this.pendingFilterChangeHandle(value)}
+              selectedFilter={this.state.selectedFilters.pending}
+              filterText={django.pgettext('kosmo', 'Filter')}
+            />
+            <Filter
+              filterClass="mt-3 mt-lg-5 ps-lg-3 dropdown dropdown-menu-end"
+              filterItems={orderingFilterItems}
+              onFilterChange={(value) => this.orderingFilterChangeHandle(value)}
+              selectedFilter={this.state.selectedFilters.ordering}
+              filterText={django.pgettext('kosmo', 'Sorting')}
+            />
           </div>
 
           {!isLoaded
