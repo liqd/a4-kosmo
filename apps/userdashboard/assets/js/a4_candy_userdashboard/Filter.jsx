@@ -15,27 +15,25 @@ export const Filter = (props) => {
   }
 
   return (
-    <div className="mt-2 mt-sm-0">
-      <div className="dropdown dropdown-menu-end">
-        <button
-          type="button"
-          className="dropdown-toggle btn btn--light btn--select"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          {props.filterText}: {currFilterItem.label}
-          <i className="fa fa-caret-down" aria-hidden="true" />
-        </button>
-        <ul className="dropdown-menu">
-          {props.filterItems.map((filterItem, i) => (
-            <li key={`${i}_${filterItem.label}`}>
-              <button onClick={() => onSelectFilter(filterItem)}>
-                {django.gettext(filterItem.label)}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div className={props.filterClass}>
+      <button
+        type="button"
+        className="dropdown-toggle btn btn--light btn--select"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        {props.filterText}: {currFilterItem.label}
+        <i className="fa fa-caret-down" aria-hidden="true" />
+      </button>
+      <ul className="dropdown-menu">
+        {props.filterItems.map((filterItem, i) => (
+          <li key={`${i}_${filterItem.label}`}>
+            <button onClick={() => onSelectFilter(filterItem)}>
+              {django.gettext(filterItem.label)}
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
