@@ -92,7 +92,7 @@ export default class ModerationProjects extends Component {
                 </div>
                 <div className="tile__body">
                   <span className="text-muted">{byText}{item.organisation}</span>
-                  <h3 className="tile__title mb-4">{item.offensive > 0 && <span className="text-info">• </span>}{item.title}</h3>
+                  <h3 className="tile__title mb-2">{item.offensive > 0 && <span className="text-info">• </span>}{item.title}</h3>
                   <div>
                     {item.access === 1 && <span className="label label--dark">{publicText}</span>}
                     {item.access === 2 && <span className="label label--dark">{semiPrivateText}</span>}
