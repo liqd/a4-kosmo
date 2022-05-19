@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-19 11:03+0200\n"
+"POT-Creation-Date: 2022-05-18 15:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -425,7 +425,7 @@ msgstr ""
 
 #: adhocracy4/comments/serializers.py:82
 #: adhocracy4/comments_async/serializers.py:97
-#: apps/classifications/serializers.py:28
+#: apps/userdashboard/serializers.py:117
 msgid "unknown user"
 msgstr ""
 
@@ -1490,12 +1490,12 @@ msgstr "beleidigend"
 #. Translators: kosmo
 #: apps/classifications/models.py:12
 msgid "engaging"
-msgstr ""
+msgstr "hochwertig"
 
 #. Translators: kosmo
 #: apps/classifications/models.py:14
 msgid "fact claiming"
-msgstr ""
+msgstr "Tatsachenbehauptung"
 
 #: apps/cms/contacts/models.py:38 apps/users/forms.py:44
 msgid "I am not a robot"
@@ -2460,6 +2460,10 @@ msgstr ""
 msgid "Organisation"
 msgstr ""
 
+#: apps/newsletters/forms.py:46
+msgid "Select a Project"
+msgstr ""
+
 #: apps/newsletters/models.py:19
 msgid "Users following a specific project"
 msgstr ""
@@ -2530,7 +2534,6 @@ msgid "Reaction to your contribution"
 msgstr ""
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator.en.email:9
-#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:19
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:19
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_feedback.en.email:9
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_followers_event_upcomming.en.email:9
@@ -2573,18 +2576,23 @@ msgstr ""
 #. Translators: KOSMO
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:6
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:11
-msgid "Your contribution was blocked"
-msgstr "Ihr Beitrag wurde gesperrt"
+msgid "Your contribution was deleted"
+msgstr "Ihr Beitrag wurde gelöscht."
+
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:19
+#, python-format
+msgid "Hello <strong>%(receiver_name)s</strong>,"
+msgstr ""
 
 #. Translators: KOSMO
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:23
 #, python-format
 msgid ""
-"Your contribution in the project \"%(project_name)s\" was blocked by the "
-"moderator."
+"Your contribution in the project <strong>\"%(project_name)s\"</strong> was "
+"deleted by the moderator."
 msgstr ""
-"Ihr Beitrag im Project \"%(project_name)s\" wurde von der Moderation "
-"gesperrt."
+"Ihr Beitrag in dem Projekt <strong>\"%(project_name)s\"</strong> "
+"wurde von der Moderation gelöscht."
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:23
 msgid ""
@@ -2594,18 +2602,23 @@ msgid ""
 msgstr ""
 "Bitte achten Sie beim Verfassen von Beiträgen auf diese Grundregeln. So "
 "schaffen wir gemeinsam eine angenehme Atmosphäre für einen offenen Austausch "
-"und kommen zu guten Ergebnissen kommen. "
+"und können zu guten Ergebnissen kommen. "
 
 #. Translators: KOSMO
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:26
 msgid "Thank you very much!"
 msgstr "Vielen Dank!"
 
-#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:32
+#. Translators: KOSMO
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:30
+msgid "Your contribution:"
+msgstr "Ihr Beitrag:"
+
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:41
 msgid "Show discussion"
 msgstr "Zur Diskussion"
 
-#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:36
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:45
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:38
 #, python-format
 msgid ""
@@ -2634,7 +2647,7 @@ msgstr ""
 #. Translators: KOSMO
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:28
 msgid "Here you can find your contribution:"
-msgstr "Hier kommen Sie zu ihrem Beitrag:"
+msgstr "Hier kommen Sie zu Ihrem Beitrag:"
 
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:34
 msgid "Show contribution"
@@ -3483,6 +3496,7 @@ msgstr ""
 #: apps/projects/templates/a4_candy_projects/moderatorinvite_detail.html:15
 #: apps/projects/templates/a4_candy_projects/participantinvite_detail.html:15
 #: apps/users/templates/a4_candy_users/indicator.html:61
+#: adhocracy-plus/templates/account/email/unknown_account.en.email:21
 #: adhocracy-plus/templates/account/signup.html:4
 #: adhocracy-plus/templates/account/signup.html:7
 #: adhocracy-plus/templates/account/signup.html:65
@@ -3708,6 +3722,10 @@ msgstr ""
 msgid "The topic has been deleted"
 msgstr ""
 
+#: apps/userdashboard/serializers.py:87
+msgid "AI"
+msgstr ""
+
 #. Translators: kosmo
 #: apps/userdashboard/templates/a4_candy_userdashboard/base_userdashboard.html:12
 #: adhocracy-plus/templates/includes/userdashboard_mobile_toggle.html:18
@@ -3828,7 +3846,7 @@ msgstr ""
 #. Translators: KOSMO
 #: apps/users/emails.py:18
 msgid "It does not correspond to the {}netiquette{}."
-msgstr ""
+msgstr "Er entspricht nicht der {}Netiquette{}."
 
 #: apps/users/fields.py:12
 msgid "Please enter correct email addresses, separated by commas."
@@ -4048,80 +4066,80 @@ msgstr ""
 msgid "Russian"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:347
-#: adhocracy-plus/config/settings/base.py:363
+#: adhocracy-plus/config/settings/base.py:348
+#: adhocracy-plus/config/settings/base.py:364
 msgid "Rich text editor"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:465
+#: adhocracy-plus/config/settings/base.py:466
 msgid "suggestion"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:466
+#: adhocracy-plus/config/settings/base.py:467
 msgid "note"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:467
+#: adhocracy-plus/config/settings/base.py:468
 msgid "question"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:507
+#: adhocracy-plus/config/settings/base.py:508
 msgid "Pin without icon"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:508
+#: adhocracy-plus/config/settings/base.py:509
 msgid "Diamond"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:509
+#: adhocracy-plus/config/settings/base.py:510
 msgid "Triangle up"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:510
+#: adhocracy-plus/config/settings/base.py:511
 msgid "Triangle down"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:511
+#: adhocracy-plus/config/settings/base.py:512
 msgid "Ellipse"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:512
+#: adhocracy-plus/config/settings/base.py:513
 msgid "Semi circle"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:513
+#: adhocracy-plus/config/settings/base.py:514
 msgid "Hexagon"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:514
+#: adhocracy-plus/config/settings/base.py:515
 msgid "Rhomboid"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:515
+#: adhocracy-plus/config/settings/base.py:516
 msgid "Star"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:516
+#: adhocracy-plus/config/settings/base.py:517
 msgid "Square"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:517
+#: adhocracy-plus/config/settings/base.py:518
 msgid "Octothorpe"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:518
+#: adhocracy-plus/config/settings/base.py:519
 msgid "Rectangle"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:519
+#: adhocracy-plus/config/settings/base.py:520
 msgid "Circle"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:520
+#: adhocracy-plus/config/settings/base.py:521
 msgid "Right triangle"
 msgstr ""
 
-#: adhocracy-plus/config/settings/base.py:521
+#: adhocracy-plus/config/settings/base.py:522
 msgid "Zigzag"
 msgstr ""
 
@@ -4451,6 +4469,7 @@ msgid ""
 msgstr ""
 
 #: adhocracy-plus/templates/account/email/password_reset_key.en.email:4
+#: adhocracy-plus/templates/account/email/unknown_account.en.email:4
 #, python-format
 msgid "Reset password request for %(current_site)s"
 msgstr ""
@@ -4469,6 +4488,7 @@ msgid ""
 msgstr ""
 
 #: adhocracy-plus/templates/account/email/password_reset_key.en.email:11
+#: adhocracy-plus/templates/account/email/unknown_account.en.email:6
 msgid "Reset password"
 msgstr ""
 
@@ -4477,6 +4497,36 @@ msgstr ""
 msgid ""
 "This email was sent to %(useremail)s. You receive this email because your "
 "password on %(current_site)s has been reset."
+msgstr ""
+
+#: adhocracy-plus/templates/account/email/unknown_account.en.email:9
+#, python-format
+msgid ""
+"You are receiving this e-mail because you or someone else has requested a\n"
+"password for your user account. However, we do not have any record of a "
+"user\n"
+"with email %(email)s in our database."
+msgstr ""
+
+#: adhocracy-plus/templates/account/email/unknown_account.en.email:13
+msgid ""
+"This mail can be safely ignored if you did not request a password reset."
+msgstr ""
+
+#: adhocracy-plus/templates/account/email/unknown_account.en.email:15
+msgid "If it was you, you can sign up for an account using the link below."
+msgstr ""
+
+#: adhocracy-plus/templates/account/email/unknown_account.en.email:17
+#, python-format
+msgid "If you need assistance, please contact %(contact_email)s."
+msgstr ""
+
+#: adhocracy-plus/templates/account/email/unknown_account.en.email:23
+#, python-format
+msgid ""
+"This email was sent to %(email)s. You have received the e-mail because the "
+"reset of your password has been requested on %(current_site)s."
 msgstr ""
 
 #: adhocracy-plus/templates/account/email_confirm.html:4
@@ -4744,9 +4794,3 @@ msgstr ""
 #: adhocracy-plus/templates/socialaccount/snippets/provider_list.html:23
 msgid "Login with "
 msgstr ""
-
-#~ msgid "Offensive"
-#~ msgstr "beleidigend"
-
-#~ msgid "Other"
-#~ msgstr "andere"

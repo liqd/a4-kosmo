@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-19 11:03+0200\n"
+"POT-Creation-Date: 2022-05-18 15:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -234,21 +234,31 @@ msgstr ""
 msgid " Report"
 msgstr ""
 
-#: adhocracy4/comments_async/static/comments_async/comment.jsx:33
-#: adhocracy4/comments_async/static/comments_async/comment.jsx:33
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:28
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:28
+msgid "Show moderator's statement"
+msgstr ""
+
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:29
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:29
+msgid "Hide moderator's statement"
+msgstr ""
+
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:35
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:35
 msgid "hide replies"
 msgstr ""
 
-#: adhocracy4/comments_async/static/comments_async/comment.jsx:36
-#: adhocracy4/comments_async/static/comments_async/comment.jsx:36
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:38
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:38
 #, javascript-format
 msgid "1 reply"
 msgid_plural "%s replies"
 msgstr[0] ""
 msgstr[1] ""
 
-#: adhocracy4/comments_async/static/comments_async/comment.jsx:39
-#: adhocracy4/comments_async/static/comments_async/comment.jsx:39
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:41
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:41
 msgctxt "verb"
 msgid "Reply"
 msgstr ""
@@ -310,10 +320,10 @@ msgstr ""
 
 #: adhocracy4/comments_async/static/comments_async/comment_box.jsx:29
 #: adhocracy4/comments_async/static/comments_async/comment_box.jsx:64
-#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:321
+#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:324
 #: adhocracy4/comments_async/static/comments_async/comment_box.jsx:29
 #: adhocracy4/comments_async/static/comments_async/comment_box.jsx:64
-#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:321
+#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:324
 #: apps/interactiveevents/assets/js/a4_candy_interactive_events/livequestion_box.jsx:57
 #: apps/interactiveevents/assets/js/a4_candy_interactive_events/livequestion_filters.jsx:32
 msgid "all"
@@ -324,15 +334,20 @@ msgstr ""
 msgid "sorted by: "
 msgstr ""
 
-#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:90
-#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:90
+#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:79
+#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:79
+msgid "Highlighted"
+msgstr ""
+
+#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:93
+#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:93
 msgid "entry"
 msgid_plural "entries"
 msgstr[0] ""
 msgstr[1] ""
 
-#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:483
-#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:483
+#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:486
+#: adhocracy4/comments_async/static/comments_async/comment_box.jsx:486
 msgid "entry found for "
 msgid_plural "entries found for "
 msgstr[0] ""
@@ -438,7 +453,7 @@ msgid "Import polygon via file upload"
 msgstr ""
 
 #: adhocracy4/maps/static/a4maps/a4maps_choose_polygon_with_preset.js:88
-#: adhocracy4/static/Alert.jsx:5
+#: adhocracy4/static/Alert.jsx:6
 #: adhocracy4/maps/static/a4maps/a4maps_choose_polygon_with_preset.js:88
 #: apps/dashboard/assets/ajax_modal.js:12 apps/embed/assets/embed.js:57
 #: apps/embed/assets/embed.js:58
@@ -910,67 +925,206 @@ msgstr ""
 msgid "undo like"
 msgstr ""
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/FilterBar.jsx:25
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/FilterBar.jsx:35
-msgid "Filter"
-msgstr ""
-
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:154
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:10
 msgctxt "kosmo"
-msgid " posted a {}comment{} that has been reported as %(classification)s"
-msgstr ""
-" hat ein {}Kommentar{} erstellt, das als %(classification)s gemeldet wurde."
+msgid "Your statement was successfully delivered."
+msgstr "Ihre Mitteilung wurde zugestellt."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:155
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:11
 msgctxt "kosmo"
-msgid " posted a {}comment{} that might be %(classification)s"
-msgstr " hat ein {}Kommentar{} erstellt, das %(classification)s sein könnte."
+msgid "Your statement was successfully updated."
+msgstr "Ihre Mitteilung wurde aktualisiert."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:160
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:12
+msgctxt "kosmo"
+msgid "Your statement was successfully deleted."
+msgstr "Ihre Mitteilung wurde gelöscht."
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:13
+msgctxt "kosmo"
+msgid ""
+"The comment has already been moderated. Your statement could not be saved."
+msgstr "Der Beitrag wurde bereits moderiert. Ihre Mitteilung konnte nicht gespeichert werden. "
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:14
+msgctxt "kosmo"
+msgid "Go to discussion"
+msgstr "Zur Diskussion"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:15
+msgctxt "kosmo"
+msgid "Comment blocked successfully."
+msgstr "Der Beitrag wurde blockiert."
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:16
+msgctxt "kosmo"
+msgid "Comment unblocked successfully."
+msgstr "Der Beitrag wurde entsperrt."
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:17
+msgctxt "kosmo"
+msgid "Comment highlighted successfully."
+msgstr "Der Beitrag wurde hervorgehoben."
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:18
+msgctxt "kosmo"
+msgid "Comment unhighlighted successfully."
+msgstr "Die Hervorhebung wurde widerrufen."
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:19
+msgctxt "kosmo"
+msgid "Notification archived successfully."
+msgstr "Die Benachrichtigung wurde archiviert."
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:20
+msgctxt "kosmo"
+msgid "Notification unarchived successfully."
+msgstr "Die Archivierung der Benachrichtigung wurde widerrufen."
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:193
+msgid "kosmo"
+msgid_plural "'s {}comment{} has been reported 1 time since it's creation"
+msgstr[0] ""
+msgstr[1] "hat einen {}Beitrag{} verfasst, der seitdem 1 mal gemeldet wurde."
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:213
 msgctxt "kosmo"
 msgid "Classification: "
-msgstr "Klassifikation"
+msgstr "Klassifikation: "
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:161
-msgctxt "kosmo"
-msgid "AI"
-msgstr "KI"
-
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:162
-msgctxt "kosmo"
-msgid " Block"
-msgstr " Blockieren"
-
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:163
-msgctxt "kosmo"
-msgid " Unblock"
-msgstr ""
-
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:164
-msgctxt "kosmo"
-msgid " Add statement"
-msgstr ""
-
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:165
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:214
 msgctxt "kosmo"
 msgid " Archive"
-msgstr ""
+msgstr "Archiv"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:166
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:226
 msgctxt "kosmo"
-msgid " Unarchive"
-msgstr ""
+msgid "Last edited on "
+msgstr "Zuletzt bearbeitet am"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:167
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:228
+msgctxt "kosmo"
+msgid "Created on "
+msgstr "Verfasst am "
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:7
+msgctxt "kosmo"
+msgid "Block"
+msgstr "Blockieren"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:8
+msgctxt "kosmo"
+msgid "Unblock"
+msgstr "Entblocken"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:9
+msgctxt "kosmo"
+msgid "Blocked"
+msgstr "Blockiert"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:10
+msgctxt "kosmo"
+msgid "Add statement"
+msgstr "Mitteilung hinzufügen"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:11
 msgctxt "kosmo"
 msgid "This negative comment was blocked because it is spam"
-msgstr ""
+msgstr "Dieser Beitrag wurde blockiert, da es sich um Spam handelt."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:103
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:12
+msgctxt "kosmo"
+msgid "Highlight"
+msgstr "Hervorheben"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:13
+msgctxt "kosmo"
+msgid "Unhighlight"
+msgstr "Hervorhebung aufheben"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:14
+msgctxt "kosmo"
+msgid "Highlighted"
+msgstr "Hervorgehoben"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:15
+msgctxt "kosmo"
+msgid "Unarchive"
+msgstr "Archivierung aufheben"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:16
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:10
+msgctxt "kosmo"
+msgid "Archived"
+msgstr "Archiviert"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:17
+msgctxt "kosmo"
+msgid "Edit statement"
+msgstr "Mitteilung bearbeiten"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:9
+msgctxt "kosmo"
+msgid "Pending"
+msgstr "Ausstehend"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:11
+msgctxt "kosmo"
+msgid "View all"
+msgstr "Alle ansehen"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:15
+msgctxt "kosmo"
+msgid "Offensive"
+msgstr "Beleidigend"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:16
+msgctxt "kosmo"
+msgid "Engaging"
+msgstr "Hochwertig"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:17
+msgctxt "kosmo"
+msgid "Fact claiming"
+msgstr "Tatsachenbehauptung"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:18
+msgctxt "kosmo"
+msgid "All categories"
+msgstr "Alle Kategorien"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:22
+msgctxt "kosmo"
+msgid "Most recent reported"
+msgstr "Neueste Meldung"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:23
+msgctxt "kosmo"
+msgid "Oldest reported"
+msgstr "Älteste Meldung"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:24
+msgctxt "kosmo"
+msgid "Most reported"
+msgstr "Am häufigsten gemeldet"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:138
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationProjects.jsx:69
 msgctxt "kosmo"
 msgid "By "
 msgstr "von "
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:153
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:160
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:168
+msgctxt "kosmo"
+msgid "Filter"
+msgstr "Filter"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:176
+msgctxt "kosmo"
+msgid "Sorting"
+msgstr "Sortieren"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationProjects.jsx:43
 msgctxt "kosmo"
@@ -1025,46 +1179,42 @@ msgstr "halb-öffentlich"
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatement.jsx:7
 msgctxt "kosmo"
 msgid "delete"
-msgstr ""
+msgstr "löschen"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatement.jsx:8
 msgctxt "kosmo"
 msgid "edit"
-msgstr ""
+msgstr "bearbeiten"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatement.jsx:9
 msgctxt "kosmo"
 msgid "Moderator's statement"
-msgstr ""
+msgstr "Mitteilung der Moderation"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatement.jsx:10
 msgctxt "kosmo"
-msgid "Last edit was on"
-msgstr ""
+msgid "Last edit was on "
+msgstr "Zuletzt bearbeitet am "
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatementForm.jsx:9
+msgctxt "kosmo"
+msgid "Write statement"
+msgstr "Mitteilung schreiben"
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatementForm.jsx:10
+msgctxt "kosmo"
+msgid " characters"
+msgstr " Zeichen"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatementForm.jsx:11
 msgctxt "kosmo"
-msgid "Write statement"
-msgstr ""
+msgid "submit statement"
+msgstr "Mitteilung hinzufügen"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatementForm.jsx:12
 msgctxt "kosmo"
-msgid " characters"
-msgstr ""
-
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatementForm.jsx:13
-msgid "kosmo"
-msgstr ""
-
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatementForm.jsx:14
-msgctxt "kosmo"
-msgid "submit statement"
-msgstr ""
-
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatementForm.jsx:15
-msgctxt "kosmo"
 msgid "update statement"
-msgstr ""
+msgstr "Mitteilung aktualisieren"
 
 #: adhocracy-plus/assets/js/unload_warning.js:15
 msgid "If you leave this page changes you made will not be saved."
@@ -1106,27 +1256,3 @@ msgstr ""
 #: dsgvo-video-embed/js/dsgvo-video-embed.js:20
 msgid "More information can be found in the privacy policy of Vimeo under: "
 msgstr ""
-
-#~ msgctxt "kosmo"
-#~ msgid " Dismiss"
-#~ msgstr " Verwerfen"
-
-#~ msgctxt "kosmo"
-#~ msgid " Reply"
-#~ msgstr " Antworten"
-
-#~ msgctxt "kosmo"
-#~ msgid " posted a "
-#~ msgstr " erstellte eine "
-
-#~ msgctxt "kosmo"
-#~ msgid " for being offensive"
-#~ msgstr " als beleidigend"
-
-#~ msgctxt "kosmo"
-#~ msgid "Categories: "
-#~ msgstr "Kategorien: "
-
-#~ msgctxt "kosmo"
-#~ msgid "semiprivate"
-#~ msgstr "halb-öffentlich"
