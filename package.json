@@ -13,7 +13,7 @@
   "repository": "https://github.com/liqd/adhocracy-plus.git",
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.15.4",
-    "adhocracy4": "git+https://github.com/liqd/adhocracy4#67f02d0e9bacab2003b6c6025dc6b2374ca3a7cc",
+    "adhocracy4": "git+https://github.com/liqd/adhocracy4#6d3a8cc296d9b6a9cbeef6f0b1f7d4364a277701",
     "autoprefixer": "10.4.7",
     "bootstrap": "5.1.3",
     "css-loader": "6.7.1",
