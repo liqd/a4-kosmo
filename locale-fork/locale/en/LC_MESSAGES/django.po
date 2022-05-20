@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-18 15:38+0200\n"
+"POT-Creation-Date: 2022-05-20 11:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2579,20 +2579,21 @@ msgstr ""
 msgid "Your contribution was deleted"
 msgstr ""
 
-#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:19
+#. Translators: KOSMO
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:21
 #, python-format
 msgid "Hello <strong>%(receiver_name)s</strong>,"
 msgstr ""
 
 #. Translators: KOSMO
-#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:23
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:26
 #, python-format
 msgid ""
 "Your contribution in the project <strong>\"%(project_name)s\"</strong> was "
 "deleted by the moderator."
 msgstr ""
 
-#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:23
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:26
 msgid ""
 "Please pay attention to the basic rules when writing contributions. In this "
 "way we create a pleasant atmosphere for an open exchange and achieve good "
@@ -2600,20 +2601,21 @@ msgid ""
 msgstr ""
 
 #. Translators: KOSMO
-#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:26
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:29
 msgid "Thank you very much!"
 msgstr ""
 
 #. Translators: KOSMO
-#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:30
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:33
 msgid "Your contribution:"
 msgstr ""
 
-#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:41
+#. Translators: KOSMO
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:45
 msgid "Show discussion"
 msgstr ""
 
-#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:45
+#: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_blocked.en.email:49
 #: apps/notifications/templates/a4_candy_notifications/emails/notify_creator_on_moderator_comment_statement.en.email:38
 #, python-format
 msgid ""
