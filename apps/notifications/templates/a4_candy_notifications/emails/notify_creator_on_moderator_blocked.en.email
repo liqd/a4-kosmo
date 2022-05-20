@@ -16,7 +16,10 @@
 {% endblock  %}
 
 
-{% block greeting %}{% blocktrans with receiver_name=receiver.username %}Hello <strong>{{ receiver_name }}</strong>,{% endblocktrans %}{% endblock %}
+{% block greeting %}
+{# Translators: KOSMO #}
+{% blocktrans with receiver_name=receiver.username %}Hello <strong>{{ receiver_name }}</strong>,{% endblocktrans %}
+{% endblock %}
 
 {% block content %}
 {# Translators: KOSMO #}
@@ -38,6 +41,7 @@
 {% block cta_url %}{{ email.get_host }}{{ module.get_detail_url }}{% endblock %}
 
 {% block cta_label %}
+{# Translators: KOSMO #}
 {% blocktrans %}Show discussion{% endblocktrans %}
 {% endblock %}
 
