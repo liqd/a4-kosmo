@@ -189,9 +189,10 @@ export const ModerationNotification = (props) => {
   // **** End notification methods ****
 
   function translatedReportText (reportsFound) {
-    const tmp = django.ngettext(
-      'kosmo', '\'s {}comment{} has been reported 1 time since it\'s creation',
-      'kosmo', '\'s {}comment{} has been reported %s times since it\'s creation',
+    const tmp = django.npgettext(
+      'kosmo',
+      '\'s {}comment{} has been reported 1 time since it\'s creation',
+      '\'s {}comment{} has been reported %s times since it\'s creation',
       reportsFound
     )
     return (
@@ -211,7 +212,7 @@ export const ModerationNotification = (props) => {
     time_of_last_notification: timeOfLastNotification
   } = notification
   const classificationText = django.pgettext('kosmo', 'Classification: ')
-  const archiveText = django.pgettext('kosmo', ' Archive')
+  const archiveText = django.pgettext('kosmo, verb', 'Archive')
 
   let userImageDiv
   if (userImage) {
