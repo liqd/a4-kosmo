@@ -1038,7 +1038,7 @@ msgctxt "kosmo"
 msgid "'s {}comment{} has been reported 1 time since it's creation"
 msgid_plural "'s {}comment{} has been reported %s times since it's creation"
 msgstr[0] "hat einen {}Beitrag{} verfasst, der seitdem 1 mal gemeldet wurde."
-msgstr[1] ""hat einen {}Beitrag{} verfasst, der seitdem %s mal gemeldet wurde."
+msgstr[1] "hat einen {}Beitrag{} verfasst, der seitdem %s mal gemeldet wurde."
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:214
 msgctxt "kosmo"
