@@ -38,7 +38,7 @@
 </p>
 {% endblock %}
 
-{% block cta_url %}{{ email.get_host }}{{ module.get_detail_url }}{% endblock %}
+{% block cta_url %}{% if comment.content_object.get_absolute_url %}{{ email.get_host }}{{ comment.content_object.get_absolute_url }}{% else %}{{ email.get_host }}{{ module.get_detail_url }}{% endif %}{% endblock %}
 
 {% block cta_label %}
 {# Translators: KOSMO #}
