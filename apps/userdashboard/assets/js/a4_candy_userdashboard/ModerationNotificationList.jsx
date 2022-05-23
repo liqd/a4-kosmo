@@ -30,7 +30,7 @@ export default class ModerationNotificationList extends Component {
 
     this.state = {
       moderationComments: [],
-      selectedFilters: { pending: '', classification: '', ordering: 'new' },
+      selectedFilters: { pending: 'true', classification: '', ordering: 'new' },
       isLoaded: false,
       alert: undefined
     }
