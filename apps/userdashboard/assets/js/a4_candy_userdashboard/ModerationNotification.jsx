@@ -272,7 +272,7 @@ export const ModerationNotification = (props) => {
           {Object.entries(notification.category_counts).map((classification, i) => (
             <span
               className="badge a4-comments__badge a4-comments__badge--que"
-              data-classification={classification[0]}
+              data-classification={classification[0].toLowerCase()}
               key={i}
             >
               {`${classification[0]}: ${classification[1]}`}

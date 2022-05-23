@@ -275,15 +275,18 @@
     background-color: $green-light;
 }
 
-.a4-comments__badge[data-classification="offensive"] {
+.a4-comments__badge[data-classification="offensive"],
+.a4-comments__badge[data-classification="beleidigend"] {
     background-color: $red-light;
 }
 
-.a4-comments__badge[data-classification="engaging"] {
+.a4-comments__badge[data-classification="engaging"],
+.a4-comments__badge[data-classification="hochwertig"] {
     background-color: $purple-light;
 }
 
-.a4-comments__badge[data-classification="fact claiming"] {
+.a4-comments__badge[data-classification="fact claiming"],
+.a4-comments__badge[data-classification="tatsachenbehauptung"] {
     background-color: $red-lighter;
 }
 
