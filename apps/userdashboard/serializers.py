@@ -1,3 +1,5 @@
+from collections import Counter
+
 from django.urls import reverse
 from django.utils.encoding import force_str
 from django.utils.hashable import make_hashable
@@ -66,27 +68,20 @@ class ModerationCommentSerializer(serializers.ModelSerializer):
         else:
             ai_classifications = comment.ai_classifications.all()
             user_classifications = comment.user_classifications.all()
-        ai_classifications_lists = \
-            list(ai_classifications.values_list('classifications', flat=True))
-        ai_list = [classification for sublist in ai_classifications_lists
-                   for classification in sublist]
-        user_classifications_lists = \
-            list(user_classifications.values_list('classifications',
-                                                  flat=True))
-        user_list = [classification for sublist in user_classifications_lists
-                     for classification in sublist]
-        classifications_list = ai_list + user_list
-        # serialize translated classifications as keys
+
+        ai_counts = Counter(
+            ai_classifications.values_list('classification', flat=True))
+        user_counts = Counter(
+            user_classifications.values_list('classification', flat=True))
+
+        category_counts = ai_counts + user_counts
+
+        # serialize dict {category: {'count': , 'translated': }}
         choices_dict = dict(make_hashable(CLASSIFICATION_CHOICES))
-        category_counts = {force_str(choices_dict[classification]):
-                           classifications_list.count(classification)
-                           for classification in classifications_list}
-
-        num_ai_classifications = ai_classifications.count()
-        if num_ai_classifications > 0:
-            category_counts[_('AI')] = num_ai_classifications
-
-        return category_counts
+        return {c.lower(): {
+            'count': category_counts[c],
+            'translated': force_str(choices_dict[c])
+        } for c in category_counts}
 
     def get_comment_url(self, instance):
         return instance.get_absolute_url()
