@@ -24,34 +24,15 @@ def get_ai_classification(sender, instance, created, update_fields, **kwargs):
                         settings.AI_API_VERSION:
                     ai_api_version = settings.AI_API_VERSION
                 else:
-                    ai_api_version = '2.0'
+                    ai_api_version = '3.0'
                 try:
                     response = call_ai_api(comment=instance,
                                            version=ai_api_version)
                     if response.status_code == 200:
-                        # version 2
-                        if ai_api_version == '2.0' \
-                                and response.json()['classification']\
-                                == 'OFFENSE':
-
-                            classification = AIClassification(
-                                comment=instance,
-                                classifications=['OFFENSIVE']
-                            )
-                            classification.save()
-                        # version 3
-                        elif ai_api_version == '3.0' and 1 in \
-                                response.json()['classification'].values():
-                            classifications_dict = \
-                                response.json()['classification']
-                            classifications = [c for c in classifications_dict
-                                               if classifications_dict[c] == 1]
-                            classification = AIClassification(
-                                comment=instance,
-                                classifications=classifications
-                            )
-                            classification.save()
-
+                        extract_and_save_ai_classifications(
+                            comment=instance,
+                            classifications=response.json()['classification'],
+                            version=ai_api_version)
                 except httpx.HTTPError as e:
                     logger.error('Error connecting to %s: %s',
                                  settings.AI_API_URL, str(e))
@@ -84,3 +65,23 @@ def call_ai_api(comment, version):
     response.raise_for_status()
 
     return response
+
+
+def extract_and_save_ai_classifications(comment, classifications, version):
+    # version 2
+    if version == '2.0' and classifications == 'OFFENSE':
+        classification = AIClassification(
+            comment=comment,
+            classification='OFFENSIVE'
+        )
+        classification.save()
+    # version 3
+    elif version == '3.0' and 1 in classifications.values():
+        detected_classifications = [c for c in classifications
+                                    if classifications[c] == 1]
+        for classification in detected_classifications:
+            classification = AIClassification(
+                comment=comment,
+                classification=classification
+            )
+            classification.save()
