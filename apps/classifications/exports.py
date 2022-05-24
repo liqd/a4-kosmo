@@ -14,7 +14,7 @@ class AbstractClassificationExport(PermissionRequiredMixin,
                                    MultipleObjectMixin,
                                    views.AbstractXlsxExportView):
 
-    fields = ['id', 'created', 'classifications', 'comment_text', 'is_pending',
+    fields = ['id', 'created', 'classification', 'comment_text', 'is_pending',
               'comment']
     related_fields = {'comment': ['id', 'comment', 'is_blocked',
                                   'is_moderator_marked', 'created',
