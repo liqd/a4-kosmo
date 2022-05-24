@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from multiselectfield import MultiSelectField
 
 from adhocracy4.comments.models import Comment
 from adhocracy4.models import base
@@ -24,8 +23,8 @@ class Classification(models.Model):
 
     is_pending = models.BooleanField(default=True)
 
-    classifications = MultiSelectField(max_length=50,
-                                       choices=CLASSIFICATION_CHOICES)
+    classification = models.CharField(max_length=50,
+                                      choices=CLASSIFICATION_CHOICES)
 
     comment_text = models.TextField(max_length=4000)
 
