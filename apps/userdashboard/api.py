@@ -34,6 +34,26 @@ from apps.projects import helpers
 from . import serializers
 
 
+def annotate_has_pending_notifications(comment_queryset):
+    pending_ai_classifications = AIClassification.objects.filter(
+        is_pending=True,
+        comment__pk=OuterRef('pk')
+    )
+    pending_user_classifications = UserClassification.objects.filter(
+        is_pending=True,
+        comment__pk=OuterRef('pk')
+    )
+    return comment_queryset.filter(
+        Q(user_classifications__isnull=False) |
+        Q(ai_classifications__isnull=False)
+    ).distinct().annotate(
+        has_pending_notifications=ExpressionWrapper(
+            Exists(pending_user_classifications) |
+            Exists(pending_ai_classifications),
+            output_field=BooleanField())
+    )
+
+
 class ClassificationFilterBackend(BaseFilterBackend):
     """Filter the comments for the classification categories.
 
@@ -50,12 +70,12 @@ class ClassificationFilterBackend(BaseFilterBackend):
                     When(has_pending_notifications=True, then=Value(True)),
                     When(has_pending_notifications=False, then=Value(False))
                 ),
-                    ai_classifications__classifications__contains=classifi) |
+                    ai_classifications__classification=classifi) |
                 Q(user_classifications__is_pending=Case(
                     When(has_pending_notifications=True, then=Value(True)),
                     When(has_pending_notifications=False, then=Value(False))
                 ),
-                    user_classifications__classifications__contains=classifi)
+                    user_classifications__classification=classifi)
             )
         return queryset
 
@@ -150,23 +170,7 @@ class ModerationCommentViewSet(mixins.ListModelMixin,
 
     def get_queryset(self):
         all_comments_project = helpers.get_all_comments_project(self.project)
-        pending_ai_classifications = AIClassification.objects.filter(
-            is_pending=True,
-            comment__pk=OuterRef('pk')
-        )
-        pending_user_classifications = UserClassification.objects.filter(
-            is_pending=True,
-            comment__pk=OuterRef('pk')
-        )
-        return all_comments_project.filter(
-            Q(user_classifications__isnull=False) |
-            Q(ai_classifications__isnull=False)
-        ).distinct().annotate(
-            has_pending_notifications=ExpressionWrapper(
-                Exists(pending_user_classifications) |
-                Exists(pending_ai_classifications),
-                output_field=BooleanField())
-        )
+        return annotate_has_pending_notifications(all_comments_project)
 
     def update(self, request, *args, **kwargs):
         if 'is_blocked' in self.request.data and request.data['is_blocked']:
