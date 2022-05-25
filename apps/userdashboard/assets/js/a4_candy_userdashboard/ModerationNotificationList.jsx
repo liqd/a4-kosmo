@@ -153,21 +153,21 @@ export default class ModerationNotificationList extends Component {
             aria-label={django.pgettext('kosmo', 'Filter')}
           >
             <Filter
-              filterClass="mt-3 mt-lg-5 pe-lg-3 dropdown dropdown-menu-end"
+              filterClass="mt-3 mt-lg-5 me-lg-3 dropdown dropdown-menu-end"
               filterItems={classificationFilterItems}
               onFilterChange={(value) => this.classificationFilterChangeHandle(value)}
               selectedFilter={this.state.selectedFilters.classification}
               filterText={django.pgettext('kosmo', 'Filter')}
             />
             <Filter
-              filterClass="mt-3 mt-lg-5 px-lg-3 dropdown dropdown-menu-end"
+              filterClass="mt-3 mt-lg-5 mx-lg-3 dropdown dropdown-menu-end"
               filterItems={pendingFilterItems}
               onFilterChange={(value) => this.pendingFilterChangeHandle(value)}
               selectedFilter={this.state.selectedFilters.pending}
               filterText={django.pgettext('kosmo', 'Filter')}
             />
             <Filter
-              filterClass="mt-3 mt-lg-5 ps-lg-3 dropdown dropdown-menu-end"
+              filterClass="mt-3 mt-lg-5 ms-lg-3 dropdown dropdown-menu-end"
               filterItems={orderingFilterItems}
               onFilterChange={(value) => this.orderingFilterChangeHandle(value)}
               selectedFilter={this.state.selectedFilters.ordering}
