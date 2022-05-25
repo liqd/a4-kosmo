@@ -242,26 +242,28 @@ export const ModerationNotification = (props) => {
           </div>
           {notification.has_pending_notifications &&
             <div className="ms-auto">
-              <button
-                type="button"
-                className="dropdown-toggle btn btn--none"
-                aria-haspopup="true"
-                aria-expanded="false"
-                data-bs-toggle="dropdown"
-              >
-                <i className="fas fa-ellipsis-v" aria-hidden="true" />
-              </button>
-              <ul className="dropdown-menu dropdown-menu-end">
-                <li key="1">
-                  <button
-                    className="dropdown-item"
-                    type="button"
-                    onClick={() => toggleIsPending()}
-                  >
-                    {archiveText}
-                  </button>
-                </li>
-              </ul>
+              <div class="dropdown">
+                <button
+                  type="button"
+                  className="dropdown-toggle btn btn--none"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  data-bs-toggle="dropdown"
+                >
+                  <i className="fas fa-ellipsis-v" aria-hidden="true" />
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li key="1">
+                    <button
+                      className="dropdown-item"
+                      type="button"
+                      onClick={() => toggleIsPending()}
+                    >
+                      {archiveText}
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>}
         </div>
 
