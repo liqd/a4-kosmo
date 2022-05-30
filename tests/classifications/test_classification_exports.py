@@ -16,13 +16,13 @@ def test_ai_classifications_export(idea, comment_factory,
     ai_classification_1 = ai_classification_factory(comment=comment_1)
     ai_classification_2 = ai_classification_factory(
         comment=comment_2,
-        classifications=['ENGAGING'])
+        classification='ENGAGING')
     ai_classification_3 = ai_classification_factory(comment=comment_1)
 
     ai_classification_export = AIClassificationExport()
 
     header = ai_classification_export.get_header()
-    assert header == ['ID', 'created', 'classifications', 'comment text',
+    assert header == ['ID', 'created', 'classification', 'comment text',
                       'is pending', 'comment_id', 'comment_comment',
                       'comment_is_blocked', 'comment_is_moderator_marked',
                       'comment_created', 'comment_modified',
@@ -37,7 +37,7 @@ def test_ai_classifications_export(idea, comment_factory,
     assert ai_classification_export.get_field_data(
         ai_classification_1, 'comment_id') == str(comment_1.id)
     assert ai_classification_export.get_field_data(
-        ai_classification_2, 'classifications') == str(['ENGAGING'])
+        ai_classification_2, 'classification') == 'ENGAGING'
     assert ai_classification_export.get_field_data(
         ai_classification_1, 'comment_moderator_statement') == \
         str(moderator_statement)
@@ -62,7 +62,7 @@ def test_user_classifications_export(idea, comment_factory,
     user_classification_export = UserClassificationExport()
 
     header = user_classification_export.get_header()
-    assert header == ['ID', 'created', 'classifications', 'comment text',
+    assert header == ['ID', 'created', 'classification', 'comment text',
                       'is pending', 'comment_id', 'comment_comment',
                       'comment_is_blocked', 'comment_is_moderator_marked',
                       'comment_created', 'comment_modified',
