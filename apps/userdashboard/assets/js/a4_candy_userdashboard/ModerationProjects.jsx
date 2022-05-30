@@ -92,14 +92,14 @@ export default class ModerationProjects extends Component {
                 </div>
                 <div className="tile__body">
                   <span className="text-muted">{byText}{item.organisation}</span>
-                  <h3 className="tile__title mb-2">{item.offensive > 0 && <span className="text-info">• </span>}{item.title}</h3>
+                  <h3 className="tile__title mb-2">{item.num_pending_comments > 0 && <span className="text-info">• </span>}{item.title}</h3>
                   <div>
                     {item.access === 1 && <span className="label label--dark">{publicText}</span>}
                     {item.access === 2 && <span className="label label--dark">{semiPrivateText}</span>}
                     {item.access === 3 && <span className="label label--dark">{privateText}</span>}
                   </div>
                   <div className="row text-muted mt-3">
-                    {item.offensive > 0 && <div className="col-4"><i className="fas fa-exclamation-circle me-1" aria-hidden="true" /> {item.offensive} <span className="d-none d-lg-inline-block">{reportCountText}</span></div>}
+                    {item.num_pending_comments > 0 && <div className="col-4"><i className="fas fa-exclamation-circle me-1" aria-hidden="true" /> {item.num_pending_comments} <span className="d-none d-lg-inline-block">{reportCountText}</span></div>}
                     {item.comment_count > 0 && <div className="col-4"><i className="far fa-comment" aria-hidden="true" /> {item.comment_count} <span className="d-none d-lg-inline-block">{commentCountText}</span></div>}
                     {item.future_phase && !item.active_phase && <div className="col-4"><i className="far fa-clock" aria-hidden="true" /> {item.participation_string}</div>}
                     {item.active_phase && <div className="col-4"><i className="far fa-clock" aria-hidden="true" /> <span className="d-inline-block d-lg-none">{this.getMobileTimespan(item)}</span> <span className="d-none d-lg-inline-block">{this.getTimespan(item)}</span></div>}
