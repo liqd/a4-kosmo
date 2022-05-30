@@ -17,7 +17,8 @@ const translated = {
   commentHighlighted: django.pgettext('kosmo', 'Comment highlighted successfully.'),
   commentUnhighlighted: django.pgettext('kosmo', 'Comment unhighlighted successfully.'),
   notificationArchived: django.pgettext('kosmo', 'Notification archived successfully.'),
-  notificationUnarchived: django.pgettext('kosmo', 'Notification unarchived successfully.')
+  notificationUnarchived: django.pgettext('kosmo', 'Notification unarchived successfully.'),
+  aiClassified: django.pgettext('kosmo', 'AI')
 }
 
 export const ModerationNotification = (props) => {
@@ -279,6 +280,10 @@ export const ModerationNotification = (props) => {
             >
               {`${notification.category_counts[classification].translated}: ${notification.category_counts[classification].count}`}
             </span>))}
+          {notification.ai_classified &&
+            <span className="badge a4-comments__badge a4-comments__badge--que">
+              {translated.aiClassified} <i className="fas fa-check me-1" aria-hidden="true" />
+            </span>}
           <span>
             {timeOfLastNotification}
           </span>
