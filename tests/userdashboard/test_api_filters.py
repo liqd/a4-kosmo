@@ -15,13 +15,17 @@ def test_filters(apiclient,
         comment=comment_1)
     ai_classification_factory(
         comment=comment_1,
-        classifications=['ENGAGING'],
+        classification='ENGAGING',
         is_pending=False)
     ai_classification_factory(
         comment=comment_2)
     ai_classification_factory(
         comment=comment_3,
-        classifications=['OFFENSIVE', 'ENGAGING'],
+        classification='OFFENSIVE',
+        is_pending=False)
+    ai_classification_factory(
+        comment=comment_3,
+        classification='ENGAGING',
         is_pending=False)
 
     project = idea.project
@@ -84,7 +88,7 @@ def test_ordering_filter(
         is_pending=False)
     ai_classification_factory(
         comment=comment_1,
-        classifications=['ENGAGING'],
+        classification='ENGAGING',
         is_pending=False)
     user_classification_factory(
         comment=comment_2)
@@ -94,7 +98,7 @@ def test_ordering_filter(
         comment=comment_2)
     ai_classification_factory(
         comment=comment_3,
-        classifications=['OFFENSIVE', 'ENGAGING'],
+        classification='OFFENSIVE',
         is_pending=False)
 
     project = idea.project
@@ -110,7 +114,7 @@ def test_ordering_filter(
     assert response.data[1]['pk'] == comment_2.pk
     assert response.data[2]['pk'] == comment_1.pk
 
-    url_ordering = url + '?ordering=new'
+    url_ordering = url
     response = apiclient.get(url_ordering)
     assert response.status_code == 200
     assert len(response.data) == 3

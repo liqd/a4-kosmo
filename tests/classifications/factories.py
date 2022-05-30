@@ -10,7 +10,7 @@ class UserClassificationFactory(factory.django.DjangoModelFactory):
         model = classification_models.UserClassification
 
     creator = factory.SubFactory(factories.UserFactory)
-    classifications = ['OFFENSIVE']
+    classification = 'OFFENSIVE'
     user_message = 'This is bad.'
 
 
@@ -19,4 +19,4 @@ class AIClassificationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = classification_models.AIClassification
 
-    classifications = ['OFFENSIVE']
+    classification = 'OFFENSIVE'
