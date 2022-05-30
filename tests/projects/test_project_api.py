@@ -81,12 +81,12 @@ def test_moderation_projects_sorted(client,
 
     assert project_1.name == project_data_0['title']
     assert num_user_classifications_1 + num_ai_classifications_1 == \
-           project_data_0['offensive']
+           project_data_0['num_pending_comments']
 
     assert project_2.name == project_data_1['title']
     assert num_user_classifications_2 + num_ai_classifications_2 == \
-           project_data_1['offensive']
+           project_data_1['num_pending_comments']
 
     assert project_0.name == project_data_2['title']
     assert num_user_classifications_0 + num_ai_classifications_0 == \
-           project_data_2['offensive']
+           project_data_2['num_pending_comments']
