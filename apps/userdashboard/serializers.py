@@ -18,6 +18,7 @@ from apps.moderatorfeedback.serializers import \
 
 class ModerationCommentSerializer(serializers.ModelSerializer):
 
+    ai_classified = serializers.SerializerMethodField()
     category_counts = serializers.SerializerMethodField()
     comment_url = serializers.SerializerMethodField()
     has_pending_notifications = serializers.SerializerMethodField()
@@ -35,13 +36,22 @@ class ModerationCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['category_counts', 'comment', 'comment_url',
+        fields = ['ai_classified', 'category_counts', 'comment', 'comment_url',
                   'has_pending_and_archived_notifications',
                   'has_pending_notifications', 'is_blocked',
                   'is_moderator_marked', 'is_modified', 'last_edit',
                   'moderator_statement', 'num_active_notifications',
                   'pk', 'statement_api_url', 'time_of_last_notification',
                   'user_image', 'user_name', 'user_profile_url']
+
+    def get_ai_classified(self, comment):
+        if self.get_has_pending_and_archived_notifications(comment):
+            ai_classifications = comment.ai_classifications.filter(
+                is_pending=True)
+        else:
+            ai_classifications = comment.ai_classifications.all()
+
+        return ai_classifications.count() > 0
 
     def get_has_pending_and_archived_notifications(self, comment):
         """Return if comment has both pending and archived notifications.
