@@ -20,10 +20,17 @@ def test_category_counts(apiclient,
     user_classification_factory(comment=comment_1)
     ai_classification_factory(
         comment=comment_1,
-        classifications=['OFFENSIVE', 'FACTCLAIMING'])
+        classification='OFFENSIVE')
     ai_classification_factory(
         comment=comment_1,
-        classifications=['OFFENSIVE', 'ENGAGING'],
+        classification='FACTCLAIMING')
+    ai_classification_factory(
+        comment=comment_1,
+        classification='OFFENSIVE',
+        is_pending=False)
+    ai_classification_factory(
+        comment=comment_1,
+        classification='ENGAGING',
         is_pending=False)
 
     # comment with only pending classifications
@@ -31,10 +38,16 @@ def test_category_counts(apiclient,
     user_classification_factory(comment=comment_2)
     ai_classification_factory(
         comment=comment_2,
-        classifications=['OFFENSIVE', 'FACTCLAIMING'])
+        classification='OFFENSIVE')
     ai_classification_factory(
         comment=comment_2,
-        classifications=['OFFENSIVE', 'ENGAGING'])
+        classification='FACTCLAIMING')
+    ai_classification_factory(
+        comment=comment_2,
+        classification='OFFENSIVE')
+    ai_classification_factory(
+        comment=comment_2,
+        classification='ENGAGING')
 
     # comment with only archived classifications
     comment_3 = comment_factory(content_object=idea)
@@ -43,11 +56,19 @@ def test_category_counts(apiclient,
         is_pending=False)
     ai_classification_factory(
         comment=comment_3,
-        classifications=['OFFENSIVE', 'FACTCLAIMING'],
+        classification='OFFENSIVE',
         is_pending=False)
     ai_classification_factory(
         comment=comment_3,
-        classifications=['OFFENSIVE', 'ENGAGING'],
+        classification='FACTCLAIMING',
+        is_pending=False)
+    ai_classification_factory(
+        comment=comment_3,
+        classification='OFFENSIVE',
+        is_pending=False)
+    ai_classification_factory(
+        comment=comment_3,
+        classification='ENGAGING',
         is_pending=False)
 
     project = idea.project
@@ -65,16 +86,14 @@ def test_category_counts(apiclient,
     comment_3_data = [comment for comment in response.data
                       if comment['pk'] == comment_3.pk][0]
     assert comment_1_data['category_counts'] == {
-        'offensive': 2,
-        'fact claiming': 1,
-        'AI': 1
+        'offensive': {'count': 2, 'translated': 'offensive'},
+        'factclaiming': {'count': 1, 'translated': 'fact claiming'}
     }
     assert comment_2_data['category_counts'] == \
            comment_3_data['category_counts'] == {
-        'offensive': 3,
-        'fact claiming': 1,
-        'engaging': 1,
-        'AI': 2
+        'offensive': {'count': 3, 'translated': 'offensive'},
+        'factclaiming': {'count': 1, 'translated': 'fact claiming'},
+        'engaging': {'count': 1, 'translated': 'engaging'}
     }
 
 
@@ -219,12 +238,17 @@ def test_fields(apiclient,
     ai_classification_factory(
         comment=comment_2,
         is_pending=True,
-        classifications=['OFFENSIVE', 'FACTCLAIMING']
+        classification='OFFENSIVE'
+    )
+    ai_classification_factory(
+        comment=comment_2,
+        is_pending=True,
+        classification='FACTCLAIMING'
     )
     classification_2 = ai_classification_factory(
         comment=comment_2,
         is_pending=False,
-        classifications=['ENGAGING'])
+        classification='ENGAGING')
 
     comment_3 = comment_factory(content_object=idea, is_removed=True)
     user_classification_factory(
@@ -257,7 +281,8 @@ def test_fields(apiclient,
                       if comment['pk'] == comment_3.pk][0]
 
     assert comment_1_data['category_counts'] == \
-        {'offensive': 1}
+        {'offensive': {'count': 1, 'translated': 'offensive'}}
+    assert not comment_1_data['ai_classified']
     assert comment_1_data['comment'] == comment_1.comment
     assert comment_1_data['comment_url'] == comment_1.get_absolute_url()
     assert not comment_1_data['has_pending_and_archived_notifications']
@@ -282,7 +307,9 @@ def test_fields(apiclient,
         comment_1.creator.get_absolute_url()
 
     assert comment_2_data['category_counts'] == \
-        {'AI': 1, 'offensive': 1, 'fact claiming': 1}
+        {'offensive': {'count': 1, 'translated': 'offensive'},
+         'factclaiming': {'count': 1, 'translated': 'fact claiming'}
+         }
     assert comment_2_data['comment'] == comment_2.comment
     assert comment_2_data['comment_url'] == comment_2.get_absolute_url()
     assert comment_2_data['has_pending_and_archived_notifications']
@@ -293,7 +320,7 @@ def test_fields(apiclient,
     assert comment_2_data['last_edit'] == \
            dates.get_date_display(comment_2.modified)
     assert comment_2_data['moderator_statement'] is None
-    assert comment_2_data['num_active_notifications'] == 1
+    assert comment_2_data['num_active_notifications'] == 2
     assert comment_2_data['pk'] == comment_2.pk
     assert comment_2_data['statement_api_url'] == \
         reverse('moderatorstatement-list',
@@ -307,7 +334,8 @@ def test_fields(apiclient,
         comment_2.creator.get_absolute_url()
 
     assert comment_3_data['category_counts'] == \
-        {'AI': 1, 'offensive': 2}
+        {'offensive': {'count': 2, 'translated': 'offensive'}}
+    assert comment_3_data['ai_classified']
     assert comment_3_data['comment'] == comment_3.comment
     assert comment_3_data['comment_url'] == comment_3.get_absolute_url()
     assert not comment_3_data['has_pending_and_archived_notifications']
