@@ -13,6 +13,7 @@ from adhocracy4.labels.models import Label
 from adhocracy4.modules.models import Module
 from adhocracy4.phases.models import Phase
 from adhocracy4.projects.models import Project
+from apps.userdashboard.api import annotate_has_pending_notifications
 
 from . import helpers
 
@@ -183,7 +184,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     future_phase = serializers.SerializerMethodField()
     active_phase = serializers.SerializerMethodField()
     past_phase = serializers.SerializerMethodField()
-    offensive = serializers.SerializerMethodField()
+    num_pending_comments = serializers.SerializerMethodField()
     comment_count = serializers.SerializerMethodField()
     moderation_detail_url = serializers.SerializerMethodField()
 
@@ -196,7 +197,7 @@ class ProjectSerializer(serializers.ModelSerializer):
                   'participation_string',
                   'future_phase', 'active_phase',
                   'past_phase',
-                  'offensive', 'comment_count',
+                  'num_pending_comments', 'comment_count',
                   'moderation_detail_url']
 
     @lru_cache(maxsize=1)
@@ -287,8 +288,10 @@ class ProjectSerializer(serializers.ModelSerializer):
                 instance.past_modules.first().module_end)
         return False
 
-    def get_offensive(self, instance):
-        return helpers.get_num_classifications(instance)
+    def get_num_pending_comments(self, instance):
+        comment_queryset = annotate_has_pending_notifications(
+            helpers.get_all_comments_project(instance))
+        return comment_queryset.filter(has_pending_notifications=True).count()
 
     def get_comment_count(self, instance):
         return helpers.get_num_comments_project(instance)
