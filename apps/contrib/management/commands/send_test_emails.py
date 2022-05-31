@@ -211,11 +211,18 @@ class Command(BaseCommand):
             netiquette_url = reverse('organisation-netiquette', kwargs={
                 'organisation_slug': organisation.slug
             })
+        discussion_url = comment.module.get_detail_url
+        if comment.parent_comment.exists():
+            discussion_url = (comment.parent_comment.first()
+                              .content_object.get_absolute_url())
+        elif comment.content_object.get_absolute_url():
+            discussion_url = comment.content_object.get_absolute_url()
         TestEmail.send(
             comment,
             module=comment.module,
             project=comment.project,
             netiquette_url=netiquette_url,
+            discussion_url=discussion_url,
             receiver=[self.user],
             template_name=notification_emails.
             NotifyCreatorOnModeratorBlocked.template_name

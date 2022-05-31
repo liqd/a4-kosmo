@@ -99,11 +99,21 @@ class NotifyCreatorOnModeratorBlocked(Email):
         else:
             return ""
 
+    def get_discussion_url(self):
+        if self.object.parent_comment.exists():
+            return (self.object.parent_comment.first()
+                    .content_object.get_absolute_url())
+        elif self.object.content_object.get_absolute_url():
+            return self.object.content_object.get_absolute_url()
+        else:
+            return self.object.module.get_detail_url
+
     def get_context(self):
         context = super().get_context()
         context['module'] = self.object.module
         context['project'] = self.object.project
         context['netiquette_url'] = self.get_netiquette_url()
+        context['discussion_url'] = self.get_discussion_url()
         return context
 
 
