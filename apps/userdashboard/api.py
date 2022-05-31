@@ -232,5 +232,6 @@ class ModerationCommentViewSet(mixins.ListModelMixin,
         return ViewSetRulesPermission.default_rules_method_map._replace(
             GET='a4_candy_userdashboard.view_moderation_comment',
             PUT='a4_candy_userdashboard.change_moderation_comment',
-            PATCH='a4_candy_userdashboard.change_moderation_comment'
+            PATCH='a4_candy_userdashboard.change_moderation_comment',
+            OPTIONS='a4_candy_userdashboard.view_moderation_comment'
         )
