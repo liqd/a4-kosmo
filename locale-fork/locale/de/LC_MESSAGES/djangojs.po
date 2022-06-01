@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-20 11:19+0200\n"
+"POT-Creation-Date: 2022-06-01 14:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -977,24 +977,24 @@ msgstr ""
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:10
 msgctxt "kosmo"
 msgid "Your statement was successfully delivered."
-msgstr "Ihre Mitteilung wurde zugestellt."
+msgstr "Ihr Feedback wurde gespeichert."
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:11
 msgctxt "kosmo"
 msgid "Your statement was successfully updated."
-msgstr "Ihre Mitteilung wurde aktualisiert."
+msgstr "Ihr Feedback wurde aktualisiert."
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:12
 msgctxt "kosmo"
 msgid "Your statement was successfully deleted."
-msgstr "Ihre Mitteilung wurde gelöscht."
+msgstr "Ihr Feedback wurde gelöscht."
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:13
 msgctxt "kosmo"
 msgid ""
 "The comment has already been moderated. Your statement could not be saved."
 msgstr ""
-"Der Beitrag wurde bereits moderiert. Ihre Mitteilung konnte nicht "
+"Der Beitrag wurde bereits moderiert. Ihr Feedback konnte nicht "
 "gespeichert werden."
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:14
@@ -1032,7 +1032,12 @@ msgctxt "kosmo"
 msgid "Notification unarchived successfully."
 msgstr "Die Archivierung der Benachrichtigung wurde widerrufen."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:194
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:21
+msgctxt "kosmo"
+msgid "AI"
+msgstr ""
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:195
 #, javascript-format
 msgctxt "kosmo"
 msgid "'s {}comment{} has been reported 1 time since it's creation"
@@ -1040,22 +1045,22 @@ msgid_plural "'s {}comment{} has been reported %s times since it's creation"
 msgstr[0] "hat einen {}Beitrag{} verfasst, der seitdem 1 mal gemeldet wurde."
 msgstr[1] "hat einen {}Beitrag{} verfasst, der seitdem %s mal gemeldet wurde."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:214
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:215
 msgctxt "kosmo"
 msgid "Classification: "
 msgstr "Klassifikation: "
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:215
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:216
 msgctxt "kosmo, verb"
 msgid "Archive"
 msgstr "Archivieren"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:227
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:228
 msgctxt "kosmo"
 msgid "Last edited on "
 msgstr "Zuletzt bearbeitet am "
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:229
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:230
 msgctxt "kosmo"
 msgid "Created on "
 msgstr "Verfasst am "
@@ -1078,7 +1083,7 @@ msgstr "Blockiert"
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:10
 msgctxt "kosmo"
 msgid "Add statement"
-msgstr "Mitteilung hinzufügen"
+msgstr "Feedback hinzufügen"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:11
 msgctxt "kosmo"
@@ -1114,7 +1119,7 @@ msgstr "Archiviert"
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:17
 msgctxt "kosmo"
 msgid "Edit statement"
-msgstr "Mitteilung bearbeiten"
+msgstr "Feedback bearbeiten"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:9
 msgctxt "kosmo"
@@ -1242,7 +1247,7 @@ msgstr "bearbeiten"
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatement.jsx:9
 msgctxt "kosmo"
 msgid "Moderator's statement"
-msgstr "Mitteilung der Moderation"
+msgstr "Feedback der Moderation"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatement.jsx:10
 msgctxt "kosmo"
@@ -1252,7 +1257,7 @@ msgstr "Zuletzt bearbeitet am "
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatementForm.jsx:9
 msgctxt "kosmo"
 msgid "Write statement"
-msgstr "Mitteilung schreiben"
+msgstr "Feedback schreiben"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatementForm.jsx:10
 msgctxt "kosmo"
@@ -1262,12 +1267,12 @@ msgstr " Zeichen"
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatementForm.jsx:11
 msgctxt "kosmo"
 msgid "submit statement"
-msgstr "Mitteilung hinzufügen"
+msgstr "Feedback hinzufügen"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatementForm.jsx:12
 msgctxt "kosmo"
 msgid "update statement"
-msgstr "Mitteilung aktualisieren"
+msgstr "Feedback aktualisieren"
 
 #: adhocracy-plus/assets/js/unload_warning.js:15
 msgid "If you leave this page changes you made will not be saved."
