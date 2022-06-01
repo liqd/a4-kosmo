@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-20 11:19+0200\n"
+"POT-Creation-Date: 2022-06-01 14:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1030,7 +1030,12 @@ msgctxt "kosmo"
 msgid "Notification unarchived successfully."
 msgstr ""
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:194
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:21
+msgctxt "kosmo"
+msgid "AI"
+msgstr ""
+
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:195
 #, javascript-format
 msgctxt "kosmo"
 msgid "'s {}comment{} has been reported 1 time since it's creation"
@@ -1038,22 +1043,22 @@ msgid_plural "'s {}comment{} has been reported %s times since it's creation"
 msgstr[0] ""
 msgstr[1] ""
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:214
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:215
 msgctxt "kosmo"
 msgid "Classification: "
 msgstr ""
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:215
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:216
 msgctxt "kosmo, verb"
 msgid "Archive"
 msgstr ""
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:227
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:228
 msgctxt "kosmo"
 msgid "Last edited on "
 msgstr ""
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:229
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:230
 msgctxt "kosmo"
 msgid "Created on "
 msgstr ""
