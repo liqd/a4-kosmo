@@ -266,12 +266,12 @@ msgstr " Melden"
 #: adhocracy4/comments_async/static/comments_async/comment.jsx:29
 #: adhocracy4/comments_async/static/comments_async/comment.jsx:29
 msgid "Show moderator's statement"
-msgstr "Moderatormitteilung anzeigen"
+msgstr "Moderatorfeedback anzeigen"
 
 #: adhocracy4/comments_async/static/comments_async/comment.jsx:30
 #: adhocracy4/comments_async/static/comments_async/comment.jsx:30
 msgid "Hide moderator's statement"
-msgstr "Moderatormitteilung verbergen"
+msgstr "Moderatorfeedback verbergen"
 
 #: adhocracy4/comments_async/static/comments_async/comment.jsx:36
 #: adhocracy4/comments_async/static/comments_async/comment.jsx:36
