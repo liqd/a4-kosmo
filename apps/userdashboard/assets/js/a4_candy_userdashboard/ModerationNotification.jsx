@@ -243,7 +243,7 @@ export const ModerationNotification = (props) => {
           </div>
           {notification.has_pending_notifications &&
             <div className="ms-auto">
-              <div class="dropdown">
+              <div className="dropdown">
                 <button
                   type="button"
                   className="dropdown-toggle btn btn--none"
