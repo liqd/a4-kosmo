@@ -16,7 +16,9 @@ logger = logging.getLogger(__name__)
 
 @receiver(signals.post_save, sender=Comment)
 def get_ai_classification(sender, instance, created, update_fields, **kwargs):
-    if created or (update_fields and 'comment' in update_fields):
+    comment_text_changed = \
+        (getattr(instance, '_former_comment') != getattr(instance, 'comment'))
+    if created or comment_text_changed:
         if hasattr(settings, 'AI_USAGE') and settings.AI_USAGE:
             if hasattr(settings, 'AI_API_AUTH_TOKEN') and \
                     settings.AI_API_AUTH_TOKEN:
