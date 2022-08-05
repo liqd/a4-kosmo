@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load rules i18n thumbnail %}
+{% load rules i18n thumbnail wagtailcore_tags %}
 
 {% block content %}
     {% block dashboard_nav %}
@@ -70,6 +70,12 @@
                             {% trans 'Since' %} {{ request.user.date_joined|date:"d M Y" }}
                         </div>
                     </div>
+
+                    {%  with pages=settings.a4_candy_cms_settings.ImportantPages %}
+                    {% if pages.platform_information %}
+                        <a class="btn btn--light btn--full" href="{% pageurl pages.platform_information %}">{% trans 'Manual' %}</a>
+                    {% endif %}
+                    {% endwith %}
 
                     <!-- desktop -->
                     {% if request.user.organisations %}
