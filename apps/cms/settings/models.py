@@ -118,6 +118,13 @@ class OrganisationSettings(BaseSetting):
     contacts = fields.RichTextField(
         help_text="The contacts are published on the contact form."
     )
+    sample_project_slug = models.SlugField(
+        max_length=255,
+        blank=True,
+        help_text=(
+            "Slug of the sample project of this platform. Every new user will automatically follow this project."
+        )
+    )
 
     class Meta:
         verbose_name = 'Platform settings'
@@ -125,7 +132,8 @@ class OrganisationSettings(BaseSetting):
     panels = [
         FieldPanel('platform_name'),
         FieldPanel('address'),
-        FieldPanel('contacts')
+        FieldPanel('contacts'),
+        FieldPanel('sample_project_slug')
     ]
 
 
