@@ -40,6 +40,13 @@ class ImportantPages(BaseSetting):
         null=True,
         blank=True,
         on_delete=models.SET_NULL)
+    platform_information = models.ForeignKey(
+        'wagtailcore.Page',
+        related_name='platform_information',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        help_text='If set, a link to this page will added to the userdashboard.')
     donate_link = models.URLField(blank=True)
     manual_link = models.URLField(blank=True)
     github_repo_link = models.URLField(blank=True)
@@ -75,6 +82,13 @@ class ImportantPages(BaseSetting):
                           'a4_candy_cms_use_cases.UseCaseIndexPage',
                           'a4_candy_cms_use_cases.UseCasePage']),
         PageChooserPanel('contact',
+                         ['a4_candy_cms_pages.SimplePage',
+                          'a4_candy_cms_contacts.FormPage',
+                          'a4_candy_cms_news.NewsIndexPage',
+                          'a4_candy_cms_news.NewsPage',
+                          'a4_candy_cms_use_cases.UseCaseIndexPage',
+                          'a4_candy_cms_use_cases.UseCasePage']),
+        PageChooserPanel('platform_information',
                          ['a4_candy_cms_pages.SimplePage',
                           'a4_candy_cms_contacts.FormPage',
                           'a4_candy_cms_news.NewsIndexPage',
