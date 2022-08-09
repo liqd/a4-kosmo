@@ -19,6 +19,7 @@ from apps.notifications import emails as notification_emails
 from apps.offlineevents.models import OfflineEvent
 from apps.projects import models as project_models
 from apps.users.emails import EmailAplus as Email
+from apps.users.emails import WelcomeEmail
 
 User = get_user_model()
 
@@ -86,6 +87,7 @@ class Command(BaseCommand):
         self._send_report_mails()
 
         self._send_form_mail()
+        self._send_welcome_email()
 
         self._send_allauth_email_confirmation()
         self._send_allauth_password_reset()
@@ -396,55 +398,6 @@ class Command(BaseCommand):
         )
         submission.delete()
 
-    def _send_allauth_password_reset(self):
-        context = {
-            "current_site": "http://example.com/...",
-            "user": self.user,
-            "password_reset_url": "http://example.com/...",
-            "request": None,
-            "username": self.user.username,
-        }
-
-        TestEmail.send(
-            self.user,
-            receiver=[self.user],
-            template_name="account/email/password_reset_key",
-            **context
-        )
-
-    def _send_allauth_email_confirmation(self):
-        context = {
-            "user": self.user,
-            "activate_url": "http://example.com/...",
-            "current_site": "http://example.com/...",
-            "key": "the1454key",
-        }
-
-        TestEmail.send(
-            self.user,
-            receiver=[self.user],
-            template_name="account/email/email_confirmation_signup",
-            **context
-        )
-
-        TestEmail.send(
-            self.user,
-            receiver=[self.user],
-            template_name="account/email/email_confirmation",
-            **context
-        )
-
-    def _send_allauth_unknown_account(self):
-        context = {
-            "user": self.user,
-            "email": "user@example.com",
-            "signup_url": "http://example.com/...",
-            "current_site": "http://example.com/...",
-        }
-
-        TestEmail.send(
-            self.user,
-            receiver=[self.user],
-            template_name="account/email/unknown_account",
-            **context
-        )
+    def _send_welcome_email(self):
+        print('Sending send in blue welcome email')
+        WelcomeEmail.send(self.user)
