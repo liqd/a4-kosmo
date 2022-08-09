@@ -19,6 +19,7 @@ from apps.notifications import emails as notification_emails
 from apps.offlineevents.models import OfflineEvent
 from apps.projects import models as project_models
 from apps.users.emails import EmailAplus as Email
+from apps.users.emails import WelcomeEmail
 
 User = get_user_model()
 
@@ -80,6 +81,7 @@ class Command(BaseCommand):
         self._send_delete_project()
 
         self._send_form_mail()
+        self._send_welcome_email()
 
     def _send_notifications_create_idea(self):
         # Send notification for a newly created item
@@ -338,3 +340,7 @@ class Command(BaseCommand):
             template_name='a4_candy_cms_contacts/emails/answer_to_contact_form'
         )
         submission.delete()
+
+    def _send_welcome_email(self):
+        print('Sending send in blue welcome email')
+        WelcomeEmail.send(self.user)

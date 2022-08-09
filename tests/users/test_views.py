@@ -1,4 +1,5 @@
 import re
+from unittest.mock import patch
 
 import pytest
 from allauth.account.models import EmailAddress
@@ -57,7 +58,8 @@ def test_logout_with_next(user, client, logout_url):
 
 
 @pytest.mark.django_db
-def test_register(client, signup_url):
+@patch('apps.users.emails.WelcomeEmail.dispatch', return_value='/')
+def test_register(mock_provider, client, signup_url):
     assert EmailAddress.objects.count() == 0
     email = 'testuser@liqd.net'
     response = client.post(
@@ -95,7 +97,8 @@ def test_register(client, signup_url):
 
 
 @pytest.mark.django_db
-def test_register_with_next(client, signup_url):
+@patch('apps.users.emails.WelcomeEmail.dispatch', return_value='/')
+def test_register_with_next(mock_provider, client, signup_url):
     assert EmailAddress.objects.count() == 0
     email = 'testuser2@liqd.net'
     response = client.post(
