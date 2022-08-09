@@ -1,12 +1,18 @@
 from email.mime.image import MIMEImage
 
+import sib_api_v3_sdk
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
+from django.http import HttpResponse
 from django.template.loader import get_template
 from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
+from sentry_sdk import capture_exception
+from sib_api_v3_sdk.rest import ApiException
 
 from adhocracy4.emails import Email
+from adhocracy4.emails.mixins import SyncEmailMixin
 
 from .models import User
 
@@ -85,3 +91,65 @@ class EmailAplus(Email):
         link = link_text.format('<a href="' + self.get_host() + url
                                 + '" target="_blank">', '</a>')
         return link
+
+
+class WelcomeEmail(SyncEmailMixin, EmailAplus):
+
+    def get_receivers(self):
+        receiver = self.object
+        return [receiver]
+
+    def get_overview_link(self):
+        url = reverse('userdashboard-overview')
+        link = self.get_host() + url
+        return link
+
+    def get_template_id(self, receiver):
+        language = self.get_receiver_language(receiver)
+        try:
+            template_id = settings.SENDINBLUE_TEMPLATES[language]
+        except KeyError:
+            template_id = settings.SENDINBLUE_TEMPLATES[
+                settings.DEFAULT_USER_LANGUAGE_CODE
+            ]
+        return template_id
+
+    def dispatch(self, object, *args, **kwargs):
+        self.object = object
+        receiver = self.get_receivers()[0]
+
+        if (hasattr(settings, 'SENDINBLUE_API_KEY') and
+                hasattr(settings, 'SENDINBLUE_TEMPLATES')):
+            configuration = sib_api_v3_sdk.Configuration()
+            configuration.api_key['api-key'] = settings.SENDINBLUE_API_KEY
+
+            api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
+                sib_api_v3_sdk.ApiClient(configuration)
+            )
+
+            to = [{"email": receiver.email, "NACHNAME": receiver.username}]
+            template_id = self.get_template_id(receiver)
+            params = {
+                "username": receiver.username,
+                "user_overview": self.get_overview_link(),
+            }
+            send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
+                to=to,
+                template_id=template_id,
+                params=params
+            )
+            try:
+                api_response = api_instance.send_transac_email(send_smtp_email)
+                if settings.DEBUG:
+                    print(api_response)
+                return HttpResponse(status=204)
+            except ApiException as e:
+                if settings.DEBUG:
+                    print("Exception when calling "
+                          "TransactionalEmailsApi->send_smtp_email: %s\n" % e)
+                else:
+                    capture_exception(e)
+        else:
+            raise ImproperlyConfigured(
+                'Please make sure SENDINBLUE_API_KEY and SENDINBLUE_TEMPLATES '
+                'are set in settings.')
