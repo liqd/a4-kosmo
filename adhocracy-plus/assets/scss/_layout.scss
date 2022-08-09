@@ -5,7 +5,7 @@
     @supports (display: grid) {
         display: grid;
         grid-column-gap: $spacer;
-        grid-template-columns: repeat($n, 1fr);
+        grid-template-columns: repeat($n, minmax(0, 1fr));
 
         > * {
             margin-left: 0 !important;

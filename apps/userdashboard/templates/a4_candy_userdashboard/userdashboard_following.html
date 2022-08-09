@@ -9,7 +9,7 @@
     </a>
     {# Translators: kosmo #}
     <h3 class="mt-2">{% trans 'Following' %}</h3>
-    <ul class="l-tiles-2">
+    <ul class="l-tiles-3">
     {% for project in view.projects %}
             {% include 'a4_candy_projects/includes/project_list_tile.html' with project=project orientation='vertical' %}
     {% endfor %}
