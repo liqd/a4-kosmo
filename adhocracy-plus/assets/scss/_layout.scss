@@ -9,7 +9,7 @@
     @supports (display: grid) {
         display: grid;
         grid-column-gap: _grid-get("gutter", $settings);
-        grid-template-columns: repeat($n, 1fr);
+        grid-template-columns: repeat($n, minmax(0, 1fr));
 
         > * {
             margin-left: 0 !important;

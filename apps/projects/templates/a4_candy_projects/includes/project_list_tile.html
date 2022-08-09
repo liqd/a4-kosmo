@@ -21,8 +21,7 @@
             <div class="tile__private-badge">
                 <div class="tile__private-badge--top"></div>
                     <i class="fas fa-eye" title="{% trans 'Project is semi-public.' %}" aria-label="{% trans 'Project is semi-public.' %}"></i>
-                <div class="tile__private-badge--left"></div>
-            </div>
+                <div class="tile__private-badge--left"></div> </div>
 
           {% endif %}
         </div>
@@ -31,26 +30,48 @@
         <h3 class="tile__title" id="project-title-{{ project.pk }}">
             <a href="{{ project|project_url }}">{{ project.name }}</a>
         </h3>
-        <p class="tile__text">{{ project.description }}</p>
+
+        {% if not '/userdashboard/overview/' in request.path  %}
+            <p class="tile__text">{{ project.description }}</p>
+        {% endif %}
 
         {% if project.running_modules %}
         <div class="status-item">
-            <div class="status-bar__active">
-                <span class="status-bar__active-fill" style="width:{{ project.module_running_progress }}%"></span>
+            {% if project.latest_comments_num %}
+            <div class="d-flex justify-content-between my-1">
+                <span class="status-bar__status">
+                    <i class="far fa-comment" aria-label="Latest comments"></i>
+                    {{ project.latest_comments_num }}
+                    {% blocktrans count count=project.latest_comments_num %}
+                        new comment
+                    {% plural %}
+                        new comments
+                    {% endblocktrans %}
+                </span>
             </div>
-            <div class="d-flex justify-content-between">
-                <span class="status-bar__status"><i class="fas fa-clock" aria-hidden="true"></i>
+            {% elif not '/userdashboard/overview/' in request.path %}
+            <div class="status-bar__active">
+                <span
+                    class="status-bar__active-fill"
+                    style="width:{{ project.module_running_progress }}%">
+                </span>
+            </div>
+            {% endif %}
+            <div class="d-flex justify-content-between my-1">
+                <span class="status-bar__status"><i class="far fa-clock" aria-hidden="true"></i>
                 {% if project.module_running_days_left < 365 %}
                 {% blocktrans with time_left=project.module_running_time_left %} {{ time_left }} remaining {% endblocktrans %}
                 {% else %}
                 <span>{% trans 'more than 1 year remaining' %}</span>
                 {% endif %}
                 </span>
-                {% has_perm 'a4projects.participate_in_project' request.user project as user_may_participate_in_project %}
-                {% if user_may_participate_in_project %}
-                    <a class="list-item__cta list-item__hover" href="{{ project|project_url }}">{% trans 'JOIN IN' %}</a>
-                {% else %}
-                    <a class="list-item__cta list-item__hover" href="{{ project|project_url }}">{% trans 'READ' %}</a>
+                {% if not '/userdashboard/overview/' in request.path  %}
+                    {% has_perm 'a4projects.participate_in_project' request.user project as user_may_participate_in_project %}
+                    {% if user_may_participate_in_project %}
+                        <a class="list-item__cta list-item__hover" href="{{ project|project_url }}">{% trans 'JOIN IN' %}</a>
+                    {% else %}
+                        <a class="list-item__cta list-item__hover" href="{{ project|project_url }}">{% trans 'READ' %}</a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
