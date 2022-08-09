@@ -1,4 +1,7 @@
+from datetime import timedelta
+
 from django.db.models import Q
+from django.utils import timezone
 
 from adhocracy4.comments.models import Comment
 from apps.classifications.models import AIClassification
@@ -46,3 +49,9 @@ def get_num_ai_classifications(project):
 def get_num_classifications(project):
     return get_num_user_classifications(project) + \
         get_num_ai_classifications(project)
+
+
+def get_num_latest_comments(project, until={'days': 7}):
+    all_comments_project = get_all_comments_project(project)
+    return all_comments_project.filter(created__gte=timezone.now() -
+                                       timedelta(**until)).count()

@@ -11,6 +11,7 @@ from adhocracy4.projects.models import Project
 from adhocracy4.rules import mixins as rules_mixins
 from apps.documents.models import Chapter
 from apps.organisations.models import Organisation
+from apps.projects import helpers
 from apps.users.models import User
 
 
@@ -39,8 +40,13 @@ class UserDashboardBaseMixin(LoginRequiredMixin,
 
     @property
     def projects(self):
-        return Project.objects.filter(follow__creator=self.request.user,
-                                      follow__enabled=True)
+        projects = Project.objects.filter(follow__creator=self.request.user,
+                                          follow__enabled=True)
+        for project in projects:
+            project.latest_comments_num =\
+                helpers.get_num_latest_comments(project)
+
+        return projects
 
 
 # user views
@@ -74,9 +80,14 @@ class UserDashboardOverviewView(UserDashboardBaseMixin):
     def projects_carousel(self):
         sorted_active_projects, sorted_future_projects, sorted_past_projects =\
             self.request.user.get_projects_follow_list()
-        return (list(sorted_active_projects) +
-                list(sorted_future_projects) +
-                list(sorted_past_projects))[:8]
+        projects = (list(sorted_active_projects) +
+                    list(sorted_future_projects) +
+                    list(sorted_past_projects))[:8]
+        for project in projects:
+            project.latest_comments_num =\
+                helpers.get_num_latest_comments(project)
+
+        return projects
 
 
 class UserDashboardActivitiesView(UserDashboardBaseMixin):
