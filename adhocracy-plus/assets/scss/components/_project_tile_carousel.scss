@@ -4,7 +4,7 @@
 
     // overwrites for tiles in carousel
     .tile.organisation__tile {
-        height: 430px;
+        height: 440px;
         margin: 0;
         display: flex !important;
     }
@@ -24,6 +24,7 @@
 
     .slick-track {
         padding-bottom: $padding;
+        margin-left: 0;
     }
 
     .slick-prev,
@@ -68,10 +69,6 @@
 @media screen and (min-width: $breakpoint-md) {
     .project-tile-carousel {
         margin: $spacer 0;
-
-        .tile.organisation__tile {
-            height: 570px;
-        }
     }
 
     .project-tile-carousel__wrapper {
