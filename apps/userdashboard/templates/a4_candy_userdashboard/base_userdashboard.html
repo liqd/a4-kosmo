@@ -82,7 +82,7 @@
                     {% if request.user.organisations %}
                     <div class="d-none d-sm-block mb-5">
                       {# Translators: kosmo #}
-                      <h4>{% trans 'Initiator Organisations' %}</h4>
+                      <h2 class="fs-6">{% trans 'Initiator Organisations' %}</h2>
                       {% for organisation in request.user.organisations %}
                       <div>
                           <a class="btn btn--link text-decoration-none text-muted d-flex align-items-center" href="{% url 'a4dashboard:project-list' organisation_slug=organisation.slug %}">
@@ -99,14 +99,14 @@
 
                     <!-- mobile -->
                     <div class="d-sm-none mb-4">
-                        <div class="dropdown"
+                        <div class="userdashboard__dropdown dropdown"
                         data-bs-toggle="collapse"
                         href="#userDashboardCollapseOrgInt"
                         aria-expanded="true"
                         aria-controls="#userDashboardCollapseOrgInt"
                         data-bs-target="#userDashboardCollapseOrgInt">
                           {# Translators: kosmo #}
-                          <h4>{% trans 'Initiator Organisations' %}</h4>
+                          <h2 class="fs-6">{% trans 'Initiator Organisations' %}</h2>
                             <i class="fa fa-chevron-up" aria-hidden="true"></i>
                         </div>
                         <ul class="u-list-reset collapse show" id="userDashboardCollapseOrgInt" aria-hidden="false">
@@ -130,7 +130,7 @@
                     <!-- desktop -->
                     <div class="d-none d-sm-block mb-5">
                         {# Translators: kosmo #}
-                        <h4>{% trans 'Organisations' %}</h4>
+                        <h2 class="fs-6">{% trans 'Organisations' %}</h2>
                         {% if view.organisations %}
                         {% for organisation in view.organisations %}
                         <a class="btn btn--link text-decoration-none text-muted d-flex align-items-center" href="{% url 'organisation' organisation_slug=organisation.slug %}">
@@ -152,14 +152,14 @@
                     <!-- mobile -->
                     <div class="d-sm-none mb-4">
                       {% if view.organisations %}
-                        <div  class="dropdown"
+                        <div  class="userdashboard__dropdown dropdown"
                               data-bs-toggle="collapse"
                               href="#userDashboardCollapseOrg"
                               aria-expanded="true"
                               aria-controls="#userDashboardCollapseOrg"
                               data-bs-target="#userDashboardCollapseOrg">
                             {# Translators: kosmo #}
-                            <h4>{% trans 'Organisations' %}</h4>
+                            <h2 class="fs-6">{% trans 'Organisations' %}</h2>
                             <i class="fa fa-chevron-up" aria-hidden="true"></i>
                         </div>
                         <ul class="u-list-reset scollapse show" id="userDashboardCollapseOrg" aria-hidden="false">
