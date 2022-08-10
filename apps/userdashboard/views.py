@@ -1,11 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.views import generic
 
 from adhocracy4.actions.models import Action
+from adhocracy4.comments.models import Comment
+from adhocracy4.polls.models import Poll
 from adhocracy4.projects.models import Project
 from adhocracy4.rules import mixins as rules_mixins
+from apps.documents.models import Chapter
 from apps.organisations.models import Organisation
 from apps.users.models import User
 
@@ -47,9 +51,24 @@ class UserDashboardOverviewView(UserDashboardBaseMixin):
 
     @property
     def actions(self):
-        return Action.objects.filter(
-            actor=self.request.user,
-        ).exclude_updates()
+        """Return actions that are comments on content the user created.
+
+        Do not return comments on polls to not spam initiators.
+        """
+        user = self.request.user
+        comment_actions = Action.objects.filter(
+            obj_content_type=ContentType.objects.get_for_model(Comment),
+            verb='add'
+        ).exclude(
+            target_content_type__in=[
+                ContentType.objects.get_for_model(Poll),
+                ContentType.objects.get_for_model(Chapter)
+            ]
+        )
+        return [action for action in comment_actions if
+                not action.obj.is_blocked
+                and action.target.creator == user
+                and action.actor != user]
 
     @property
     def projects_carousel(self):
@@ -67,9 +86,24 @@ class UserDashboardActivitiesView(UserDashboardBaseMixin):
 
     @property
     def actions(self):
-        return Action.objects.filter(
-            actor=self.request.user,
-        ).exclude_updates()
+        """Return actions that are comments on content the user created.
+
+        Do not return comments on polls to not spam initiators.
+        """
+        user = self.request.user
+        comment_actions = Action.objects.filter(
+            obj_content_type=ContentType.objects.get_for_model(Comment),
+            verb='add'
+        ).exclude(
+            target_content_type__in=[
+                ContentType.objects.get_for_model(Poll),
+                ContentType.objects.get_for_model(Chapter)
+            ]
+        )
+        return [action for action in comment_actions if
+                not action.obj.is_blocked
+                and action.target.creator == user
+                and action.actor != user]
 
 
 class UserDashboardFollowingView(UserDashboardBaseMixin):
