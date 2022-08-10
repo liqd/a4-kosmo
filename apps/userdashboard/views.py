@@ -47,9 +47,11 @@ class UserDashboardOverviewView(UserDashboardBaseMixin):
 
     @property
     def actions(self):
-        return Action.objects.filter(
-            actor=self.request.user,
-        ).exclude_updates()
+        user = self.request.user
+        return [action for action in Action.objects.all() if
+                action.target and hasattr(action.target, 'creator')
+                and action.target.creator == user
+                and action.actor != user]
 
     @property
     def projects_carousel(self):
