@@ -6,7 +6,7 @@ export const ModerationStatement = (props) => {
   const translated = {
     delete: django.pgettext('kosmo', 'delete'),
     edit: django.pgettext('kosmo', 'edit'),
-    statementTitle: django.pgettext('kosmo', 'Moderator\'s statement'),
+    statementTitle: django.pgettext('kosmo', 'Moderator\'s feedback'),
     editWasOn: django.pgettext('kosmo', 'Last edit was on ')
   }
 
