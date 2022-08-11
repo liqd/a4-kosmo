@@ -948,23 +948,23 @@ msgstr ""
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:10
 msgctxt "kosmo"
 msgid "Your feedback was successfully delivered."
-msgstr ""
+msgstr "Ihr Feedback wurde erfolgreich gespeichert."
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:11
 msgctxt "kosmo"
 msgid "Your feedback was successfully updated."
-msgstr ""
+msgstr "Ihr Feedback wurde erfolgreich aktualisiert."
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:12
 msgctxt "kosmo"
 msgid "Your feedback was successfully deleted."
-msgstr ""
+msgstr "Ihr Feedback wurde erfolgreich gelöscht"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:13
 msgctxt "kosmo"
 msgid ""
 "The comment has already been moderated. Your feedback could not be saved."
-msgstr ""
+msgstr "Der Beitrag wurde bereits moderiert. Ihr Feedback konnte nicht gespeichert werden."
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:14
 msgctxt "kosmo"
@@ -1052,12 +1052,12 @@ msgstr "Blockiert"
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:10
 msgctxt "kosmo"
 msgid "Add feedback"
-msgstr ""
+msgstr "Feedback hinzufügen"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:11
 msgctxt "kosmo"
 msgid "This comment was blocked"
-msgstr ""
+msgstr "Der Beitrag wurde gesperrt"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:12
 msgctxt "kosmo"
@@ -1088,7 +1088,7 @@ msgstr "Archiviert"
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:17
 msgctxt "kosmo"
 msgid "Edit feedback"
-msgstr ""
+msgstr "Feedback bearbeiten"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:9
 msgctxt "kosmo"
