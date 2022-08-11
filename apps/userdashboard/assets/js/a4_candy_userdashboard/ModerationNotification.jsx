@@ -6,6 +6,8 @@ import { ModerationStatement } from './ModerationStatement'
 import { ModerationNotificationActionsBar } from './ModerationNotificationActionsBar'
 import { alert as Alert } from 'adhocracy4'
 
+const alertTime = 6000
+
 const translated = {
   statementAdded: django.pgettext('kosmo', 'Your feedback was successfully delivered.'),
   statementEdited: django.pgettext('kosmo', 'Your feedback was successfully updated.'),
@@ -61,7 +63,7 @@ export const ModerationNotification = (props) => {
       setAlert({
         type: 'error',
         message: translated.anotherStatement,
-        timeInMs: 3000
+        timeInMs: alertTime
       })
     } else {
       // eslint-disable-next-line no-unused-vars
@@ -74,7 +76,7 @@ export const ModerationNotification = (props) => {
         setAlert({
           type: 'error',
           message: error,
-          timeInMs: 3000
+          timeInMs: alertTime
         })
       } else {
         props.loadData()
@@ -82,7 +84,7 @@ export const ModerationNotification = (props) => {
         setAlert({
           type: 'success',
           message: getStatementAdded(),
-          timeInMs: 3000
+          timeInMs: alertTime
         })
       }
     }
@@ -104,7 +106,7 @@ export const ModerationNotification = (props) => {
       setAlert({
         type: 'success',
         message: translated.statementEdited,
-        timeInMs: 3000
+        timeInMs: alertTime
       })
     }
   }
@@ -118,7 +120,7 @@ export const ModerationNotification = (props) => {
     setAlert({
       type: 'success',
       message: translated.statementDeleted,
-      timeInMs: 3000
+      timeInMs: alertTime
     })
   }
 
@@ -145,9 +147,17 @@ export const ModerationNotification = (props) => {
       : translated.notificationArchived
 
     if (error) {
-      props.onChangeStatus(error)
+      setAlert({
+        type: 'error',
+        message: error,
+        timeInMs: alertTime
+      })
     } else {
-      props.onChangeStatus(alertMessage)
+      setAlert({
+        type: 'success',
+        message: alertMessage,
+        timeInMs: alertTime
+      })
     }
   }
 
@@ -163,9 +173,17 @@ export const ModerationNotification = (props) => {
       : translated.commentUnblocked
 
     if (error) {
-      props.onChangeStatus(error)
+      setAlert({
+        type: 'error',
+        message: error,
+        timeInMs: alertTime
+      })
     } else {
-      props.onChangeStatus(alertMessage)
+      setAlert({
+        type: 'success',
+        message: alertMessage,
+        timeInMs: alertTime
+      })
     }
   }
 
@@ -181,9 +199,17 @@ export const ModerationNotification = (props) => {
       : translated.commentUnhighlighted
 
     if (error) {
-      props.onChangeStatus(error)
+      setAlert({
+        type: 'error',
+        message: error,
+        timeInMs: alertTime
+      })
     } else {
-      props.onChangeStatus(alertMessage)
+      setAlert({
+        type: 'success',
+        message: alertMessage,
+        timeInMs: alertTime
+      })
     }
   }
 
