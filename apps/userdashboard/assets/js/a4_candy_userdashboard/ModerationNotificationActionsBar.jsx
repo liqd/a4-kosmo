@@ -7,14 +7,14 @@ export const ModerationNotificationActionsBar = (props) => {
     blockText: django.pgettext('kosmo', 'Block'),
     unblockText: django.pgettext('kosmo', 'Unblock'),
     isBlockedText: django.pgettext('kosmo', 'Blocked'),
-    replyText: django.pgettext('kosmo', 'Add statement'),
+    replyText: django.pgettext('kosmo', 'Add feedback'),
     blockedText: django.pgettext('kosmo', 'This comment was blocked'),
     highlightText: django.pgettext('kosmo', 'Highlight'),
     unhighlightText: django.pgettext('kosmo', 'Unhighlight'),
     isHighlightedText: django.pgettext('kosmo', 'Highlighted'),
     unarchiveText: django.pgettext('kosmo', 'Unarchive'),
     archivedText: django.pgettext('kosmo', 'Archived'),
-    editText: django.pgettext('kosmo', 'Edit statement')
+    editText: django.pgettext('kosmo', 'Edit feedback')
   }
 
   const {
