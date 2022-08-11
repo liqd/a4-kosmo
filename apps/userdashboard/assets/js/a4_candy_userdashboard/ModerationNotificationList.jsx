@@ -91,7 +91,7 @@ export default class ModerationNotificationList extends Component {
     const moderationComments = await data.json()
     this.timer = false
     this.setState({
-      moderationComments: moderationComments,
+      moderationComments,
       isLoaded: true
     })
   }
@@ -112,7 +112,7 @@ export default class ModerationNotificationList extends Component {
   getSuccessAlert = (message) => {
     return {
       type: 'success',
-      message: message
+      message
     }
   }
 
