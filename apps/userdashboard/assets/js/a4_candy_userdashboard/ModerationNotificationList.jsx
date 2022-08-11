@@ -3,7 +3,6 @@ import django from 'django'
 
 import { ModerationNotification } from './ModerationNotification'
 import { Filter } from './Filter'
-import { alert as Alert } from 'adhocracy4'
 
 const pendingFilterItems = [
   { label: django.pgettext('kosmo', 'Pending'), value: 'true' },
@@ -31,8 +30,7 @@ export default class ModerationNotificationList extends Component {
     this.state = {
       moderationComments: [],
       selectedFilters: { pending: 'true', classification: '', ordering: 'new' },
-      isLoaded: false,
-      alert: undefined
+      isLoaded: false
     }
   }
 
@@ -112,7 +110,7 @@ export default class ModerationNotificationList extends Component {
   getSuccessAlert = (message) => {
     return {
       type: 'success',
-      message
+      message: message
     }
   }
 
@@ -140,7 +138,6 @@ export default class ModerationNotificationList extends Component {
     return (
       <div className="row mb-2">
         <div className="col-12">
-          <Alert {...this.state.alert} />
           <h1 className="m-0">
             <a href={projectUrl}>{projectTitle}</a>
           </h1>
@@ -188,7 +185,6 @@ export default class ModerationNotificationList extends Component {
                     key={i}
                     notification={item}
                     apiUrl={this.props.moderationCommentsApiUrl + item.pk + '/'}
-                    onChangeStatus={(message, type) => this.handleAlert(message, type)}
                     loadData={() => this.loadData()}
                   />
                 ))}
