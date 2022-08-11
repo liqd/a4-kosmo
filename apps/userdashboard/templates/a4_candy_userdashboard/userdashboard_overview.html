@@ -24,9 +24,9 @@
 {% endif %}
 
 {# Translators: kosmo #}
-<h3>{% trans 'Activities' %}</h3>
+<h2>{% trans 'Activity' %}</h2>
 {% for action in view.actions|slice:":5" %}
-        {% include 'a4_candy_actions/includes/action.html' with action=action %}
+        {% include 'a4_candy_actions/includes/reaction.html' with action=action %}
 {% empty %}
     {# Translators: kosmo #}
     {% trans 'No activity yet. '%}
