@@ -1,4 +1,4 @@
 # requirements needed in this fork, but not a+
 backoff==2.0.1
 httpx==0.22.0
-sib-api-v3-sdk==7.4.0
+sib-api-v3-sdk==7.5.0
