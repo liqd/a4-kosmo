@@ -137,7 +137,7 @@ export const ModerationNotification = (props) => {
       : props.apiUrl + 'unarchive/'
     const [response, error] =
       await api.fetch({
-        url: url,
+        url,
         method: 'GET'
       })
     const alertMessage = response && response.has_pending_notifications
