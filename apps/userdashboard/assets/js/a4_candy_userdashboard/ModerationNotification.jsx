@@ -7,10 +7,10 @@ import { ModerationNotificationActionsBar } from './ModerationNotificationAction
 import { alert as Alert } from 'adhocracy4'
 
 const translated = {
-  statementAdded: django.pgettext('kosmo', 'Your statement was successfully delivered.'),
-  statementEdited: django.pgettext('kosmo', 'Your statement was successfully updated.'),
-  statementDeleted: django.pgettext('kosmo', 'Your statement was successfully deleted.'),
-  anotherStatement: django.pgettext('kosmo', 'The comment has already been moderated. Your statement could not be saved.'),
+  statementAdded: django.pgettext('kosmo', 'Your feedback was successfully delivered.'),
+  statementEdited: django.pgettext('kosmo', 'Your feedback was successfully updated.'),
+  statementDeleted: django.pgettext('kosmo', 'Your feedback was successfully deleted.'),
+  anotherStatement: django.pgettext('kosmo', 'The comment has already been moderated. Your feedback could not be saved.'),
   goToDiscussion: django.pgettext('kosmo', 'Go to discussion'),
   commentBlocked: django.pgettext('kosmo', 'Comment blocked successfully.'),
   commentUnblocked: django.pgettext('kosmo', 'Comment unblocked successfully.'),
