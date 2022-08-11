@@ -14,8 +14,8 @@ const api = {
     body
   }) => {
     const response = await fetch(url, {
-      method: method,
-      headers: headers,
+      method,
+      headers,
       body: JSON.stringify(body)
     })
     try {
