@@ -8,10 +8,10 @@
         <span>{% trans 'Back to overview' %}</span>
     </a>
     {# Translators: kosmo #}
-    <h3 class="mt-2">{% trans 'Activities' %}</h3>
+    <h2 class="mt-2">{% trans 'Activity' %}</h2>
 
     {% for action in view.actions %}
-        {% include 'a4_candy_actions/includes/action.html' with action=action %}
+        {% include 'a4_candy_actions/includes/reaction.html' with action=action %}
     {% endfor %}
 
 {% endblock %}

@@ -4,7 +4,7 @@
 {% block dashboard_content %}
 
 {# Translators: kosmo #}
-<h3 class="mt-sm-0 d-inline-block">{% trans 'Following' %}</h3>
+<h2 class="mt-sm-0 d-inline-block">{% trans 'Following' %}</h2>
 {% if view.projects.count > 2 %}
   {# Translators: kosmo #}
   <a class="btn btn--none float-end pe-0" href="{% url 'userdashboard-following' %}">{% trans 'View more' %}</a>
@@ -31,7 +31,7 @@
     {# Translators: kosmo #}
     {% trans 'No activity yet. '%}
 {% endfor %}
-{% if view.actions.count > 5 %}
+{% if view.actions|length > 5 %}
   {# Translators: kosmo #}
   <a class="btn btn--light mt-4" href="{% url 'userdashboard-activities' %}">{% trans 'View more' %}</a>
 {% endif %}
