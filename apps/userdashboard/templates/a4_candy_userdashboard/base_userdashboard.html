@@ -71,9 +71,10 @@
                         </div>
                     </div>
 
-                    {%  with pages=settings.a4_candy_cms_settings.ImportantPages %}
+                    {% with pages=settings.a4_candy_cms_settings.ImportantPages %}
                     {% if pages.platform_information %}
-                        <a class="btn btn--light btn--full" href="{% pageurl pages.platform_information %}">{% trans 'Manual' %}</a>
+                        {# Translators: kosmo #}
+                        <a class="btn btn--light btn--full" href="{% pageurl pages.platform_information %}">{% trans 'Getting Started' %}</a>
                     {% endif %}
                     {% endwith %}
 
