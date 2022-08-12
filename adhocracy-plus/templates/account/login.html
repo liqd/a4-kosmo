@@ -18,7 +18,9 @@
             {% include 'a4_candy_contrib/includes/form_checkbox_field.html' with field=form.remember %}
         </div>
 
-        {% if redirect_field_value %}
+        {% if redirect_field_value == '/' %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{% url 'userdashboard-overview' %}"/>
+        {% elif redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
         {% endif %}
 
