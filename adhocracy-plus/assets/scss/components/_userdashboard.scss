@@ -16,6 +16,12 @@
     position: relative;
 }
 
+.userdashboard-profile__name {
+    overflow-wrap: break-word;
+    text-transform: none;
+    margin-top: 0;
+}
+
 .userdashboard-profile__main {
     padding: 0 $padding;
 }
@@ -40,10 +46,4 @@
     font-weight: $demi-bold;
     display: flex;
     align-items: center;
-}
-
-.userdashboard-overview__title {
-    font-size: $font-size-md;
-    font-weight: $demi-bold;
-    letter-spacing: 1.22px;
 }
