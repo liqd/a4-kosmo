@@ -233,16 +233,10 @@ export const ModerationNotification = (props) => {
   return (
     <>
       <li className="list-item">
-        <div className="d-flex">
+        <div className="d-flex flex-wrap">
           {userImageDiv}
-          <div>
-            <i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
-            <strong>{userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName}</strong>
-            {getLink(translatedReportText(activeNotifications), commentUrl)}
-            <div className="pt-1">{commentChangeLog}</div>
-          </div>
           {notification.has_pending_notifications &&
-            <div className="ms-auto">
+            <div className="ms-auto order-lg-last">
               <div className="dropdown">
                 <button
                   type="button"
@@ -266,6 +260,12 @@ export const ModerationNotification = (props) => {
                 </ul>
               </div>
             </div>}
+          <div>
+            <i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
+            <strong>{userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName}</strong>
+            {getLink(translatedReportText(activeNotifications), commentUrl)}
+            <div className="pt-1">{commentChangeLog}</div>
+          </div>
         </div>
 
         <div className="a4-comments__box--comment">

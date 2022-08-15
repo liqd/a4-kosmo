@@ -19,34 +19,36 @@ export const ModerationStatement = (props) => {
         {props.notificationIsPending &&
           <div className="col">
             <div className="text-end">
-              <button
-                type="button" className="dropdown-toggle btn btn--none" aria-haspopup="true"
-                aria-expanded="false" data-bs-toggle="dropdown"
-              >
-                <i className="fas fa-ellipsis-v" aria-hidden="true" />
-              </button>
-              <ul className="dropdown-menu dropdown-menu-end">
-                <li key="1">
-                  <button
-                    className="dropdown-item"
-                    type="button"
-                    id="delete-input"
-                    onClick={() => props.onDelete(pk)}
-                  >
-                    {translated.delete}
-                  </button>
-                </li>
-                <li key="2">
-                  <button
-                    className="dropdown-item"
-                    type="button"
-                    id="edit-input"
-                    onClick={props.onEdit}
-                  >
-                    {translated.edit}
-                  </button>
-                </li>
-              </ul>
+              <div className="dropdown">
+                <button
+                  type="button" className="dropdown-toggle btn btn--none" aria-haspopup="true"
+                  aria-expanded="false" data-bs-toggle="dropdown"
+                >
+                  <i className="fas fa-ellipsis-v" aria-hidden="true" />
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li key="1">
+                    <button
+                      className="dropdown-item"
+                      type="button"
+                      id="delete-input"
+                      onClick={() => props.onDelete(pk)}
+                    >
+                      {translated.delete}
+                    </button>
+                  </li>
+                  <li key="2">
+                    <button
+                      className="dropdown-item"
+                      type="button"
+                      id="edit-input"
+                      onClick={props.onEdit}
+                    >
+                      {translated.edit}
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>}
       </div>
