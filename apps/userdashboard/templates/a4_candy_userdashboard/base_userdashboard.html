@@ -87,11 +87,11 @@
                       <div>
                           <a class="btn btn--link text-decoration-none text-muted d-flex align-items-center" href="{% url 'a4dashboard:project-list' organisation_slug=organisation.slug %}">
                             {% if organisation.logo %}
-                              <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ organisation.name }}" />
+                              <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ organisation.title }}" />
                             {% else %}
-                              <i class="fas fa-edit font--lg pt-1" aria-label="{{ organisation.name }} {% trans 'Home' %}"></i>
+                              <i class="fas fa-edit font--lg pt-1" aria-label="{{ organisation.title }} {% trans 'Home' %}"></i>
                             {% endif %}
-                            &nbsp {{ organisation.name }}
+                            &nbsp {{ organisation.title }}
                           </a>
                       </div>
                       {% endfor %}
@@ -135,11 +135,11 @@
                         {% for organisation in view.organisations %}
                         <a class="btn btn--link text-decoration-none text-muted d-flex align-items-center" href="{% url 'organisation' organisation_slug=organisation.slug %}">
                           {% if organisation.logo %}
-                            <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ organisation.name }}" />
+                            <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ organisation.title }}" />
                           {% else %}
-                            <i class="fas fa-home font--lg pt-1" aria-label="{{ organisation.name }} {% trans 'Home' %}"></i>
+                            <i class="fas fa-home font--lg pt-1" aria-label="{{ organisation.title }} {% trans 'Home' %}"></i>
                           {% endif %}
-                            &nbsp {{ organisation.name }}
+                            &nbsp {{ organisation.title }}
                         </a>
                         {% endfor %}
                         {% else %}
@@ -163,16 +163,16 @@
                             <i class="fa fa-chevron-up" aria-hidden="true"></i>
                         </div>
                         <ul class="u-list-reset scollapse show" id="userDashboardCollapseOrg" aria-hidden="false">
-                          {% for organisation in request.user.organisations %}
+                          {% for organisation in view.organisations %}
                                 <li>
-                                   <a href="{% url 'a4dashboard:project-list' organisation_slug=organisation.slug %}"
+                                   <a href="{% url 'organisation' organisation_slug=organisation.slug %}"
                                    class="text-decoration-none text-muted" >
                                      {% if organisation.logo %}
-                                       <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ orgnaisation.name }}" />
+                                       <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ orgnaisation.title }}" />
                                      {% else %}
-                                       <i class="fas font--lg fa-edit pt-1" aria-label="{{ orgnaisation.name }} {% trans 'Home' %}"></i>
+                                       <i class="fas font--lg fa-edit pt-1" aria-label="{{ orgnaisation.title }} {% trans 'Home' %}"></i>
                                      {% endif %}
-                                     &nbsp{{ organisation.name }}
+                                     &nbsp{{ organisation.title }}
                                    </a>
                                 </li>
                             {% endfor %}
