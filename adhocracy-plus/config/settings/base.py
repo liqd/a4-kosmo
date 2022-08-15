@@ -476,6 +476,7 @@ A4_ACTIONABLES = (
     ('a4_candy_ideas', 'idea'),
     ('a4_candy_budgeting', 'proposal'),
     ('a4_candy_mapideas', 'mapidea'),
+    ('a4_candy_moderatorfeedback', 'moderatorcommentstatement'),
 )
 
 A4_AUTO_FOLLOWABLES = (
