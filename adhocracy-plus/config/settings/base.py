@@ -473,10 +473,11 @@ A4_REPORTABLES = (
 )
 
 A4_ACTIONABLES = (
-    ("a4comments", "comment"),
-    ("a4_candy_ideas", "idea"),
-    ("a4_candy_budgeting", "proposal"),
-    ("a4_candy_mapideas", "mapidea"),
+    ('a4comments', 'comment'),
+    ('a4_candy_ideas', 'idea'),
+    ('a4_candy_budgeting', 'proposal'),
+    ('a4_candy_mapideas', 'mapidea'),
+    ('a4_candy_moderatorfeedback', 'moderatorcommentstatement'),
 )
 
 A4_AUTO_FOLLOWABLES = (
