@@ -10,6 +10,7 @@ from adhocracy4.polls.models import Poll
 from adhocracy4.projects.models import Project
 from adhocracy4.rules import mixins as rules_mixins
 from apps.documents.models import Chapter
+from apps.moderatorfeedback.models import ModeratorCommentStatement
 from apps.organisations.models import Organisation
 from apps.users.models import User
 
@@ -51,9 +52,10 @@ class UserDashboardOverviewView(UserDashboardBaseMixin):
 
     @property
     def actions(self):
-        """Return actions that are comments on content the user created.
+        """Return comment/statement actions that are  on content the user created.
 
-        Do not return comments on polls to not spam initiators.
+        Do not return actions on comments for polls and documents to not spam
+        initiators.
         """
         user = self.request.user
         comment_actions = Action.objects.filter(
@@ -65,10 +67,19 @@ class UserDashboardOverviewView(UserDashboardBaseMixin):
                 ContentType.objects.get_for_model(Chapter)
             ]
         )
-        return [action for action in comment_actions if
-                not action.obj.is_blocked
-                and action.target.creator == user
-                and action.actor != user]
+        filtered_comment_actions = [action for action in comment_actions if
+                                    not action.obj.is_blocked
+                                    and action.target.creator == user
+                                    and action.actor != user]
+        statement_actions = Action.objects.filter(
+            obj_content_type=ContentType.objects.get_for_model(
+                ModeratorCommentStatement),
+        )
+        filtered_statement_actions = [action for action in statement_actions if
+                                      action.obj.comment.creator == user
+                                      and action.actor != user]
+        return sorted(filtered_comment_actions + filtered_statement_actions,
+                      key=lambda action: action.timestamp, reverse=True)
 
     @property
     def projects_carousel(self):
@@ -86,9 +97,10 @@ class UserDashboardActivitiesView(UserDashboardBaseMixin):
 
     @property
     def actions(self):
-        """Return actions that are comments on content the user created.
+        """Return comment/statement actions that are  on content the user created.
 
-        Do not return comments on polls to not spam initiators.
+        Do not return actions on comments for polls and documents to not spam
+        initiators.
         """
         user = self.request.user
         comment_actions = Action.objects.filter(
@@ -100,10 +112,19 @@ class UserDashboardActivitiesView(UserDashboardBaseMixin):
                 ContentType.objects.get_for_model(Chapter)
             ]
         )
-        return [action for action in comment_actions if
-                not action.obj.is_blocked
-                and action.target.creator == user
-                and action.actor != user]
+        filtered_comment_actions = [action for action in comment_actions if
+                                    not action.obj.is_blocked
+                                    and action.target.creator == user
+                                    and action.actor != user]
+        statement_actions = Action.objects.filter(
+            obj_content_type=ContentType.objects.get_for_model(
+                ModeratorCommentStatement),
+        )
+        filtered_statement_actions = [action for action in statement_actions if
+                                      action.obj.comment.creator == user
+                                      and action.actor != user]
+        return sorted(filtered_comment_actions + filtered_statement_actions,
+                      key=lambda action: action.timestamp, reverse=True)
 
 
 class UserDashboardFollowingView(UserDashboardBaseMixin):
