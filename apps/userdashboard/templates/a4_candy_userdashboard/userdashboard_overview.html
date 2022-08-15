@@ -4,7 +4,7 @@
 {% block dashboard_content %}
 
 {# Translators: kosmo #}
-<h2 class="mt-sm-0 d-inline-block userdashboard-overview__title">{% trans 'Following' %}</h2>
+<h2 class="mt-sm-0 d-inline-block">{% trans 'Following' %}</h2>
 {% if view.projects.count > 2 %}
   {# Translators: kosmo #}
   <a class="btn btn--none float-end pe-0" href="{% url 'userdashboard-following' %}">{% trans 'View more' %}</a>
@@ -24,7 +24,7 @@
 {% endif %}
 
 {# Translators: kosmo #}
-<h2 class="userdashboard-overview__title">{% trans 'Activities' %}</h2>
+<h2>{% trans 'Activities' %}</h2>
 {% for action in view.actions|slice:":5" %}
         {% include 'a4_candy_actions/includes/reaction.html' with action=action %}
 {% empty %}
