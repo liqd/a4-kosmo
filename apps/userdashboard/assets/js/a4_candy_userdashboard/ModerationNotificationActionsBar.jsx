@@ -50,7 +50,7 @@ export const ModerationNotificationActionsBar = (props) => {
             className="btn userdashboard-mod-notification__btn"
             onClick={onToggleHighlight}
             disabled={isBlocked}
-            icon={<i className="icon-highlight" aria-hidden="true" />}
+            icon={<i className="icon-fo-highlight" aria-hidden="true" />}
             textMouseOff={isHighlighted ? translated.isHighlightedText : translated.highlightText}
             textMouseOn={isHighlighted ? translated.unhighlightText : translated.highlightText}
           />
