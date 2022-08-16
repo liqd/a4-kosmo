@@ -35,7 +35,7 @@
             <div class="col-sm-4 col-lg-3 {% if '/following' in request.get_full_path or '/activities' in request.get_full_path %} d-none d-sm-block {% endif %}">
                 <div class="tabpanel userdashboard-profile userdashboard-profile__side">
 
-                    <div class="userdashboard-profile__user mb-4 mb-md-5">
+                    <div class="userdashboard-profile__user mb-3">
                         <div class="dropdown text-end">
                             <button
                                 title="{% trans 'Settings' %}"
@@ -88,9 +88,9 @@
                             {% if organisation.logo %}
                               <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ organisation.title }}" />
                             {% else %}
-                              <i class="fas fa-edit font--lg pt-1" aria-label="{{ organisation.title }} {% trans 'Home' %}"></i>
+                              <i class="fas fa-edit font--lg action__icon" aria-label="{{ organisation.title }} {% trans 'Home' %}"></i>
                             {% endif %}
-                            &nbsp {{ organisation.title }}
+                            <div class="ms-3 text-start">{{ organisation.title }}</div>
                           </a>
                       </div>
                       {% endfor %}
@@ -98,7 +98,7 @@
 
                     <!-- mobile -->
                     <div class="d-sm-none mb-4">
-                        <div class="userdashboard__dropdown dropdown"
+                        <div class="userdashboard__dropdown dropdown mb-3"
                         data-bs-toggle="collapse"
                         href="#userDashboardCollapseOrgInt"
                         aria-expanded="true"
@@ -112,19 +112,21 @@
                           {% for organisation in request.user.organisations %}
                                 <li>
                                    <a href="{% url 'a4dashboard:project-list' organisation_slug=organisation.slug %}"
-                                      class="text-decoration-none text-muted" >
+                                      class="text-decoration-none text-muted d-flex align-items-center mb-2" >
                                      {% if organisation.logo %}
-                                       <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ orgnaisation.name }}" />
+                                       <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ orgnaisation.title }}" />
                                      {% else %}
-                                       <i class="fas fa-edit font--lg pt-1" aria-label="{{ orgnaisation.name }} {% trans 'Home' %}"></i>
+                                       <i class="fas fa-edit font--lg action__icon" aria-label="{{ orgnaisation.title }} {% trans 'Home' %}"></i>
                                      {% endif %}
-                                     &nbsp{{ organisation.name }}
+                                     <div class="ms-3 text-start">{{ organisation.title }}</div>
                                    </a>
                                 </li>
                             {% endfor %}
                         </ul>
                     </div>
                     {% endif %}
+                    <!-- mobile end -->
+
 
                     <!-- desktop -->
                     <div class="d-none d-sm-block mb-5">
@@ -136,9 +138,9 @@
                           {% if organisation.logo %}
                             <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ organisation.title }}" />
                           {% else %}
-                            <i class="fas fa-home font--lg pt-1" aria-label="{{ organisation.title }} {% trans 'Home' %}"></i>
+                            <i class="fas fa-home font--lg action__icon" aria-label="{{ organisation.title }} {% trans 'Home' %}"></i>
                           {% endif %}
-                            &nbsp {{ organisation.title }}
+                            <div class="ms-3 text-start">{{ organisation.title }}</div>
                         </a>
                         {% endfor %}
                         {% else %}
@@ -151,7 +153,7 @@
                     <!-- mobile -->
                     <div class="d-sm-none mb-4">
                       {% if view.organisations %}
-                        <div  class="userdashboard__dropdown dropdown"
+                        <div  class="userdashboard__dropdown dropdown mb-3"
                               data-bs-toggle="collapse"
                               href="#userDashboardCollapseOrg"
                               aria-expanded="true"
@@ -161,17 +163,17 @@
                             <h2 class="fs-6">{% trans 'Organisations' %}</h2>
                             <i class="fa fa-chevron-up" aria-hidden="true"></i>
                         </div>
-                        <ul class="u-list-reset scollapse show" id="userDashboardCollapseOrg" aria-hidden="false">
+                        <ul class="u-list-reset collapse show" id="userDashboardCollapseOrg" aria-hidden="false">
                           {% for organisation in view.organisations %}
                                 <li>
                                    <a href="{% url 'organisation' organisation_slug=organisation.slug %}"
-                                   class="text-decoration-none text-muted" >
+                                   class="text-decoration-none text-muted d-flex align-items-center" >
                                      {% if organisation.logo %}
                                        <img src="{% thumbnail organisation.logo '0x40' %}" alt="{{ orgnaisation.title }}" />
                                      {% else %}
-                                       <i class="fas font--lg fa-edit pt-1" aria-label="{{ orgnaisation.title }} {% trans 'Home' %}"></i>
+                                       <i class="fas font--lg fa-edit action__icon" aria-label="{{ orgnaisation.title }} {% trans 'Home' %}"></i>
                                      {% endif %}
-                                     &nbsp{{ organisation.title }}
+                                     <div class="ms-3 text-start">{{ organisation.title }}</div>
                                    </a>
                                 </li>
                             {% endfor %}
@@ -185,6 +187,7 @@
                         </div>
                         {% endif %}
                     </div>
+                    <!-- mobile end -->
                 </div>
             </div>
             {% endblock %}

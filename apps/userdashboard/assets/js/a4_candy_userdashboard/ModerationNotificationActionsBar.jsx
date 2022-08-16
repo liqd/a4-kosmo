@@ -30,10 +30,10 @@ export const ModerationNotificationActionsBar = (props) => {
 
   return isPending
     ? (
-      <div className="my-3 d-flex justify-content-between">
+      <div className="my-3 d-flex flex-wrap justify-content-between">
         <button
           id="moderation-notification-actions-bar-button-reply"
-          className="btn btn--none ps-0"
+          className="btn px-0 userdashboard-mod-notification__btn"
           type="button"
           onClick={() => onToggleForm(!!isEditing)}
         >
@@ -47,7 +47,7 @@ export const ModerationNotificationActionsBar = (props) => {
         <div>
           <HoverButton
             id="moderation-notification-actions-bar-button-highlight"
-            className="btn btn--none"
+            className="btn userdashboard-mod-notification__btn"
             onClick={onToggleHighlight}
             disabled={isBlocked}
             icon={<i className="icon-highlight" aria-hidden="true" />}
@@ -56,7 +56,7 @@ export const ModerationNotificationActionsBar = (props) => {
           />
           <HoverButton
             id="moderation-notification-actions-bar-button-block"
-            className="btn btn--none"
+            className="btn userdashboard-mod-notification__btn"
             onClick={onToggleBlock}
             disabled={isHighlighted}
             icon={<i className="fas fa-ban" aria-hidden="true" />}
@@ -75,7 +75,7 @@ export const ModerationNotificationActionsBar = (props) => {
           </div>}
         <HoverButton
           id="moderation-notification-actions-bar-button-pending"
-          className="btn btn--none"
+          className="btn userdashboard-mod-notification__btn"
           onClick={onTogglePending}
           icon={<i className="fas fa-archive me-1" aria-hidden="true" />}
           textMouseOn={translated.unarchiveText}
