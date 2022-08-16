@@ -27,6 +27,14 @@
         margin-left: 0;
     }
 
+    .slick-prev {
+        left: -20px;
+    }
+
+    .slick-next {
+        right: -20px;
+    }
+
     .slick-prev,
     .slick-next {
         top: 40%;
