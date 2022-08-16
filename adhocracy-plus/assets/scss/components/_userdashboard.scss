@@ -47,3 +47,21 @@
     display: flex;
     align-items: center;
 }
+
+.userdashboard-mod-notification__btn {
+    @extend .btn--none;
+    border: 1px solid $gray-lightest;
+
+    @media (min-width: $breakpoint-md) {
+        border: none;
+    }
+}
+
+.userdashboard-mod-notification__btn,
+.userdashboard-mod-notification__btn + div {
+    min-width: 100%;
+
+    @media (min-width: $breakpoint-md) {
+        min-width: revert;
+    }
+}
