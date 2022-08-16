@@ -138,7 +138,7 @@ export default class ModerationNotificationList extends Component {
     return (
       <div className="row mb-2">
         <div className="col-12">
-          <h1 className="m-0">
+          <h1>
             <a href={projectUrl}>{projectTitle}</a>
           </h1>
           <span className="text-muted">
@@ -179,7 +179,7 @@ export default class ModerationNotificationList extends Component {
               </div>
               )
             : (
-              <ul className="ps-0 mt-5">
+              <ul className="ps-0 mt-4">
                 {this.state.moderationComments.map((item, i) => (
                   <ModerationNotification
                     key={i}
