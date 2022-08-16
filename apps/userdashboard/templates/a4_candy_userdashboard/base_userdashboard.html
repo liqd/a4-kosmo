@@ -88,7 +88,7 @@
                             {% if organisation.logo %}
                               <img src="{% thumbnail organisation.logo '0x40' %}" alt="{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %}" />
                             {% else %}
-                              <i class="fas fa-edit font--lg action__icon" aria-label="{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %} {% trans 'Home' %}"></i>
+                              <i class="fas fa-home font--lg action__icon" aria-label="{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %} {% trans 'Home' %}"></i>
                             {% endif %}
                             <div class="ms-3 text-start">{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %}</div>
                           </a>
@@ -116,7 +116,7 @@
                                      {% if organisation.logo %}
                                        <img src="{% thumbnail organisation.logo '0x40' %}" alt="{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %}" />
                                      {% else %}
-                                       <i class="fas fa-edit font--lg action__icon" aria-label="{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %} {% trans 'Home' %}"></i>
+                                       <i class="fas fa-home font--lg action__icon" aria-label="{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %} {% trans 'Home' %}"></i>
                                      {% endif %}
                                      <div class="ms-3 text-start">{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %}</div>
                                    </a>
@@ -167,11 +167,11 @@
                           {% for organisation in view.organisations %}
                                 <li>
                                    <a href="{% url 'organisation' organisation_slug=organisation.slug %}"
-                                   class="text-decoration-none text-muted d-flex align-items-center" >
+                                   class="text-decoration-none text-muted d-flex align-items-center mb-2" >
                                      {% if organisation.logo %}
                                        <img src="{% thumbnail organisation.logo '0x40' %}" alt="{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %}" />
                                      {% else %}
-                                       <i class="fas font--lg fa-edit action__icon" aria-label="{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %} {% trans 'Home' %}"></i>
+                                       <i class="fas font--lg fa-home action__icon" aria-label="{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %} {% trans 'Home' %}"></i>
                                      {% endif %}
                                      <div class="ms-3 text-start">{% if organisation.title %}{{ organisation.title }}{% else %}{{ organisation.name}}{% endif %}</div>
                                    </a>
