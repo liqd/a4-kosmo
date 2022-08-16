@@ -28,6 +28,20 @@
     padding: 0 0.2 * $padding;
 }
 
+// FIXME very hack solution but working
+.fa-stack.action__icon {
+    @include multi-line-icon(1.2);
+    height: 44px; // same as other action__icons
+
+    .fa-stack-1x {
+        line-height: 3.35;
+    }
+
+    .fa-stack-2x {
+        line-height: 1.75;
+    }
+}
+
 .action__main {
     @include multi-line-main(2);
     margin-left: 3 * $padding;
