@@ -81,7 +81,7 @@ export default class ModerationProjects extends Component {
     return (
       <div className="row">
         <div className="col-12">
-          <h3 className="mt-sm-0">Projects</h3>
+          <h2 className="mt-sm-0">Projects</h2>
           <ul className="ps-0">
             {items.map(item => (
               <li key={item.title} className="tile--sm tile--horizontal">
