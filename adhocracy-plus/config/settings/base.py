@@ -563,6 +563,6 @@ AI_API_VERSION = '3.0'
 A4_COMMENTS_USE_MODERATOR_MARKED = True
 
 SENDINBLUE_TEMPLATES = {
-    'en': 1,
-    'de': 3,
+    'en': 5,
+    'de': 7,
 }
