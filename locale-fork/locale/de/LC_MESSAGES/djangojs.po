@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-11 15:22+0200\n"
+"POT-Creation-Date: 2022-08-18 13:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,35 +79,51 @@ msgid ""
 msgstr ""
 
 #: adhocracy4/comments/static/comments/Comment.jsx:96
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:287
 #: adhocracy4/comments/static/comments/Comment.jsx:96
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:287
 msgid "Moderator"
 msgstr ""
 
 #: adhocracy4/comments/static/comments/Comment.jsx:105
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:282
 #: adhocracy4/comments/static/comments/Comment.jsx:105
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:282
 msgid "Latest edit on"
 msgstr ""
 
 #: adhocracy4/comments/static/comments/Comment.jsx:110
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:276
 #: adhocracy4/comments/static/comments/Comment.jsx:110
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:276
 msgid "Deleted by creator on"
 msgstr ""
 
 #: adhocracy4/comments/static/comments/Comment.jsx:112
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:278
 #: adhocracy4/comments/static/comments/Comment.jsx:112
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:278
 msgid "Deleted by moderator on"
 msgstr ""
 
 #: adhocracy4/comments/static/comments/Comment.jsx:151
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:257
 #: adhocracy4/comments/static/comments/Comment.jsx:151
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:257
 msgid "Do you really want to delete this comment?"
 msgstr ""
 
 #: adhocracy4/comments/static/comments/Comment.jsx:152
 #: adhocracy4/comments/static/comments/CommentManageDropdown.jsx:7
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:259
 #: adhocracy4/comments_async/static/comments_async/comment_manage_dropdown.jsx:7
+#: adhocracy4/polls/assets/EditPollOpenQuestion.jsx:68
+#: adhocracy4/polls/assets/EditPollOpenQuestion.jsx:73
+#: adhocracy4/polls/assets/EditPollQuestion.jsx:152
+#: adhocracy4/polls/assets/EditPollQuestion.jsx:157
 #: adhocracy4/comments/static/comments/Comment.jsx:152
 #: adhocracy4/comments/static/comments/CommentManageDropdown.jsx:7
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:259
 #: adhocracy4/comments_async/static/comments_async/comment_manage_dropdown.jsx:7
 #: apps/documents/assets/ChapterNavItem.jsx:56
 #: apps/documents/assets/ChapterNavItem.jsx:61
@@ -117,8 +133,12 @@ msgid "Delete"
 msgstr ""
 
 #: adhocracy4/comments/static/comments/Comment.jsx:153
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:260
+#: adhocracy4/comments_async/static/modals/moderate_modal.jsx:54
 #: adhocracy4/static/Modal.jsx:59
 #: adhocracy4/comments/static/comments/Comment.jsx:153
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:260
+#: adhocracy4/comments_async/static/modals/moderate_modal.jsx:54
 msgid "Abort"
 msgstr ""
 
@@ -263,6 +283,11 @@ msgctxt "verb"
 msgid "Reply"
 msgstr ""
 
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:280
+#: adhocracy4/comments_async/static/comments_async/comment.jsx:280
+msgid "Blocked by moderator on"
+msgstr ""
+
 #: adhocracy4/comments_async/static/comments_async/comment_box.jsx:16
 #: adhocracy4/comments_async/static/comments_async/comment_box.jsx:16
 msgid "Newest"
@@ -390,6 +415,11 @@ msgstr ""
 #: adhocracy4/comments_async/static/modals/moderate_modal.jsx:35
 #: adhocracy4/comments_async/static/modals/moderate_modal.jsx:35
 msgid "Is recommended"
+msgstr ""
+
+#: adhocracy4/comments_async/static/modals/moderate_modal.jsx:53
+#: adhocracy4/comments_async/static/modals/moderate_modal.jsx:53
+msgid "Submit"
 msgstr ""
 
 #: adhocracy4/comments_async/static/modals/url_modal.jsx:23
@@ -543,12 +573,49 @@ msgstr ""
 msgid "Question"
 msgstr ""
 
+#: adhocracy4/polls/assets/EditPollOpenQuestion.jsx:36
+#: adhocracy4/polls/assets/EditPollQuestion.jsx:119
+#: adhocracy4/polls/assets/HelptextForm.jsx:11
+msgid "Explanation"
+msgstr ""
+
+#: adhocracy4/polls/assets/EditPollOpenQuestion.jsx:45
+#: adhocracy4/polls/assets/EditPollOpenQuestion.jsx:50
+#: adhocracy4/polls/assets/EditPollQuestion.jsx:129
+#: adhocracy4/polls/assets/EditPollQuestion.jsx:134
+#: apps/documents/assets/ChapterNavItem.jsx:32
+#: apps/documents/assets/ChapterNavItem.jsx:37
+#: apps/documents/assets/ParagraphForm.jsx:110
+#: apps/documents/assets/ParagraphForm.jsx:115
+msgid "Move up"
+msgstr ""
+
+#: adhocracy4/polls/assets/EditPollOpenQuestion.jsx:57
+#: adhocracy4/polls/assets/EditPollOpenQuestion.jsx:62
+#: adhocracy4/polls/assets/EditPollQuestion.jsx:141
+#: adhocracy4/polls/assets/EditPollQuestion.jsx:146
+#: apps/documents/assets/ChapterNavItem.jsx:44
+#: apps/documents/assets/ChapterNavItem.jsx:49
+#: apps/documents/assets/ParagraphForm.jsx:122
+#: apps/documents/assets/ParagraphForm.jsx:127
+msgid "Move down"
+msgstr ""
+
 #: adhocracy4/polls/assets/EditPollQuestion.jsx:46
 msgid "Participants can vote for more than one option (multiple choice)"
 msgstr ""
 
 #: adhocracy4/polls/assets/EditPollQuestion.jsx:61
 msgid "Participants can add their own answer"
+msgstr ""
+
+#: adhocracy4/polls/assets/EditPollQuestion.jsx:94
+#: adhocracy4/polls/assets/EditPollQuestion.jsx:95
+msgid "Other"
+msgstr ""
+
+#: adhocracy4/polls/assets/EditPollQuestion.jsx:112
+msgid "New answer"
 msgstr ""
 
 #: adhocracy4/polls/assets/EditPollQuestions.jsx:163
@@ -574,10 +641,6 @@ msgstr ""
 #: adhocracy4/polls/assets/EditPollQuestions.jsx:279
 #: apps/documents/assets/DocumentManagement.jsx:324
 msgid "Save"
-msgstr ""
-
-#: adhocracy4/polls/assets/HelptextForm.jsx:11
-msgid "Explanation"
 msgstr ""
 
 #: adhocracy4/polls/assets/PollQuestion.jsx:18
@@ -735,20 +798,6 @@ msgstr ""
 
 #: apps/documents/assets/ChapterNav.jsx:38
 msgid "Add a new chapter"
-msgstr ""
-
-#: apps/documents/assets/ChapterNavItem.jsx:32
-#: apps/documents/assets/ChapterNavItem.jsx:37
-#: apps/documents/assets/ParagraphForm.jsx:110
-#: apps/documents/assets/ParagraphForm.jsx:115
-msgid "Move up"
-msgstr ""
-
-#: apps/documents/assets/ChapterNavItem.jsx:44
-#: apps/documents/assets/ChapterNavItem.jsx:49
-#: apps/documents/assets/ParagraphForm.jsx:122
-#: apps/documents/assets/ParagraphForm.jsx:127
-msgid "Move down"
 msgstr ""
 
 #: apps/documents/assets/DocumentManagement.jsx:18
@@ -945,68 +994,70 @@ msgstr ""
 msgid "undo like"
 msgstr ""
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:10
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:12
 msgctxt "kosmo"
 msgid "Your feedback was successfully delivered."
 msgstr "Ihr Feedback wurde erfolgreich gespeichert."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:11
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:13
 msgctxt "kosmo"
 msgid "Your feedback was successfully updated."
 msgstr "Ihr Feedback wurde erfolgreich aktualisiert."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:12
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:14
 msgctxt "kosmo"
 msgid "Your feedback was successfully deleted."
 msgstr "Ihr Feedback wurde erfolgreich gelöscht"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:13
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:15
 msgctxt "kosmo"
 msgid ""
 "The comment has already been moderated. Your feedback could not be saved."
-msgstr "Der Beitrag wurde bereits moderiert. Ihr Feedback konnte nicht gespeichert werden."
+msgstr ""
+"Der Beitrag wurde bereits moderiert. Ihr Feedback konnte nicht gespeichert "
+"werden."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:14
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:16
 msgctxt "kosmo"
 msgid "Go to discussion"
 msgstr "Zur Diskussion"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:15
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:17
 msgctxt "kosmo"
 msgid "Comment blocked successfully."
 msgstr "Der Beitrag wurde blockiert."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:16
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:18
 msgctxt "kosmo"
 msgid "Comment unblocked successfully."
 msgstr "Der Beitrag wurde entsperrt."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:17
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:19
 msgctxt "kosmo"
 msgid "Comment highlighted successfully."
 msgstr "Der Beitrag wurde hervorgehoben."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:18
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:20
 msgctxt "kosmo"
 msgid "Comment unhighlighted successfully."
 msgstr "Die Hervorhebung wurde widerrufen."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:19
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:21
 msgctxt "kosmo"
 msgid "Notification archived successfully."
 msgstr "Die Benachrichtigung wurde archiviert."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:20
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:22
 msgctxt "kosmo"
 msgid "Notification unarchived successfully."
 msgstr "Die Archivierung der Benachrichtigung wurde widerrufen."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:21
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:23
 msgctxt "kosmo"
 msgid "AI"
 msgstr ""
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:195
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:221
 #, javascript-format
 msgctxt "kosmo"
 msgid "'s {}comment{} has been reported 1 time since it's creation"
@@ -1014,22 +1065,22 @@ msgid_plural "'s {}comment{} has been reported %s times since it's creation"
 msgstr[0] "hat einen {}Beitrag{} verfasst, der seitdem 1 mal gemeldet wurde."
 msgstr[1] "hat einen {}Beitrag{} verfasst, der seitdem %s mal gemeldet wurde."
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:215
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:241
 msgctxt "kosmo"
 msgid "Classification: "
 msgstr "Klassifikation: "
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:216
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:242
 msgctxt "kosmo, verb"
 msgid "Archive"
 msgstr "Archivieren"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:228
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:254
 msgctxt "kosmo"
 msgid "Last edited on "
 msgstr "Zuletzt bearbeitet am "
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:230
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:256
 msgctxt "kosmo"
 msgid "Created on "
 msgstr "Verfasst am "
@@ -1080,7 +1131,7 @@ msgid "Unarchive"
 msgstr "Archivierung aufheben"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationActionsBar.jsx:16
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:10
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:9
 msgctxt "kosmo"
 msgid "Archived"
 msgstr "Archiviert"
@@ -1090,65 +1141,65 @@ msgctxt "kosmo"
 msgid "Edit feedback"
 msgstr "Feedback bearbeiten"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:9
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:8
 msgctxt "kosmo"
 msgid "Pending"
 msgstr "Ausstehend"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:11
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:10
 msgctxt "kosmo"
 msgid "View all"
 msgstr "Alle ansehen"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:15
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:14
 msgctxt "kosmo"
 msgid "Offensive"
 msgstr "Beleidigend"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:16
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:15
 msgctxt "kosmo"
 msgid "Engaging"
 msgstr "Hochwertig"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:17
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:16
 msgctxt "kosmo"
 msgid "Fact claiming"
 msgstr "Tatsachenbehauptung"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:18
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:17
 msgctxt "kosmo"
 msgid "All categories"
 msgstr "Alle Kategorien"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:22
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:21
 msgctxt "kosmo"
 msgid "Most recent reported"
 msgstr "Neueste Meldung"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:23
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:22
 msgctxt "kosmo"
 msgid "Oldest reported"
 msgstr "Älteste Meldung"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:24
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:23
 msgctxt "kosmo"
 msgid "Most reported"
 msgstr "Am häufigsten gemeldet"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:138
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:136
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationProjects.jsx:69
 msgctxt "kosmo"
 msgid "By "
 msgstr "von "
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:153
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:160
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:167
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:150
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:157
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:164
 msgctxt "kosmo"
 msgid "Filter"
 msgstr "Filter"
 
-#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:174
+#: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:171
 msgctxt "kosmo"
 msgid "Sorting"
 msgstr "Sortierung"
