@@ -10,9 +10,11 @@ from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk import capture_exception
 from sib_api_v3_sdk.rest import ApiException
+from wagtail.models import Site
 
 from adhocracy4.emails import Email
 from adhocracy4.emails.mixins import SyncEmailMixin
+from apps.cms.settings.models import ImportantPages
 
 from .models import User
 
@@ -107,6 +109,17 @@ class WelcomeEmail(SyncEmailMixin, EmailAplus):
         link = self.get_host() + url
         return link
 
+    def get_getting_started_link(self):
+        site = Site.objects.filter(
+            is_default_site=True
+        ).first()
+        important_pages = ImportantPages.for_site(site)
+        if getattr(important_pages, 'platform_information') and \
+                getattr(important_pages, 'platform_information').live:
+            url = getattr(important_pages, 'platform_information').url
+            return self.get_host() + url
+        return self.get_overview_link()
+
     def get_template_id(self, receiver):
         language = self.get_receiver_language(receiver)
         try:
@@ -135,6 +148,7 @@ class WelcomeEmail(SyncEmailMixin, EmailAplus):
             params = {
                 "username": receiver.username,
                 "user_overview": self.get_overview_link(),
+                "getting_started": self.get_getting_started_link(),
             }
             send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
                 to=to,
