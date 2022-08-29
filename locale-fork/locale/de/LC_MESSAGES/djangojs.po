@@ -1055,7 +1055,7 @@ msgstr "Die Archivierung der Benachrichtigung wurde widerrufen."
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:23
 msgctxt "kosmo"
 msgid "AI"
-msgstr ""
+msgstr "KI"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotification.jsx:221
 #, javascript-format
@@ -1267,7 +1267,7 @@ msgstr "bearbeiten"
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatement.jsx:9
 msgctxt "kosmo"
 msgid "Moderator's feedback"
-msgstr ""
+msgstr "Feedback der Moderation"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationStatement.jsx:10
 msgctxt "kosmo"
