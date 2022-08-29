@@ -1301,6 +1301,11 @@ msgid ""
 "\">contribution</a>\n"
 "                "
 msgstr ""
+"\n"
+"                <a href=\"%(actor_profile)s\">%(name)s</a> hat ein <a href="
+"\"%(comment_url)s\">Kommentar</a> zu Ihrem <a href=\"%(item_url)s"
+"\">Beitrag</a> hinterlassen\n"
+"                "
 
 #. Translators: kosmo
 #: apps/actions/templates/a4_candy_actions/includes/reaction.html:25
@@ -1312,6 +1317,11 @@ msgid ""
 "\">comment</a>\n"
 "              "
 msgstr ""
+"\n"
+"              <a href=\"%(actor_profile)s\">%(name)s</a> hat eine <a href="
+"\"%(comment_url)s\">Antwort</a> auf Ihr <a href=\"%(parent_comment_url)s"
+"\">Kommentar</a> hinterlassen\n"
+"              "
 
 #. Translators: kosmo
 #: apps/actions/templates/a4_candy_actions/includes/reaction.html:32
@@ -1322,6 +1332,10 @@ msgid ""
 "href=\"%(feedback_url)s\">feedback</a> from moderation\n"
 "                "
 msgstr ""
+"\n"
+"                Ihr <a href=\"%(comment_url)s\">Kommentar</a> hat <a "
+"href=\"%(feedback_url)s\">Feedback</a> von der Moderation erhalten\n"
+"                "
 
 #. Translators: kosmo
 #: apps/actions/templates/a4_candy_actions/includes/reaction.html:37
@@ -1332,6 +1346,10 @@ msgid ""
 "on your <a href=\"%(comment_url)s\">comment</a>\n"
 "                "
 msgstr ""
+"\n"
+"                Die Moderation hat das <a href=\"%(feedback_url)s\">Feedback</a> "
+"zu Ihrem <a href=\"%(comment_url)s\">Kommentar</a> aktualisiert\n"
+"                "
 
 #. Translators: kosmo
 #: apps/actions/templates/a4_candy_actions/includes/reaction.html:43
@@ -1341,6 +1359,9 @@ msgid ""
 "            on <a href=\"%(url)s\">%(name)s</a>\n"
 "          "
 msgstr ""
+"\n"
+"            in <a href=\"%(url)s\">%(name)s</a>\n"
+"          "
 
 #: apps/activities/dashboard.py:14
 msgid "Face-to-Face Information"
@@ -3860,7 +3881,7 @@ msgstr ""
 #. Translators: kosmo
 #: apps/userdashboard/templates/a4_candy_userdashboard/base_userdashboard.html:8
 msgid "Your User Overview"
-msgstr ""
+msgstr "Deine Übersicht"
 
 #. Translators: kosmo
 #: apps/userdashboard/templates/a4_candy_userdashboard/base_userdashboard.html:16
@@ -3926,7 +3947,7 @@ msgstr "Sie folgen noch keinen Projekten."
 #: apps/userdashboard/templates/a4_candy_userdashboard/userdashboard_activities.html:11
 #: apps/userdashboard/templates/a4_candy_userdashboard/userdashboard_overview.html:27
 msgid "My Feed"
-msgstr ""
+msgstr "Mein Feed"
 
 #. Translators: kosmo
 #: apps/userdashboard/templates/a4_candy_userdashboard/userdashboard_following.html:11
