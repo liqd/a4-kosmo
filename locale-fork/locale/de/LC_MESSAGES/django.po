@@ -3913,7 +3913,7 @@ msgstr "Seit"
 #. Translators: kosmo
 #: apps/userdashboard/templates/a4_candy_userdashboard/base_userdashboard.html:76
 msgid "Getting Started"
-msgstr ""
+msgstr "Mehr Info"
 
 #. Translators: kosmo
 #: apps/userdashboard/templates/a4_candy_userdashboard/base_userdashboard.html:84
