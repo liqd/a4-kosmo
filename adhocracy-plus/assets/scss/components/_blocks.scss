@@ -171,6 +171,12 @@ $block-padding-md: 7.5 * $padding;
         h2:after {
             border-bottom: none;
         }
+
+        h2,
+        h3,
+        h4 {
+            color: $body-bg;
+        }
     }
 
     .block-col-2 {
