@@ -1154,12 +1154,12 @@ msgstr "Alle ansehen"
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:14
 msgctxt "kosmo"
 msgid "Offensive"
-msgstr "Beleidigend"
+msgstr "Schädlich"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:15
 msgctxt "kosmo"
 msgid "Engaging"
-msgstr "Hochwertig"
+msgstr "Konstruktiv"
 
 #: apps/userdashboard/assets/js/a4_candy_userdashboard/ModerationNotificationList.jsx:16
 msgctxt "kosmo"
