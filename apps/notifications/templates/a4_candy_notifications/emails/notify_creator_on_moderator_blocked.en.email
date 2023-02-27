@@ -1,0 +1,52 @@
+{% extends 'email_base.'|add:part_type %}
+{% load class_name i18n %}
+
+{% block subject %}
+{# Translators: KOSMO #}
+{% blocktrans %}Your contribution was deleted{% endblocktrans %}
+{% endblock %}
+
+{% block headline %}
+{# Translators: KOSMO #}
+{% blocktrans %}Your contribution was deleted{% endblocktrans %}
+{% endblock  %}
+
+{% block sub-headline %}
+<div style="text-transform: uppercase; margin-bottom: 2em">{{ project.name }}</div>
+{% endblock  %}
+
+
+{% block greeting %}
+{# Translators: KOSMO #}
+{% blocktrans with receiver_name=receiver.username %}Hello <strong>{{ receiver_name }}</strong>,{% endblocktrans %}
+{% endblock %}
+
+{% block content %}
+{# Translators: KOSMO #}
+{% blocktrans with project_name=project.name %}Your contribution in the project <strong>"{{ project_name }}"</strong> was deleted by the moderator.{% endblocktrans %} {{ netiquette_link | safe }} {# Translators: KOSMO #}{% blocktrans %}Please pay attention to the basic rules when writing contributions. In this way we create a pleasant atmosphere for an open exchange and achieve good results.{% endblocktrans %}
+
+{# Translators: KOSMO #}
+{% blocktrans %}Thank you very much!{% endblocktrans %}
+
+<strong>
+    {# Translators: KOSMO #}
+    {% blocktrans %}Your contribution:{% endblocktrans %}
+</strong>
+
+<p style="margin-bottom: 1em">
+    {{ comment.comment }}
+</p>
+{% endblock %}
+
+{% block cta_url %}
+{{ email.get_host }}{{ discussion_url }}
+{% endblock %}
+
+{% block cta_label %}
+{# Translators: KOSMO #}
+{% blocktrans %}Show discussion{% endblocktrans %}
+{% endblock %}
+
+{% block reason %}
+{% blocktrans with receiver_mail=receiver.email %}This email was sent to {{ receiver_mail }}. This email was sent to you because of your participation in the project.{% endblocktrans %} {{ account_link | safe }}
+{% endblock %}
