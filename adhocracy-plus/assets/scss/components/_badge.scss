@@ -4,7 +4,7 @@
     color: contrast-color($text-color);
     font-size: $font-size-xs;
     font-weight: normal;
-    border-radius: 0.4em;
+    border-radius: 0.8em;
     padding: 0.2em 0.7em;
 }
 
@@ -35,6 +35,10 @@
     border: 1px solid $brand-danger;
     color: $brand-danger;
     text-transform: uppercase;
+}
+
+.badge.badge--dark {
+    background-color: $brand-primary;
 }
 
 .badge.badge--info {

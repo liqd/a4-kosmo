@@ -53,17 +53,16 @@ $block-padding-md: 7.5 * $padding;
 }
 
 .block-img-col-1 {
-    @extend .col-md-7;
+    @extend .col-md-6;
 
     img {
         display: inline-block;
-        float: left;
         padding-right: $padding;
     }
 }
 
 .block-img-col-2 {
-    @extend .col-md-5;
+    @extend .col-md-6;
 
     .block-img-col__image {
         width: 100%;
@@ -89,6 +88,7 @@ $block-padding-md: 7.5 * $padding;
 // responsive padding for image, 2 col cta
 .homepage__wrapper {
     .block-img-col-1,
+    .block-img-col-2,
     .block-row-2 {
         padding: 2 * $padding;
 
@@ -139,6 +139,7 @@ $block-padding-md: 7.5 * $padding;
 // coloured background block
 .block-background_cta_block .block > :first-child {
     background-color: $brand-secondary;
+    color: $text-color-inverted;
 }
 
 .block-background_cta_block .block > :last-child {
@@ -147,6 +148,7 @@ $block-padding-md: 7.5 * $padding;
 }
 
 // linked for specificty
+.btn--transparent.block-bg_btn-1,
 .btn--transparent.block-bg_btn-2 {
     @extend .btn--text-color-inverted;
 }
@@ -169,6 +171,12 @@ $block-padding-md: 7.5 * $padding;
 
         h2:after {
             border-bottom: none;
+        }
+
+        h2,
+        h3,
+        h4 {
+            color: $body-bg;
         }
     }
 
