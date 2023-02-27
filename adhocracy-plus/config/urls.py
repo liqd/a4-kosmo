@@ -21,7 +21,6 @@ from adhocracy4.comments.api import CommentModerateSet
 from adhocracy4.follows.api import FollowViewSet
 from adhocracy4.polls.api import PollViewSet
 from adhocracy4.ratings.api import RatingViewSet
-from adhocracy4.reports.api import ReportViewSet
 from apps.account.api import AccountViewSet
 from apps.contrib import views as contrib_views
 from apps.contrib.sitemaps import static_sitemap_index
@@ -37,6 +36,7 @@ from apps.organisations.sitemaps import organisations_sitemap_index
 from apps.projects.api import AppModuleViewSet
 from apps.projects.api import AppProjectsViewSet
 from apps.projects.api import ModerationProjectsViewSet
+from apps.reports.api import ReportViewSet
 from apps.userdashboard.api import ModerationCommentViewSet
 from apps.userdashboard.routers import ModerationDetailDefaultRouter
 from apps.users.api import UserViewSet
@@ -53,6 +53,8 @@ router.register(
     r"moderationprojects", ModerationProjectsViewSet, basename="moderationprojects"
 )
 
+router.register(r'moderationprojects', ModerationProjectsViewSet,
+                basename='moderationprojects')
 
 module_router = a4routers.ModuleDefaultRouter()
 # FIXME: rename to 'chapters'
