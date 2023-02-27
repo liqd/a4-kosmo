@@ -23,7 +23,6 @@ export default class ModerationProjects extends Component {
     try {
       const data = await fetch(this.props.projectApiUrl)
       const jsonData = await data.json()
-      jsonData.sort((a, b) => b.num_reported_unread_comments - a.num_reported_unread_comments)
       this.setState({
         items: jsonData,
         isLoaded: true
@@ -74,75 +73,49 @@ export default class ModerationProjects extends Component {
     const byText = django.gettext('By ')
     const commentCountText = django.gettext(' comments')
     const reportCountText = django.gettext(' reports')
+    const srLinkText = django.pgettext('kosmo', 'Link to ')
     const publicText = django.gettext('public')
     const privateText = django.gettext('private')
     const semiPrivateText = django.gettext('semi-public')
-    const hasUnReadComments = django.gettext('Notifications has unread comments')
-    const overviewText = django.gettext('Moderation dashboard overview')
-    const projectText = django.gettext('Projects')
-    const projectSrText = django.gettext('Projects I am moderating')
 
     if (!isLoaded) {
       return <div>{loadingText}</div>
     }
 
     return (
-      <>
-        <h1 className="visually-hidden">
-          {overviewText}
-        </h1>
-        <section className="row" aria-labelledby="sr-following-header">
-          <div className="col-12">
-            <h2 className="mt-sm-0">
-              <span id="sr-following-header" className="visually-hidden">{projectSrText}</span>
-              {projectText}
-            </h2>
-            <ul className="ps-0">
-              {items.map(item => (
-                <li key={item.title} className="tile tile--horizontal">
-                  <a
-                    href={item.moderation_detail_url}
-                    className="tile__link"
-                  >
-                    <h3 className="visually-hidden">
-                      {item.title}
-                    </h3>
-                    {item.num_unread_comments > 0 && <span className="text-info">• <span className="visually-hidden">{hasUnReadComments}</span></span>}
-                  </a>
-                  <div className="tile__head tile__head--wide">
-                    <div
-                      className="tile__image  tile__image--fill tile__image--sm"
-                      style={{ backgroundImage: 'url(' + item.tile_image + ')' }}
-                    >
-                      <div className="tile__image__copyright copyright">
-                        {item.tile_image_copyright}
-                      </div>
-                    </div>
+      <div className="row">
+        <div className="col-12">
+          <h2 className="mt-sm-0">Projects</h2>
+          <ul className="ps-0">
+            {items.map(item => (
+              <li key={item.title} className="tile tile--horizontal">
+                <div className="tile__head">
+                  <div className="tile__image tile__image--sm" style={{ backgroundImage: 'url(' + item.tile_image + ')' }}>
+                    <div>{item.tile_image_copyright}</div>
                   </div>
-                  <div className="tile__body">
-                    <div>
-                      <span className="text-muted">{byText}{item.organisation}</span>
-                      <h3 className="tile__title mb-2">
-                        {item.title}
-                      </h3>
-                      {item.access === 1 && <span className="badge badge--dark">{publicText}</span>}
-                      {item.access === 2 && <span className="badge badge--dark">{semiPrivateText}</span>}
-                      {item.access === 3 && <span className="badge badge--dark">{privateText}</span>}
-                    </div>
-                    <div className="row text-muted mt-3">
-                      {item.num_reported_unread_comments > 0 && <div className="col-4"><i className="fas fa-exclamation-circle me-1" aria-hidden="true" /> {item.num_reported_unread_comments} <span className="d-none d-lg-inline-block">{reportCountText}</span></div>}
-                      {item.comment_count > 0 && <div className="col-4"><i className="far fa-comment" aria-hidden="true" /> {item.comment_count} <span className="d-none d-lg-inline-block">{commentCountText}</span></div>}
-                      {item.future_phase && !item.active_phase && <div className="col-4"><i className="far fa-clock" aria-hidden="true" /> {item.participation_string}</div>}
-                      {item.active_phase && <div className="col-4"><i className="far fa-clock" aria-hidden="true" /> <span className="d-inline-block d-lg-none">{this.getMobileTimespan(item)}</span> <span className="d-none d-lg-inline-block">{this.getTimespan(item)}</span></div>}
-                      {item.past_phase && !item.active_phase && !item.future_phase && <div className="col-4"> {item.participation_string}</div>}
-                    </div>
+                </div>
+                <div className="tile__body">
+                  <span className="text-muted">{byText}{item.organisation}</span>
+                  <h3 className="tile__title mb-2">{item.num_pending_comments > 0 && <span className="text-info">• </span>}{item.title}</h3>
+                  <div>
+                    {item.access === 1 && <span className="label label--dark">{publicText}</span>}
+                    {item.access === 2 && <span className="label label--dark">{semiPrivateText}</span>}
+                    {item.access === 3 && <span className="label label--dark">{privateText}</span>}
                   </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      </>
+                  <div className="row text-muted mt-3">
+                    {item.num_pending_comments > 0 && <div className="col-4"><i className="fas fa-exclamation-circle me-1" aria-hidden="true" /> {item.num_pending_comments} <span className="d-none d-lg-inline-block">{reportCountText}</span></div>}
+                    {item.comment_count > 0 && <div className="col-4"><i className="far fa-comment" aria-hidden="true" /> {item.comment_count} <span className="d-none d-lg-inline-block">{commentCountText}</span></div>}
+                    {item.future_phase && !item.active_phase && <div className="col-4"><i className="far fa-clock" aria-hidden="true" /> {item.participation_string}</div>}
+                    {item.active_phase && <div className="col-4"><i className="far fa-clock" aria-hidden="true" /> <span className="d-inline-block d-lg-none">{this.getMobileTimespan(item)}</span> <span className="d-none d-lg-inline-block">{this.getTimespan(item)}</span></div>}
+                    {item.past_phase && !item.active_phase && !item.future_phase && <div className="col-4"> {item.participation_string}</div>}
+                  </div>
+                  <a href={item.moderation_detail_url} className="tile__link"><span className="sr-only">{srLinkText}{item.title}</span></a>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     )
   }
 }
