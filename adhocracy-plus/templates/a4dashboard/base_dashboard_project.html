@@ -24,7 +24,7 @@
         <nav class="col-md-3 js-selector-update-dashboard" aria-label="{% translate 'Project Settings' %}">
             <div class="dashboard-nav">
                 <div
-                    class="dashboard-nav__dropdown{% if project.id in closed_accordions.0 %} collapsed{% endif %}"
+                    class="dropdown dashboard-nav__dropdown{% if project.id in closed_accordions.0 %} collapsed{% endif %}"
                     id="dashboard-nav__project--{{ project.id }}"
                     data-bs-toggle="collapse"
                     href="#dashboardCollapseProj"
@@ -77,7 +77,7 @@
                 {% endif %}
                 <div class="dashboard-nav">
                     <div
-                        class="dashboard-nav__dropdown{% if module_menu.module.pk in closed_accordions.1 %} collapsed{% endif %}"
+                        class="dropdown dashboard-nav__dropdown{% if module_menu.module.pk in closed_accordions.1 %} collapsed{% endif %}"
                         id="dashboard-nav__module--{{ module_menu.module.pk }}"
                         data-bs-toggle="collapse"
                         href="#dashboardCollapse_{{ forloop.counter }}"
