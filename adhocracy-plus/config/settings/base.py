@@ -86,6 +86,7 @@ INSTALLED_APPS = (
     # General components that define models or helpers
     "apps.actions",
     "apps.captcha",
+    "apps.classifications",
     "apps.contrib",
     "apps.interactiveevents",
     "apps.maps",
@@ -133,7 +134,8 @@ ROOT_URLCONF = "adhocracy-plus.config.urls"
 LOCALE_PATHS = [
     # use the first line in branches and forks to keep the original translations
     # from main branch and overwrite or add extra translations in fork
-    # os.path.join(BASE_DIR, 'locale-fork/locale'),
+
+    os.path.join(BASE_DIR, "locale-fork/locale"),
     os.path.join(BASE_DIR, "locale-source/locale")
 ]
 
@@ -256,6 +258,7 @@ THUMBNAIL_ALIASES = {
         "avatar": {"size": (200, 200), "crop": "smart"},
         "item_image": {"size": (330, 0), "crop": "scale"},
         "map_thumbnail": {"size": (200, 200), "crop": "smart"},
+        "tiny_thumbnail": {"size": (50, 50), "crop": "smart"},
     }
 }
 
@@ -548,3 +551,16 @@ CSP_DEFAULT_SRC = ["'self'", "'unsafe-inline'", "'unsafe-eval'", "data:", "blob:
 SITE_ID = 1  # overwrite this in local.py if needed
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+# Kosmo specific settings
+
+AI_API_AUTH_TOKEN = ""
+AI_API_URL = "https://kosmo-api-dev.liqd.net/api/classify/"
+AI_USAGE = True
+AI_API_VERSION = "3.0"
+A4_COMMENTS_USE_MODERATOR_MARKED = True
+
+SENDINBLUE_TEMPLATES = {
+    "en": 5,
+    "de": 7,
+}
