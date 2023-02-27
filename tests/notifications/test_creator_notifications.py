@@ -82,3 +82,83 @@ def test_notify_creator_on_moderator_feedback(proposal_factory, client):
     assert len(mail.outbox) == 2
     assert mail.outbox[1].to[0] == creator.email
     assert mail.outbox[1].subject.startswith("Feedback for your contribution")
+
+
+@pytest.mark.django_db
+def test_notify_comment_creator_on_block(
+        idea, comment_factory, apiclient,
+        ai_classification_factory):
+    """Check if creator gets email on comment blocked."""
+    comment = comment_factory(content_object=idea)
+    ai_classification_factory(comment=comment)
+    creator = comment.creator
+    moderator = comment.project.moderators.first()
+
+    # 3 emails because of creator notification for reaction on idea
+    assert len(mail.outbox) == 3
+
+    url = reverse(
+        'moderationcomments-detail',
+        kwargs={
+            'project_pk': comment.project.pk,
+            'pk': comment.pk,
+        }
+    )
+    data = {
+        "is_blocked": True,
+    }
+
+    apiclient.force_authenticate(user=moderator)
+    response = apiclient.patch(url, data, format='json')
+    assert response.status_code == 200
+    assert len(mail.outbox) == 4
+    assert mail.outbox[3].to[0] == creator.email
+    assert mail.outbox[3].subject.startswith(
+        'Your contribution was deleted')
+
+
+@pytest.mark.django_db
+def test_no_notify_comment_creator_on_unblock(
+        idea, comment_factory, apiclient,
+        ai_classification_factory):
+    """Check creator gets no email on comment unblocked."""
+    comment = comment_factory(content_object=idea, is_blocked=True)
+    ai_classification_factory(comment=comment)
+    moderator = comment.project.moderators.first()
+
+    # 3 emails because of creator notification for reaction on idea
+    assert len(mail.outbox) == 3
+
+    url = reverse(
+        'moderationcomments-detail',
+        kwargs={
+            'project_pk': comment.project.pk,
+            'pk': comment.pk,
+        }
+    )
+    data = {
+        "is_blocked": False,
+    }
+
+    apiclient.force_authenticate(user=moderator)
+    response = apiclient.patch(url, data, format='json')
+    assert response.status_code == 200
+    assert len(mail.outbox) == 3
+
+
+@pytest.mark.django_db
+def test_notify_comment_creator_on_feedback(
+        idea, comment_factory, moderator_comment_statement_factory):
+    """Check if creator gets email on comment statement added."""
+    comment = comment_factory(content_object=idea)
+    creator = comment.creator
+
+    # 3 emails because of creator notification for reaction on idea
+    assert len(mail.outbox) == 3
+
+    moderator_comment_statement_factory(comment=comment)
+
+    assert len(mail.outbox) == 4
+    assert mail.outbox[3].to[0] == creator.email
+    assert mail.outbox[3].subject.startswith(
+        'Feedback of the moderation')

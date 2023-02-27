@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 from django.core.management.base import BaseCommand
+from django.urls import reverse
 
 from adhocracy4.actions.models import Action
 from adhocracy4.actions.verbs import Verbs
@@ -13,10 +14,12 @@ from adhocracy4.reports.models import Report
 from apps.cms.contacts.models import CustomFormSubmission
 from apps.cms.contacts.models import FormPage
 from apps.ideas.models import Idea
+from apps.moderatorfeedback.models import ModeratorCommentStatement
 from apps.notifications import emails as notification_emails
 from apps.offlineevents.models import OfflineEvent
 from apps.projects import models as project_models
 from apps.users.emails import EmailAplus as Email
+from apps.users.emails import WelcomeEmail
 
 User = get_user_model()
 
@@ -80,6 +83,11 @@ class Command(BaseCommand):
         self._send_allauth_email_confirmation()
         self._send_allauth_password_reset()
         self._send_allauth_unknown_account()
+
+        # KOSMO notifications
+        self._send_notification_blocked_comment()
+        self._send_notification_moderator_comment_statement()
+        self._send_welcome_email()
 
     def _send_notifications_create_idea(self):
         # Send notification for a newly created item
@@ -333,3 +341,55 @@ class Command(BaseCommand):
             template_name="account/email/unknown_account",
             **context
         )
+
+
+    def _send_notification_blocked_comment(self):
+        # Send notification when comment is blocked
+        comment = Comment.objects.first()
+        if not comment:
+            self.stderr.write('At least one comment is required')
+            return
+        netiquette_url = ''
+        organisation = comment.project.organisation
+        if organisation.netiquette:
+            netiquette_url = reverse('organisation-netiquette', kwargs={
+                'organisation_slug': organisation.slug
+            })
+        discussion_url = comment.module.get_detail_url
+        if comment.parent_comment.exists():
+            discussion_url = (comment.parent_comment.first()
+                              .content_object.get_absolute_url())
+        elif comment.content_object.get_absolute_url():
+            discussion_url = comment.content_object.get_absolute_url()
+        TestEmail.send(
+            comment,
+            module=comment.module,
+            project=comment.project,
+            netiquette_url=netiquette_url,
+            discussion_url=discussion_url,
+            receiver=[self.user],
+            template_name=notification_emails.
+            NotifyCreatorOnModeratorBlocked.template_name
+        )
+
+    def _send_notification_moderator_comment_statement(self):
+        # Send notification when moderator comment statement is added
+        statement = ModeratorCommentStatement.objects.first()
+        if not statement:
+            self.stderr.write(
+                'At least one moderator comment statement is required')
+            return
+        TestEmail.send(
+            statement,
+            project=statement.comment.project,
+            moderator_name=statement.creator.username,
+            moderator_statement=statement.statement,
+            comment_url=statement.comment.get_absolute_url(),
+            receiver=[self.user],
+            template_name=notification_emails.
+            NotifyCreatorOnModeratorCommentStatement.template_name
+        )
+
+    def _send_welcome_email(self):
+        print('Sending send in blue welcome email')
+        WelcomeEmail.send(self.user)
