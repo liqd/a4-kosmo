@@ -10,9 +10,9 @@ from adhocracy4.polls.models import Poll
 from adhocracy4.projects.models import Project
 from adhocracy4.rules import mixins as rules_mixins
 from apps.documents.models import Chapter
-from apps.documents.models import Paragraph
 from apps.moderatorfeedback.models import ModeratorCommentFeedback
 from apps.organisations.models import Organisation
+from apps.projects import helpers
 from apps.users.models import User
 
 
@@ -45,6 +45,9 @@ class UserDashboardBaseMixin(
         projects = Project.objects.filter(
             follow__creator=self.request.user, follow__enabled=True
         )
+        for project in projects:
+            project.latest_comments_num = helpers.get_num_latest_comments(project)
+
         return projects
 
 
@@ -55,7 +58,7 @@ class UserDashboardOverviewView(UserDashboardBaseMixin):
 
     @property
     def actions(self):
-        """Return comment/feedback actions that are  on content the user created.
+        """Return comment/statement actions that are  on content the user created.
 
         Do not return actions on comments for polls and documents to not spam
         initiators.
@@ -121,7 +124,7 @@ class UserDashboardActivitiesView(UserDashboardBaseMixin):
 
     @property
     def actions(self):
-        """Return comment/feedback actions that are  on content the user created.
+        """Return comment/statement actions that are  on content the user created.
 
         Do not return actions on comments for polls and documents to not spam
         initiators.
@@ -192,7 +195,7 @@ class UserDashboardModerationDetailView(
     UserDashboardBaseMixin, rules_mixins.PermissionRequiredMixin
 ):
     template_name = "a4_candy_userdashboard/userdashboard_moderation_detail.html"
-    permission_required = "a4_candy_userdashboard.change_moderation_comment"
+    permission_required = "a4_candy_classifications.view_userclassification"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

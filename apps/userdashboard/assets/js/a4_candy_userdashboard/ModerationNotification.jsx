@@ -21,7 +21,6 @@ const translated = {
   notificationRead: django.gettext('Notification successfully marked as read.'),
   notificationUnread: django.gettext('Notification successfully marked as unread.'),
   aiClassified: django.gettext('AI'),
-  postedComment: django.gettext('posted a {}comment{}')
 }
 
 export const ModerationNotification = (props) => {
@@ -130,22 +129,22 @@ export const ModerationNotification = (props) => {
     setShowFeedbackForm(!showFeedbackForm)
   }
 
-  // **** End feedback methods ****
+  // **** End statement methods ****
 
   // **** Start notification methods ****
 
-  async function toggleIsUnread () {
-    const url = notification.is_unread
-      ? props.apiUrl + 'mark_read/' + props.getUrlParams()
-      : props.apiUrl + 'mark_unread/' + props.getUrlParams()
+  async function toggleIsPending () {
+    const url = notification.has_pending_notifications
+      ? props.apiUrl + 'archive/'
+      : props.apiUrl + 'unarchive/'
     const [response, error] =
       await api.fetch({
         url,
         method: 'GET'
       })
-    const alertMessage = response && response.is_unread
-      ? translated.notificationUnread
-      : translated.notificationRead
+    const alertMessage = response && response.has_pending_notifications
+      ? translated.notificationUnarchived
+      : translated.notificationArchived
 
     if (error) {
       setAlert({
@@ -235,10 +234,11 @@ export const ModerationNotification = (props) => {
     user_image: userImage,
     user_name: userName,
     user_profile_url: userProfileUrl,
-    num_reports: numReports
+    num_active_notifications: activeNotifications,
+    time_of_last_notification: timeOfLastNotification
   } = notification
-  const markReadText = django.gettext('Mark as read')
-  const markUnreadText = django.gettext('Mark as unread')
+  const classificationText = django.pgettext('kosmo', 'Classification: ')
+  const archiveText = django.pgettext('kosmo, verb', 'Archive')
 
   let userImageDiv
   if (userImage) {
@@ -250,68 +250,90 @@ export const ModerationNotification = (props) => {
 
   let commentChangeLog
   if (isModified) {
-    commentChangeLog = django.gettext('Last edited on ' + created)
+    commentChangeLog = django.pgettext('kosmo', 'Last edited on ' + created)
   } else {
-    commentChangeLog = django.gettext('Created on ' + created)
+    commentChangeLog = django.pgettext('kosmo', 'Created on ' + created)
   }
 
   return (
-    <li>
-      <div className="u-border p-4">
+    <>
+      <li className="list-item">
         <div className="d-flex flex-wrap">
           {userImageDiv}
-          <div className="ms-auto order-lg-last">
-            <div className="dropdown">
-              <button
-                title="{% trans 'Notification menu' %}"
-                type="button"
-                className="dropdown-toggle btn btn--none"
-                aria-haspopup="true"
-                aria-expanded="false"
-                data-bs-toggle="dropdown"
-              >
-                <i className="fas fa-ellipsis-v" aria-hidden="true" />
-              </button>
-              <ul className="dropdown-menu dropdown-menu-end">
-                <li key="1">
-                  <button
-                    className="dropdown-item"
-                    type="button"
-                    onClick={() => toggleIsUnread()}
-                  >
-                    {notification.is_unread ? markReadText : markUnreadText}
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div>
-            <p className="m-0">
-              {userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName} {getLink(translated.postedComment, commentUrl)}
-            </p>
-            <p className="m-0">{commentChangeLog}</p>
-          </div>
-        </div>
-
-        {numReports > 0 &&
+          {notification.has_pending_notifications &&
+            <div className="ms-auto order-lg-last">
+              <div className="dropdown">
+                <button
+                  type="button"
+                  className="dropdown-toggle btn btn--none"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  data-bs-toggle="dropdown"
+                >
+                  <i className="fas fa-ellipsis-v" aria-hidden="true" />
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li key="1">
+                    <button
+                      className="dropdown-item"
+                      type="button"
+                      onClick={() => toggleIsPending()}
+                    >
+                      {archiveText}
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>}
           <div>
             <i className="fas fa-exclamation-circle me-1" aria-hidden="true" />
             <strong>{userProfileUrl ? <a href={userProfileUrl}>{userName}</a> : userName}</strong>
-            {getLink(translatedReportText(numReports), commentUrl)}
-          </div>}
+            {getLink(translatedReportText(activeNotifications), commentUrl)}
+            <div className="pt-1">{commentChangeLog}</div>
+          </div>
+        </div>
 
+        <div className="a4-comments__box--comment">
+          <span className="sr-only">
+            {classificationText}
+          </span>
+          {Object.keys(notification.category_counts).map((classification, i) => (
+            <span
+              className="badge a4-comments__badge a4-comments__badge--que"
+              data-classification={classification}
+              key={i}
+            >
+              {notification.category_counts[classification].translated + ': ' + notification.category_counts[classification].count}
+            </span>))}
+          {notification.ai_classified &&
+            <span className="badge a4-comments__badge a4-comments__badge--que">
+              {translated.aiClassified} <i className="fas fa-check me-1" aria-hidden="true" />
+            </span>}
+          <span>
+            {timeOfLastNotification}
+          </span>
+        </div>
         <p>{commentText}</p>
         <ModerationNotificationActionsBar
-          itemPk={notification.pk}
+          isPending={notification.has_pending_notifications}
           isEditing={notification.moderator_feedback}
           isBlocked={notification.is_blocked}
           isHighlighted={notification.is_moderator_marked}
           onToggleForm={(isEditing) => toggleModerationFeedbackForm(isEditing)}
           onToggleBlock={() => toggleIsBlocked()}
           onToggleHighlight={() => toggleIsHighlighted()}
+          onTogglePending={() => toggleIsPending()}
         />
+        {showFeedbackForm &&
+          <ModerationFeedbackForm
+            onSubmit={(payload) => handleFeedbackSubmit(payload)}
+            onEditSubmit={(payload) => handleFeedbackEdit(payload)}
+            initialFeedback={notification.moderator_feedback}
+            editing={isEditing}
+          />}
         {notification.moderator_feedback && !showFeedbackForm &&
           <ModerationFeedback
+            notificationIsPending={notification.has_pending_notifications}
             feedback={notification.moderator_feedback}
             onDelete={handleFeedbackDelete}
             onEdit={() => {
@@ -319,17 +341,10 @@ export const ModerationNotification = (props) => {
               setIsEditing(true)
             }}
           />}
-      </div>
-      {showFeedbackForm &&
-        <ModerationFeedbackForm
-          onSubmit={(payload) => handleFeedbackSubmit(payload)}
-          onEditSubmit={(payload) => handleFeedbackEdit(payload)}
-          initialFeedback={notification.moderator_feedback}
-          editing={isEditing}
-        />}
+      </li>
       <div className="mb-3">
         <Alert {...alert} onClick={() => setAlert(null)} />
       </div>
-    </li>
+    </>
   )
 }

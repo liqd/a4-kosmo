@@ -3,23 +3,23 @@ import { render, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { ModerationNotificationActionsBar } from '../ModerationNotificationActionsBar'
 
-test('Unread has three buttons', () => {
-  const mockUnread = true
+test('Pending has three buttons', () => {
+  const mockPending = true
   const tree = render(
     <ModerationNotificationActionsBar
-      isUnread={mockUnread}
+      isPending={mockPending}
     />
   )
   const buttons = tree.container.querySelectorAll('button')
   expect(buttons.length).toBe(3)
 })
 
-test('Unread with reply button changing to edit button', () => {
-  const mockUnread = true
+test('Pending with reply button changing to edit button', () => {
+  const mockPending = true
   const mockEditing = true
   const tree = render(
     <ModerationNotificationActionsBar
-      isUnread={mockUnread}
+      isPending={mockPending}
       isEditing={mockEditing}
     />
   )
@@ -27,46 +27,44 @@ test('Unread with reply button changing to edit button', () => {
   expect(editIcon).toBeTruthy()
 })
 
-test('Unread with highlight button disabled', () => {
-  const mockUnread = true
+test('Pending with highlight button disabled', () => {
+  const mockPending = true
   const mockBlocked = true
   const mockHighlighted = false
   const tree = render(
     <ModerationNotificationActionsBar
-      isUnread={mockUnread}
+      isPending={mockPending}
       isBlocked={mockBlocked}
       isHighlighted={mockHighlighted}
-      itemPk={7}
     />
   )
   const button =
-    tree.container.querySelector('#moderation-notification-actions-bar-button-highlight-7')
+    tree.container.querySelector('#moderation-notification-actions-bar-button-highlight')
   expect(button).toBeDisabled()
 })
 
-test('Unread with blocked button disabled', () => {
-  const mockUnread = true
+test('Pending with blocked button disabled', () => {
+  const mockPending = true
   const mockBlocked = false
   const mockHighlighted = true
   const tree = render(
     <ModerationNotificationActionsBar
-      isUnread={mockUnread}
+      isPending={mockPending}
       isBlocked={mockBlocked}
       isHighlighted={mockHighlighted}
-      itemPk={7}
     />
   )
   const button =
-    tree.container.querySelector('#moderation-notification-actions-bar-button-block-7')
+    tree.container.querySelector('#moderation-notification-actions-bar-button-block')
   expect(button).toBeDisabled()
 })
 
-test('Unread is highlighted', () => {
-  const mockUnread = true
+test('Pending is highlighted', () => {
+  const mockPending = true
   const mockHighlighted = true
   const tree = render(
     <ModerationNotificationActionsBar
-      isUnread={mockUnread}
+      isPending={mockPending}
       isHighlighted={mockHighlighted}
     />
   )
@@ -74,30 +72,29 @@ test('Unread is highlighted', () => {
   expect(buttons.length).toBe(3)
 })
 
-test('Unread clicks: reply --> highlight --> block', () => {
-  const mockUnread = true
+test('Pending clicks: reply --> highlight --> block', () => {
+  const mockPending = true
   const mockDisabled = false
   const mockBlocked = false
   const mockHighlighted = false
   const mockToggleFn = jest.fn()
   const tree = render(
     <ModerationNotificationActionsBar
-      isUnread={mockUnread}
+      isPending={mockPending}
       isDisabled={mockDisabled}
       isBlocked={mockBlocked}
       isHighlighted={mockHighlighted}
       onToggleForm={mockToggleFn}
       onToggleBlock={mockToggleFn}
       onToggleHighlight={mockToggleFn}
-      itemPk={7}
     />
   )
   const replyButton =
-    tree.container.querySelector('#moderation-notification-actions-bar-button-reply-7')
+    tree.container.querySelector('#moderation-notification-actions-bar-button-reply')
   const highlightButton =
-    tree.container.querySelector('#moderation-notification-actions-bar-button-highlight-7')
+    tree.container.querySelector('#moderation-notification-actions-bar-button-highlight')
   const blockButton =
-    tree.container.querySelector('#moderation-notification-actions-bar-button-block-7')
+    tree.container.querySelector('#moderation-notification-actions-bar-button-block')
 
   fireEvent.click(replyButton)
   fireEvent.click(highlightButton)
@@ -105,13 +102,26 @@ test('Unread clicks: reply --> highlight --> block', () => {
   expect(mockToggleFn).toHaveBeenCalledTimes(3)
 })
 
-test('Read has three buttons', () => {
-  const mockUnread = false
+test('Archived has one button', () => {
+  const mockPending = false
   const tree = render(
     <ModerationNotificationActionsBar
-      isUnread={mockUnread}
+      isPending={mockPending}
     />
   )
   const buttons = tree.container.querySelectorAll('button')
-  expect(buttons.length).toBe(3)
+  expect(buttons.length).toBe(1)
+})
+
+test('Archived blocked shows blocked text', () => {
+  const mockPending = false
+  const mockBlocked = true
+  const tree = render(
+    <ModerationNotificationActionsBar
+      isPending={mockPending}
+      isBlocked={mockBlocked}
+    />
+  )
+  const blockedTextDiv = tree.container.querySelector('.fw-bold')
+  expect(blockedTextDiv).toBeTruthy()
 })
