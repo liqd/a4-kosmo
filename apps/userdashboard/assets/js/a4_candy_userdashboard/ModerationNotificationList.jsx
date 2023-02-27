@@ -79,7 +79,7 @@ export default class ModerationNotificationList extends Component {
   }
 
   getUrlParams () {
-    return `?has_pending_notifications=${this.state.selectedFilters.pending}&classification=${this.state.selectedFilters.classification}&ordering=${this.state.selectedFilters.ordering}`
+    return 'has_pending_notifications=' + this.state.selectedFilters.pending + '&classification=' + this.state.selectedFilters.classification + '&ordering=' + this.state.selectedFilters.ordering
   }
 
   async loadData () {
@@ -110,7 +110,7 @@ export default class ModerationNotificationList extends Component {
   getSuccessAlert = (message) => {
     return {
       type: 'success',
-      message: message
+      message
     }
   }
 

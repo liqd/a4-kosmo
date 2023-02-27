@@ -27,7 +27,7 @@ export const Filter = (props) => {
       </button>
       <ul className="dropdown-menu">
         {props.filterItems.map((filterItem, i) => (
-          <li key={`${i}_${filterItem.label}`}>
+          <li key={i + '_' + filterItem.label}>
             <button onClick={() => onSelectFilter(filterItem)}>
               {django.gettext(filterItem.label)}
             </button>

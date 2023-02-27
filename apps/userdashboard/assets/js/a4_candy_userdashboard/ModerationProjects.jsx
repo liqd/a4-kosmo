@@ -86,7 +86,7 @@ export default class ModerationProjects extends Component {
             {items.map(item => (
               <li key={item.title} className="tile--sm tile--horizontal">
                 <div className="tile__head">
-                  <div className="tile__image tile__image--sm" style={{ backgroundImage: `url(${item.tile_image})` }}>
+                  <div className="tile__image tile__image--sm" style={{ backgroundImage: 'url(' + item.tile_image + ')' }}>
                     <div>{item.tile_image_copyright}</div>
                   </div>
                 </div>

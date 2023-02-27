@@ -304,7 +304,7 @@ export const ModerationNotification = (props) => {
               data-classification={classification}
               key={i}
             >
-              {`${notification.category_counts[classification].translated}: ${notification.category_counts[classification].count}`}
+              {notification.category_counts[classification].translated + ': ' + notification.category_counts[classification].count}
             </span>))}
           {notification.ai_classified &&
             <span className="badge a4-comments__badge a4-comments__badge--que">
