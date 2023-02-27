@@ -17,6 +17,19 @@
         top: $spacer;
     }
 
+    i.fa-chevron-up {
+        top: $spacer;
+    }
+}
+
+.userdashboard__dropdown {
+    i.fa-chevron-up {
+        top: 0.5 * $spacer;
+    }
+}
+
+.dashboard-nav__dropdown,
+.userdashboard__dropdown {
     .dropdown,
     &.dropdown,
     .dropdown-toggle {
@@ -31,7 +44,6 @@
 
     i.fa-chevron-up {
         position: absolute;
-        top: $spacer;
         right: $spacer;
         transition: transform 0.3s;
 

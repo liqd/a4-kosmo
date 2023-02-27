@@ -3,7 +3,7 @@
 
 {% block content %}
     {% block dashboard_nav %}
-    <div class="tablist tablist--right tablist--background">
+    <div class="tablist tablist--right mt-3">
         <div class="container">
         <div class="tablist__left d-flex">
             {% if ORGANISATION.logo %}
@@ -46,7 +46,7 @@
             {% else %}
                 <span class="py-1 px-3">{{ view.organisation.name }}</span>
             {% endif %}
-          </div>
+        </div>
 
             {% url 'a4dashboard:project-list' organisation_slug=view.organisation.slug as project_list %}
             {% url 'a4dashboard:newsletter-create' organisation_slug=view.organisation.slug as newsletter_create %}
@@ -111,8 +111,6 @@
                   </div>
                 </li>
             </ul>
-
-
         </div>
     </div>
     {% endblock %}

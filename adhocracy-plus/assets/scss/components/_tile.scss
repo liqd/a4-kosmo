@@ -1,6 +1,7 @@
 $svg-colour: #2a3cd4;
 
-.tile {
+.tile,
+.tile--sm {
     display: flex;
     flex-direction: column;
     page-break-inside: avoid;
@@ -53,6 +54,10 @@ $svg-colour: #2a3cd4;
     background-position: 50%;
     background-repeat: no-repeat;
     background-color: $brand-info;
+}
+
+.tile__image--sm {
+    min-height: 10rem;
 }
 
 .tile__image__copyright {
@@ -115,6 +120,7 @@ $svg-colour: #2a3cd4;
     max-height: 8ch;
     margin-top: 0;
     line-height: 1.3;
+    font-size: $font-size-md;
 
     a {
         text-decoration: none;
@@ -164,6 +170,10 @@ $svg-colour: #2a3cd4;
         margin: $r-spacer;
     }
 
+    .tile--sm {
+        min-height: 10em;
+    }
+
     .tile--horizontal {
         flex-direction: row;
 
@@ -173,11 +183,15 @@ $svg-colour: #2a3cd4;
     }
 
     .tile__image {
-        min-height: 20rem;
+        min-height: 12rem;
     }
 
     .tile__image--contained {
         min-height: 13rem;
+    }
+
+    .tile__image--sm {
+        min-height: 8rem;
     }
 }
 
