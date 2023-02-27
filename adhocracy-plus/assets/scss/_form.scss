@@ -189,3 +189,30 @@ div.cke_focus {
         }
     }
 }
+
+.filter-bar__filled {
+    margin-bottom: 0.5 * $spacer;
+    display: flex;
+    flex-wrap: wrap;
+
+    div,
+    .dropdown > button {
+        min-width: 100%;
+    }
+}
+
+@media (min-width: $breakpoint-md) {
+    .filter-bar__filled {
+        div,
+        .dropdown > button {
+            min-width: revert;
+            display: flex;
+            flex-grow: 1;
+        }
+
+        // overwrite for when btn is filling row
+        .btn--select {
+            max-width: revert;
+        }
+    }
+}
