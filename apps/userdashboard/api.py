@@ -1,103 +1,237 @@
+from django.db.models import Case
 from django.db.models import Count
+from django.db.models import Exists
 from django.db.models import ExpressionWrapper
+from django.db.models import Max
+from django.db.models import OuterRef
 from django.db.models import Q
+from django.db.models import Value
+from django.db.models import When
 from django.db.models.fields import BooleanField
+from django.db.models.functions import Coalesce
+from django.db.models.functions import Greatest
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import BooleanFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from django_filters.rest_framework import FilterSet
 from rest_framework import mixins
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.filters import BaseFilterBackend
+from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 
 from adhocracy4.api.permissions import ViewSetRulesPermission
-from adhocracy4.filters.rest_filters import DefaultsRestFilterSet
-from adhocracy4.filters.rest_filters import DistinctOrderingFilter
+from adhocracy4.comments.models import Comment
 from adhocracy4.projects.models import Project
+from apps.classifications.models import AIClassification
+from apps.classifications.models import UserClassification
+from apps.classifications.serializers import AIClassificationSerializer
+from apps.classifications.serializers import UserClassificationSerializer
 from apps.notifications.emails import NotifyCreatorOnModeratorBlocked
 from apps.projects import helpers
 
 from . import serializers
 
 
-class ModerationCommentFilterSet(DefaultsRestFilterSet):
-    is_reviewed = BooleanFilter()
-    has_reports = BooleanFilter()
+def annotate_has_pending_notifications(comment_queryset):
+    pending_ai_classifications = AIClassification.objects.filter(
+        is_pending=True,
+        comment__pk=OuterRef('pk')
+    )
+    pending_user_classifications = UserClassification.objects.filter(
+        is_pending=True,
+        comment__pk=OuterRef('pk')
+    )
+    return comment_queryset.filter(
+        Q(user_classifications__isnull=False) |
+        Q(ai_classifications__isnull=False)
+    ).distinct().annotate(
+        has_pending_notifications=ExpressionWrapper(
+            Exists(pending_user_classifications) |
+            Exists(pending_ai_classifications),
+            output_field=BooleanField())
+    )
 
-    defaults = {"is_reviewed": "false", "has_reports": "all"}
+
+class ClassificationFilterBackend(BaseFilterBackend):
+    """Filter the comments for the classification categories.
+
+    When a comment has both pending and archived notifications, only
+    consider pending ones when filtering for categories.
+    """
+
+    def filter_queryset(self, request, queryset, view):
+        if ('classification' in request.GET
+                and request.GET['classification'] != ''):
+            classifi = request.GET['classification']
+            return queryset.filter(
+                Q(ai_classifications__is_pending=Case(
+                    When(has_pending_notifications=True, then=Value(True)),
+                    When(has_pending_notifications=False, then=Value(False))
+                ),
+                    ai_classifications__classification=classifi) |
+                Q(user_classifications__is_pending=Case(
+                    When(has_pending_notifications=True, then=Value(True)),
+                    When(has_pending_notifications=False, then=Value(False))
+                ),
+                    user_classifications__classification=classifi)
+            )
+        return queryset
 
 
-class ModerationCommentPagination(PageNumberPagination):
-    page_size_query_param = "num_of_comments"
-    max_page_size = 1000
+class ClassificationOrderingFilter(OrderingFilter):
+    """Sort the comments by notification time and count.
+
+    When a comment has both pending and archived notifications, only
+    consider pending ones for the sorting.
+    """
+
+    def filter_queryset(self, request, queryset, view):
+        ordering = self.get_ordering(request, queryset, view)
+        if ordering:
+            queryset = queryset.annotate(
+                time_of_last_notification=Coalesce(
+                    Greatest(
+                        Max('ai_classifications__created'),
+                        Max('user_classifications__created')
+                    ),
+                    Max('ai_classifications__created'),
+                    Max('user_classifications__created')
+                ))
+            if 'new' in ordering:
+                return queryset.order_by('-time_of_last_notification')
+            elif 'old' in ordering:
+                return queryset.order_by('time_of_last_notification')
+            elif 'most' in ordering:
+                queryset = queryset.annotate(
+                    number_of_notifications=(Case(
+                        When(has_pending_notifications=True, then=(
+                            Count(
+                                'ai_classifications',
+                                filter=Q(ai_classifications__is_pending=True),
+                                distinct=True
+                            ) +
+                            Count(
+                                'user_classifications',
+                                filter=Q(
+                                    user_classifications__is_pending=True
+                                ),
+                                distinct=True
+                            )
+                        )),
+                        When(has_pending_notifications=False, then=(
+                            Count('ai_classifications', distinct=True)
+                            + Count('user_classifications', distinct=True)
+                        ))
+                    )))
+                return queryset.order_by('-number_of_notifications',
+                                         '-time_of_last_notification')
+        return queryset
 
 
-class ModerationCommentViewSet(
-    mixins.ListModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.RetrieveModelMixin,
-    viewsets.GenericViewSet,
-):
+class PendingNotificationsFilter(FilterSet):
+    has_pending_notifications = BooleanFilter(
+        field_name='has_pending_notifications')
+
+    class Meta:
+        model = Comment
+        fields = ['has_pending_notifications']
+
+
+class ModerationCommentViewSet(mixins.ListModelMixin,
+                               mixins.UpdateModelMixin,
+                               mixins.RetrieveModelMixin,
+                               viewsets.GenericViewSet):
+
     serializer_class = serializers.ModerationCommentSerializer
-    pagination_class = ModerationCommentPagination
     permission_classes = (ViewSetRulesPermission,)
-    filter_backends = (DjangoFilterBackend, DistinctOrderingFilter)
-    filterset_class = ModerationCommentFilterSet
-    ordering_fields = ["created", "num_reports"]
-    ordering = ["-num_reports"]
-    # sets the attr for the distinct ordering in DistinctOrderingFilter
-    distinct_ordering = "-created"
-    lookup_field = "pk"
+    filter_backends = (DjangoFilterBackend,
+                       ClassificationFilterBackend,
+                       ClassificationOrderingFilter)
+    filterset_class = PendingNotificationsFilter
+    ordering_fields = ['new', 'old', 'most']
+    ordering = ['new']
+    lookup_field = 'pk'
 
     def dispatch(self, request, *args, **kwargs):
-        self.project_pk = kwargs.get("project_pk", "")
+        self.project_pk = kwargs.get('project_pk', '')
         return super().dispatch(request, *args, **kwargs)
 
     @property
     def project(self):
-        return get_object_or_404(Project, pk=self.project_pk)
+        return get_object_or_404(
+            Project,
+            pk=self.project_pk
+        )
 
     def get_permission_object(self):
         return self.project
 
     def get_queryset(self):
         all_comments_project = helpers.get_all_comments_project(self.project)
-        num_reports = Count("reports", distinct=True)
-        return all_comments_project.annotate(num_reports=num_reports).annotate(
-            has_reports=ExpressionWrapper(
-                Q(num_reports__gt=0), output_field=BooleanField()
-            )
-        )
+        return annotate_has_pending_notifications(all_comments_project)
 
     def update(self, request, *args, **kwargs):
-        if "is_blocked" in self.request.data and request.data["is_blocked"]:
+        if 'is_blocked' in self.request.data and request.data['is_blocked']:
             NotifyCreatorOnModeratorBlocked.send(self.get_object())
         return super().update(request, *args, **kwargs)
 
     @action(detail=True)
-    def mark_read(self, request, **kwargs):
+    def archive(self, request, **kwargs):
         comment = self.get_object()
-        comment.is_reviewed = True
-        comment.save(ignore_modified=True)
+        for classification in comment.ai_classifications.filter(
+                is_pending=True):
+            classification.is_pending = False
+            classification.save()
+        for classification in comment.user_classifications.filter(
+                is_pending=True):
+            classification.is_pending = False
+            classification.save()
+
         serializer = self.get_serializer(comment)
 
         return Response(data=serializer.data, status=200)
 
     @action(detail=True)
-    def mark_unread(self, request, **kwargs):
+    def unarchive(self, request, **kwargs):
         comment = self.get_object()
-        comment.is_reviewed = False
-        comment.save(ignore_modified=True)
+        for classification in comment.ai_classifications.filter(
+                is_pending=False):
+            classification.is_pending = True
+            classification.save()
+        for classification in comment.user_classifications.filter(
+                is_pending=False):
+            classification.is_pending = True
+            classification.save()
+
         serializer = self.get_serializer(comment)
 
         return Response(data=serializer.data, status=200)
 
+    @action(detail=True)
+    def aiclassifications(self, request, **kwargs):
+        comment = self.get_object()
+        classifications = comment.ai_classifications.all()
+
+        serializer = AIClassificationSerializer(classifications, many=True)
+
+        return Response(serializer.data, status=200)
+
+    @action(detail=True)
+    def userclassifications(self, request, **kwargs):
+        comment = self.get_object()
+        classifications = comment.user_classifications.all()
+
+        serializer = UserClassificationSerializer(classifications, many=True)
+
+        return Response(serializer.data, status=200)
+
     @property
     def rules_method_map(self):
         return ViewSetRulesPermission.default_rules_method_map._replace(
-            GET="a4_candy_userdashboard.view_moderation_comment",
-            PUT="a4_candy_userdashboard.change_moderation_comment",
-            PATCH="a4_candy_userdashboard.change_moderation_comment",
-            OPTIONS="a4_candy_userdashboard.view_moderation_comment",
+            GET='a4_candy_userdashboard.view_moderation_comment',
+            PUT='a4_candy_userdashboard.change_moderation_comment',
+            PATCH='a4_candy_userdashboard.change_moderation_comment',
+            OPTIONS='a4_candy_userdashboard.view_moderation_comment'
         )

@@ -1,4 +1,8 @@
+from collections import Counter
+
 from django.urls import reverse
+from django.utils.encoding import force_str
+from django.utils.hashable import make_hashable
 from django.utils.translation import gettext as _
 from easy_thumbnails.files import get_thumbnailer
 from rest_framework import serializers
@@ -6,18 +10,23 @@ from rest_framework.serializers import raise_errors_on_nested_writes
 from rest_framework.utils import model_meta
 
 from adhocracy4.comments.models import Comment
+from apps.classifications.models import CLASSIFICATION_CHOICES
 from apps.contrib.dates import get_date_display
 from apps.moderatorfeedback.serializers import ModeratorCommentFeedbackSerializer
 
 
 class ModerationCommentSerializer(serializers.ModelSerializer):
+    ai_classified = serializers.SerializerMethodField()
+    category_counts = serializers.SerializerMethodField()
     comment_url = serializers.SerializerMethodField()
-    is_unread = serializers.SerializerMethodField()
+    has_pending_notifications = serializers.SerializerMethodField()
+    has_pending_and_archived_notifications = serializers.SerializerMethodField()
     is_modified = serializers.SerializerMethodField()
     last_edit = serializers.SerializerMethodField()
     moderator_feedback = ModeratorCommentFeedbackSerializer(read_only=True)
-    num_reports = serializers.SerializerMethodField()
+    num_active_notifications = serializers.SerializerMethodField()
     feedback_api_url = serializers.SerializerMethodField()
+    time_of_last_notification = serializers.SerializerMethodField()
     user_name = serializers.SerializerMethodField()
     user_image = serializers.SerializerMethodField()
     user_profile_url = serializers.SerializerMethodField()
@@ -25,21 +34,73 @@ class ModerationCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = [
+            "ai_classified",
+            "category_counts",
             "comment",
             "comment_url",
-            "feedback_api_url",
-            "is_unread",
+            "has_pending_and_archived_notifications",
+            "has_pending_notifications",
             "is_blocked",
             "is_moderator_marked",
             "is_modified",
             "last_edit",
             "moderator_feedback",
-            "num_reports",
+            "num_active_notifications",
             "pk",
+            "feedback_api_url",
+            "time_of_last_notification",
             "user_image",
             "user_name",
             "user_profile_url",
         ]
+
+    def get_ai_classified(self, comment):
+        if self.get_has_pending_and_archived_notifications(comment):
+            ai_classifications = comment.ai_classifications.filter(is_pending=True)
+        else:
+            ai_classifications = comment.ai_classifications.all()
+
+        return ai_classifications.count() > 0
+
+    def get_has_pending_and_archived_notifications(self, comment):
+        """Return if comment has both pending and archived notifications.
+
+        False if only archived or pending notifications exist.
+        """
+        num_all_notificiations = self._get_num_all_notifications(comment)
+        num_pending_notifications = self._get_num_pending_notifications(comment)
+
+        return num_all_notificiations > num_pending_notifications > 0
+
+    def get_category_counts(self, comment):
+        """Return counts of each category as dictionary.
+
+        If there are both pending and archived classifications for the comment,
+        only consider the pending ones.
+        """
+        if self.get_has_pending_and_archived_notifications(comment):
+            ai_classifications = comment.ai_classifications.filter(is_pending=True)
+            user_classifications = comment.user_classifications.filter(is_pending=True)
+        else:
+            ai_classifications = comment.ai_classifications.all()
+            user_classifications = comment.user_classifications.all()
+
+        ai_counts = Counter(ai_classifications.values_list("classification", flat=True))
+        user_counts = Counter(
+            user_classifications.values_list("classification", flat=True)
+        )
+
+        category_counts = ai_counts + user_counts
+
+        # serialize dict {category: {'count': , 'translated': }}
+        choices_dict = dict(make_hashable(CLASSIFICATION_CHOICES))
+        return {
+            c.lower(): {
+                "count": category_counts[c],
+                "translated": force_str(choices_dict[c]),
+            }
+            for c in category_counts
+        }
 
     def get_comment_url(self, instance):
         return instance.get_absolute_url()
@@ -56,8 +117,13 @@ class ModerationCommentSerializer(serializers.ModelSerializer):
     def get_feedback_api_url(self, comment):
         return reverse("moderatorfeedback-list", kwargs={"comment_pk": comment.pk})
 
-    def get_num_reports(self, comment):
-        return comment.num_reports
+    def get_time_of_last_notification(self, comment):
+        ai_dates = comment.ai_classifications.all().values_list("created", flat=True)
+        user_dates = comment.user_classifications.all().values_list(
+            "created", flat=True
+        )
+
+        return get_date_display(max(ai_dates.union(user_dates)))
 
     def get_user_name(self, comment):
         if comment.is_censored or comment.is_removed:
@@ -95,8 +161,35 @@ class ModerationCommentSerializer(serializers.ModelSerializer):
         except AttributeError:
             return ""
 
-    def get_is_unread(self, comment):
-        return not comment.is_reviewed
+    def _get_num_all_notifications(self, comment):
+        num_ai_classifications = comment.ai_classifications.all().count()
+        num_user_classifications = comment.user_classifications.all().count()
+        return num_ai_classifications + num_user_classifications
+
+    def _get_num_pending_notifications(self, comment):
+        num_pending_ai_classifications = (
+            comment.ai_classifications.all().filter(is_pending=True).count()
+        )
+        num_pending_user_classifications = (
+            comment.user_classifications.all().filter(is_pending=True).count()
+        )
+
+        return num_pending_ai_classifications + num_pending_user_classifications
+
+    def get_has_pending_notifications(self, comment):
+        return self._get_num_pending_notifications(comment) > 0
+
+    def get_num_active_notifications(self, comment):
+        """Return number of either all classifications or only pending ones.
+
+        If there are both pending and archived classifications for the comment,
+        only return number of pending ones, else number of all
+        classifications (pending and archived).
+        """
+        if self.get_has_pending_and_archived_notifications(comment):
+            return self._get_num_pending_notifications(comment)
+        else:
+            return self._get_num_all_notifications(comment)
 
     def update(self, instance, validated_data):
         """Update comment instance without changing comment.modified.
