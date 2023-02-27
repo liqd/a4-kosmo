@@ -57,9 +57,23 @@
 
         {% if object.module_running_time_left %}
         <div class="status-item">
+            {% if project.latest_comments_num %}
+                <div class="d-flex justify-content-between my-1">
+                    <span class="status-bar__status">
+                        <i class="far fa-comment" aria-label="Latest comments"></i>
+                        {{ project.latest_comments_num }}
+                        {% blocktrans count count=project.latest_comments_num %}
+                            new comment
+                        {% plural %}
+                            new comments
+                        {% endblocktrans %}
+                    </span>
+                </div>
+            {% elif not '/userdashboard/overview/' in request.path %}
             <div class="status-bar__active">
                 <span class="status-bar__active-fill" style="width:{{ object.module_running_progress }}%"></span>
             </div>
+            {% endif %}
             <div class="d-flex justify-content-between">
                 <span class="status-bar__status"><i class="far fa-clock" aria-hidden="true"></i>
                 {% if type == 'project' %}
