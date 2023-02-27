@@ -19,6 +19,7 @@ from apps.notifications import emails as notification_emails
 from apps.offlineevents.models import OfflineEvent
 from apps.projects import models as project_models
 from apps.users.emails import EmailAplus as Email
+from apps.users.emails import WelcomeEmail
 
 User = get_user_model()
 
@@ -85,6 +86,11 @@ class Command(BaseCommand):
 
         self._send_notification_blocked_comment()
         self._send_notification_moderator_comment_feedback()
+
+        # KOSMO notifications
+        self._send_notification_blocked_comment()
+        self._send_notification_moderator_comment_statement()
+        self._send_welcome_email()
 
     def _send_notifications_create_idea(self):
         # Send notification for a newly created item
@@ -398,3 +404,7 @@ class Command(BaseCommand):
             receiver=[self.user],
             template_name=notification_emails.NotifyCreatorOnModeratorCommentFeedback.template_name,
         )
+
+    def _send_welcome_email(self):
+        print("Sending send in blue welcome email")
+        WelcomeEmail.send(self.user)
