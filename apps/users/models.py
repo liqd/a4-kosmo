@@ -131,35 +131,36 @@ class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     REQUIRED_FIELDS = ["username"]
 
     def get_projects_follow_list(self, exclude_private_projects=False):
-        projects = Project.objects.filter(
-            follow__creator=self, follow__enabled=True, is_draft=False
-        ).select_related("organisation")
+        projects = Project.objects \
+            .filter(follow__creator=self,
+                    follow__enabled=True,
+                    is_draft=False)
         if exclude_private_projects:
             projects = projects.exclude(models.Q(access=Access.PRIVATE))
 
         now = timezone.now()
 
-        sorted_active_projects = (
-            projects.annotate(project_start=models.Min("module__phase__start_date"))
-            .annotate(project_end=models.Max("module__phase__end_date"))
-            .filter(project_start__lte=now, project_end__gt=now)
-            .order_by("project_end")
-        )
+        sorted_active_projects = projects\
+            .annotate(project_start=models.Min('module__phase__start_date'))\
+            .annotate(project_end=models.Max('module__phase__end_date'))\
+            .filter(project_start__lte=now, project_end__gt=now)\
+            .order_by('project_end')
 
-        sorted_future_projects = (
-            projects.annotate(project_start=models.Min("module__phase__start_date"))
-            .filter(models.Q(project_start__gt=now) | models.Q(project_start=None))
-            .order_by("project_start")
-        )
+        sorted_future_projects = projects\
+            .annotate(project_start=models.Min('module__phase__start_date'))\
+            .filter(models.Q(project_start__gt=now)
+                    | models.Q(project_start=None))\
+            .order_by('project_start')
 
-        sorted_past_projects = (
-            projects.annotate(project_start=models.Min("module__phase__start_date"))
-            .annotate(project_end=models.Max("module__phase__end_date"))
-            .filter(project_end__lt=now)
-            .order_by("project_start")
-        )
+        sorted_past_projects = projects\
+            .annotate(project_start=models.Min('module__phase__start_date'))\
+            .annotate(project_end=models.Max('module__phase__end_date'))\
+            .filter(project_end__lt=now)\
+            .order_by('project_start')
 
-        return sorted_active_projects, sorted_future_projects, sorted_past_projects
+        return sorted_active_projects, \
+            sorted_future_projects, \
+            sorted_past_projects
 
     @cached_property
     def organisations(self):
@@ -172,7 +173,7 @@ class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
 
     @cached_property
     def avatar_fallback(self):
-        number = self.pk % 5
+        number = self.pk % 4
         return static("images/avatar-{0:02d}.svg".format(number))
 
     @cached_property

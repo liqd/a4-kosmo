@@ -6,15 +6,12 @@
 {% block content %}
     <div class="container mb-4">
         <div class="row pt-4">
-            <h1 class="visually-hidden">
-                {% trans 'User profile of ' %}{{ user.username }}
-              </h1>
-            <nav class="col-md-3" aria-label="{% trans 'Profile' %}">
+            <div class="col-md-3">
                 <div class="userdashboard-profile__user">
                     {% if request.user.id == user.id %}
                     <div class="dropdown text-end">
                         <button
-                            title="{% trans 'My user settings' %}"
+                            title="{% trans 'Settings' %}"
                             type="button"
                             class="dropdown-toggle btn btn--none btn--small"
                             data-bs-toggle="dropdown"
@@ -22,9 +19,10 @@
                             aria-expanded="false"
                             id="account-settings"
                         >
-                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                            <i class="fa fa-ellipsis-v" aria-label="{% trans 'Settings' %}"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="account-settings">
+                            {# Translators: kosmo #}
                             <a class="dropdown-item" href="{% url 'account' %}">{% trans 'Account Settings' %}</a>
                         </div>
                     </div>
@@ -32,7 +30,7 @@
                     <div class="mt-5">
                     </div>
                     {% endif %}
-                    <a href="{% url 'profile' user.username %}" aria-label="{% trans 'Link to profile:' %}{{ user.username }}">
+                    <a href="{% url 'profile' user.username %}">
                         {% if user.avatar %}
                             <img class="userdashboard-profile__avatar mb-2" src="{% thumbnail user.avatar '170x170' crop %}" alt="" />
                         {% else %}
@@ -43,15 +41,18 @@
                         </h4>
                     </a>
                     <div>
-                        {% trans 'Since' %} {% html_date user.date_joined 'd M Y' %}
+                        {# Translators: kosmo #}
+                        {% trans 'Since' %} {{ user.date_joined|date:"d M Y" }}
                     </div>
                 </div>
+
                 <div class="mt-3">
                 {% if user.bio %}<p>{{ user.bio }}</p>{% endif %}
                 </div>
                 <ul class="u-list-reset">
                     {% if user.homepage %}
                         <li>
+                            {# Translators: kosmo #}
                             <i class="fas fa-link" aria-label="{% trans 'Homepage' %}" title="{% trans 'Homepage' %}"></i>
                             <a href="{{ user.homepage }}">{{ user.homepage }}</a>
                         </li>
@@ -69,38 +70,30 @@
                         </li>
                     {% endif %}
                 </ul>
-            </nav>
+            </div>
             <div class="col-md-9">
-                <section aria-labelledby="sr-following-header">
-                    <h2 class="mt-0 pb-2">
-                        <span id="sr-following-header" class="visually-hidden">{% trans 'Selection of projects the are following' %}</span>
-                        {% trans 'Following' %}
-                    </h2>
-                    {% if view.projects_carousel %}
-                    <div class="project-tile-carousel">
-                        {% for project in view.projects_carousel %}
-                            {% include 'a4_candy_projects/includes/project_list_tile.html' with object=project project=project orientation='vertical' type='project' url=project.get_absolute_url %}
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    <div class="mb-5">
-                        {% trans 'This user is not active in any projects yet.' %}
-                    </div>
-                    {% endif %}
-                </section>
-                <section aria-labelledby="sr-activities-header">
-                    <h2 class="mt-0" id="sr-activities-header">
-                        <span id="sr-activities-header" class="visually-hidden">{% trans 'List of last activities on their account' %}</span>
-                        {% trans 'Activities' %}
-                    </h2>
-                    <div>
-                        {% for action in view.actions|slice:":10" %}
-                            {% include 'a4_candy_actions/includes/action.html' with action=action %}
-                        {% empty %}
-                            {% trans 'No activity yet. '%}
-                        {% endfor %}
-                    </div>
-                </section>
+                {# Translators: kosmo #}
+                <h2 class="mt-0 pb-2">{% trans 'Following' %}</h2>
+                {% if view.projects_carousel %}
+                <div class="project-tile-carousel">
+                    {% for project in view.projects_carousel %}
+                        {% include 'a4_candy_projects/includes/project_list_tile.html' with object=project project=project orientation='vertical' type='project' url=project.get_absolute_url %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="mb-5">
+                    {% trans 'This user is not active in any projects yet.' %}
+                </div>
+                {% endif %}
+
+                <h2 class="mt-0">{% trans 'Activities' %}</h2>
+                <div>
+                    {% for action in view.actions|slice:":10" %}
+                        {% include 'a4_candy_actions/includes/action.html' with action=action %}
+                    {% empty %}
+                        {% trans 'No activity yet. '%}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
