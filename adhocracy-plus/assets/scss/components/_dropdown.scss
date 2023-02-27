@@ -27,6 +27,7 @@
 
         &:hover,
         &:focus {
+            color: $text-color;
             text-decoration: none;
             background-color: $bg-tertiary;
         }

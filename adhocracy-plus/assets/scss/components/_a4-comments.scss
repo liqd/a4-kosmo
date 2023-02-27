@@ -27,7 +27,7 @@
     padding: 1.5 * $spacer 0 $spacer 0;
 
     mark > p {
-        background-color: $brand-primary-tint;
+        background-color: $purple-light;
         display: inherit;
     }
 }
@@ -275,6 +275,23 @@
     background-color: $green-light;
 }
 
+.a4-comments__badge[data-classification="offensive"] {
+    background-color: $red-light;
+}
+
+.a4-comments__badge[data-classification="engaging"] {
+    background-color: $purple-light;
+}
+
+.a4-comments__badge[data-classification="fact claiming"] {
+    background-color: $red-lighter;
+}
+
+.a4-comments__badge[data-classification="ai"] {
+    background-color: $purple-lighter;
+}
+
+// FIXME this should be a4-comments__text--linked but will need changing in multiple projects
 .a4-comments__text--highlighted {
     border-left: solid 2px $brand-primary;
     padding-left: 0.5 * $padding;
@@ -337,4 +354,8 @@
     display: flex;
     align-items: flex-start;
     margin: $spacer 0;
+}
+
+button.a4-comments__read-btn {
+    text-decoration: underline;
 }

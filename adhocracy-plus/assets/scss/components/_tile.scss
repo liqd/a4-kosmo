@@ -183,6 +183,10 @@
         margin: $r-spacer;
     }
 
+    .tile--sm {
+        min-height: 10em;
+    }
+
     .tile--horizontal {
         min-height: 10rem;
         flex-direction: row;
@@ -196,11 +200,11 @@
         }
     }
 
-    // .tile__image {
-    //     min-height: 20rem;
-    // }
-
     .tile__image--sm {
         min-height: 5rem;
+    }
+
+    .tile__image--sm {
+        min-height: 8rem;
     }
 }
