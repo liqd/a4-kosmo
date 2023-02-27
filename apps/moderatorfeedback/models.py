@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from adhocracy4 import transforms
+from adhocracy4.comments.models import Comment
 from adhocracy4.models.base import UserGeneratedContentModel
 
 from . import fields
@@ -52,3 +53,22 @@ class Moderateable(models.Model):
 
     class Meta:
         abstract = True
+
+
+class ModeratorCommentStatement(UserGeneratedContentModel):
+    statement = RichTextField(
+        blank=True,
+        verbose_name=_('Moderator feedback'),
+    )
+    comment = models.OneToOneField(
+        Comment,
+        on_delete=models.CASCADE,
+        related_name='moderator_statement'
+    )
+
+    @property
+    def project(self):
+        return self.comment.project
+
+    def __str__(self):
+        return ('{} - {}').format(self.comment.id, self.statement)
