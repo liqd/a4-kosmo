@@ -7,7 +7,7 @@
 }
 
 .tablist {
-    border-bottom: 2px solid $brand-primary;
+    border-bottom: 2px solid $brand-info;
     text-align: center;
     margin-bottom: $spacer * 2;
 }
@@ -17,7 +17,9 @@
     position: relative;
     vertical-align: bottom;
     text-decoration: none;
-    color: $text-color-gray;
+    text-transform: uppercase;
+    color: $brand-primary;
+    font-weight: 600;
     padding: 0.6em 1em;
     margin-right: 0.5em;
     margin-bottom: -2px;
@@ -33,7 +35,7 @@
     }
 
     &.active {
-        border-color: $brand-primary;
+        border-color: $brand-info;
         background-color: $body-bg;
     }
 }
@@ -44,6 +46,10 @@
 
 .tablist__right {
     float: right;
+}
+
+.tablist--left {
+    text-align: left;
 }
 
 .tablist__left {
