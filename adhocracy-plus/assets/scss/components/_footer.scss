@@ -21,6 +21,10 @@
     }
 }
 
+.footer__info-btn {
+    @extend .btn--text-color-inverted;
+}
+
 .footer__description {
     font-family: $font-family-serif;
 }
