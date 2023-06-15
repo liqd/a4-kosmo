@@ -9,12 +9,11 @@ def test_ai_classifications_export(
     idea,
     comment_factory,
     ai_classification_factory,
-    moderator_comment_statement_factory,
+    moderator_comment_feedback_factory,
 ):
-
     comment_1 = comment_factory(content_object=idea)
     comment_2 = comment_factory(content_object=idea)
-    moderator_statement = moderator_comment_statement_factory(comment=comment_1)
+    moderator_feedback = moderator_comment_feedback_factory(comment=comment_1)
     ai_classification_1 = ai_classification_factory(comment=comment_1)
     ai_classification_2 = ai_classification_factory(
         comment=comment_2, classification="ENGAGING"
@@ -36,7 +35,7 @@ def test_ai_classifications_export(
         "comment_is_moderator_marked",
         "comment_created",
         "comment_modified",
-        "comment_moderator_statement",
+        "comment_moderator_feedback",
     ]
 
     queryset = ai_classification_export.get_queryset()
@@ -53,11 +52,11 @@ def test_ai_classifications_export(
         == "ENGAGING"
     )
     assert ai_classification_export.get_field_data(
-        ai_classification_1, "comment_moderator_statement"
-    ) == str(moderator_statement)
+        ai_classification_1, "comment_moderator_feedback"
+    ) == str(moderator_feedback)
     assert (
         ai_classification_export.get_field_data(
-            ai_classification_2, "comment_moderator_statement"
+            ai_classification_2, "comment_moderator_feedback"
         )
         == ""
     )
@@ -68,12 +67,11 @@ def test_user_classifications_export(
     idea,
     comment_factory,
     user_classification_factory,
-    moderator_comment_statement_factory,
+    moderator_comment_feedback_factory,
 ):
-
     comment_1 = comment_factory(content_object=idea)
     comment_2 = comment_factory(content_object=idea)
-    moderator_statement = moderator_comment_statement_factory(comment=comment_1)
+    moderator_feedback = moderator_comment_feedback_factory(comment=comment_1)
     user_classification_1 = user_classification_factory(comment=comment_1)
     user_classification_2 = user_classification_factory(
         comment=comment_2, user_message="this needs to be reported"
@@ -94,7 +92,7 @@ def test_user_classifications_export(
         "comment_is_moderator_marked",
         "comment_created",
         "comment_modified",
-        "comment_moderator_statement",
+        "comment_moderator_feedback",
         "user message",
     ]
 
@@ -115,11 +113,11 @@ def test_user_classifications_export(
         == "this needs to be reported"
     )
     assert user_classification_export.get_field_data(
-        user_classification_1, "comment_moderator_statement"
-    ) == str(moderator_statement)
+        user_classification_1, "comment_moderator_feedback"
+    ) == str(moderator_feedback)
     assert (
         user_classification_export.get_field_data(
-            user_classification_2, "comment_moderator_statement"
+            user_classification_2, "comment_moderator_feedback"
         )
         == ""
     )

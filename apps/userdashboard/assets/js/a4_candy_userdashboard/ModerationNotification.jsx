@@ -20,7 +20,7 @@ const translated = {
   commentUnhighlighted: django.gettext('Comment unhighlighted successfully.'),
   notificationRead: django.gettext('Notification successfully marked as read.'),
   notificationUnread: django.gettext('Notification successfully marked as unread.'),
-  aiClassified: django.gettext('AI'),
+  aiClassified: django.gettext('AI')
 }
 
 export const ModerationNotification = (props) => {

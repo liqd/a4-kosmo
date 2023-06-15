@@ -3,7 +3,6 @@ from rest_framework import viewsets
 
 from adhocracy4.modules.models import Module
 from adhocracy4.projects.models import Project
-from apps.projects.serializers import ProjectSerializer
 
 from . import helpers
 from .serializers import AppModuleSerializer
