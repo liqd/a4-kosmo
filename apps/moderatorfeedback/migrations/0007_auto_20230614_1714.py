@@ -8,10 +8,14 @@ import django.utils.timezone
 class Migration(migrations.Migration):
     dependencies = [
         ("a4comments", "0013_set_project"),
-        ("a4_candy_moderatorfeedback", "0006_auto_20230614_1712"),
+        ("a4_candy_moderatorfeedback", "0006_verbose_name_created_modified"),
     ]
 
     operations = [
+        migrations.RenameModel(
+            "ModeratorCommentStatement",
+            "ModeratorCommentFeedback",
+        ),
         migrations.RenameField(
             model_name="moderatorcommentfeedback",
             old_name="statement",
@@ -24,22 +28,6 @@ class Migration(migrations.Migration):
                 on_delete=django.db.models.deletion.CASCADE,
                 related_name="moderator_feedback",
                 to="a4comments.comment",
-            ),
-        ),
-        migrations.AlterField(
-            model_name="moderatorcommentfeedback",
-            name="created",
-            field=models.DateTimeField(
-                default=django.utils.timezone.now,
-                editable=False,
-                verbose_name="Created",
-            ),
-        ),
-        migrations.AlterField(
-            model_name="moderatorcommentfeedback",
-            name="modified",
-            field=models.DateTimeField(
-                blank=True, editable=False, null=True, verbose_name="Modified"
             ),
         ),
     ]
