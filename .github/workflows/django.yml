@@ -86,7 +86,7 @@ jobs:
           npm test
           npm run lint
       - name: Frontend Coverage
-        uses: artiomtr/jest-coverage-report-action@v2.0-rc.1
+        uses: artiomtr/jest-coverage-report-action@v2.3.1
         with:
           test-script: npm run coverageTest
           github-token: ${{ secrets.GITHUB_TOKEN }}
